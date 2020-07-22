@@ -40,11 +40,12 @@
 						<td><?= $data['role'] ?></td>
 						<td>
 							<button
-								class="btn btn-circle btn-sm <?= $data['active'] ? 'btn-success' : 'btn-secondary' ?>"
-								title="<?= $data['active'] ? 'Turn Off User Privelege' : 'Turn On User Privelege' ?>"
-								data-toggle="modal" data-target="#<?= $data['active'] ? 'ActivationOff' : 'ActivationOn' ?>"><i class="fa fa-fw fa-power-off"></i></button>
-							<button class="btn btn-circle btn-sm btn-warning" title="Edit User" data-toggle="modal"
-								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button>
+								class="btn btn-circle btn-sm <?= $data['active'] == 'true' ? 'btn-success' : 'btn-secondary' ?>"
+								title="<?= $data['active'] == 'true' ? 'Turn Off User Privelege' : 'Turn On User Privelege' ?>" 
+								onclick="toggleUser('<?= $data['id_user'] ?>')"
+								data-toggle="modal" data-target="#dataToggleActivation"><i class="fa fa-fw fa-power-off"></i></button>
+							<!-- <button class="btn btn-circle btn-sm btn-warning" title="Edit User" onclick="" data-toggle="modal"
+								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button> -->
 						</td>
 					</tr>
 					<?php endforeach; ?>
@@ -54,8 +55,7 @@
 	</div>
 </div>
 <!-- MODAL INSERT -->
-<div class="modal fade" id="Insert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-	aria-hidden="true">
+<div class="modal fade" id="Insert" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -65,7 +65,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="" method="post">
+				<form action="<?= base_url()?>User_management/add_new_user" method="post" id="form_create_user">
                     <div class="form-group">
                         <label>Full Name</label>
                         <input type="text" class="form-control" name="user_name">
@@ -83,6 +83,7 @@
                     <div class="form-group">
                         <label>User Role</label>
                         <select class="form-control" name="role">
+                            <option value="">Chose...</option>
                             <option value="owner">Owner</option>
                             <option value="admin">Admin</option>
                         </select>
@@ -91,15 +92,14 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Submit</button>
+				<button type="button" id="create_button" class="btn btn-primary">Submit</button>
 			</div>
 		</div>
 	</div>
 </div>
 
 <!-- MODAL EDIT -->
-<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-	aria-hidden="true">
+<!-- <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -127,6 +127,7 @@
                     <div class="form-group">
                         <label>User Role</label>
                         <select id="role" class="form-control" name="role">
+                            <option value="">Chose...</option>
                             <option value="owner">Owner</option>
                             <option value="admin">Admin</option>
                         </select>
@@ -139,47 +140,24 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<!-- MODAL ACTIVATION ON -->
-<div class="modal fade" id="ActivationOn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-	aria-hidden="true">
+<!-- MODAL TOGGLE ACTIVATION -->
+<div class="modal fade" id="dataToggleActivation" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Activate User</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle"><span class="active_status"></span> User <span class="user_name"></span></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-                <h5 style="text-align:center">Do you really want to activate this user privelege?</h5>
+                <h5 style="text-align:center">Do you really want to <span class="active_status"></span> this user privelege?</h5>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Activate</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- MODAL ACTIVATION OFF -->
-<div class="modal fade" id="ActivationOff" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-	aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Unactivate User</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-                <h5 style="text-align:center">Do you really want to unactivate this user privelege?</h5>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Unactivate</button>
+				<a href="" id="activate" class="btn btn-primary"><span class="active_status"></span></a>
 			</div>
 		</div>
 	</div>
