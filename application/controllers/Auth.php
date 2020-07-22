@@ -63,7 +63,7 @@ class Auth extends CI_Controller {
                         $this->session->set_userdata( $data_user );
 
                         $this->session->set_flashdata('success', 'Selamat Datang, '.$this->session->userdata('nama_user'));
-                        redirect('dashboard');
+                        redirect('Dashboard');
                     } else {
                         $this->session->set_flashdata('failed', 'Akun User belum aktif, Silahkan hubungi Admin untuk aktivasi akun!');
                         redirect('Auth');
@@ -76,6 +76,12 @@ class Auth extends CI_Controller {
             }
         }
         
+    }
+
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect('Auth','refresh');
     }
 
 }
