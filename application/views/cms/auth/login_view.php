@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,28 +24,6 @@
 <body class="bg-gradient-primary">
 
 	<div class="container">
-		<?php 
-      $success = $this->session->flashdata('success');
-      $failed = $this->session->flashdata('failed');
-
-      if (!empty($failed)) {
-          echo '
-              <div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <i class="fa fa-times-circle"></i> '.$failed.'
-              </div>
-          ';
-      }
-
-      if (!empty($success)) {
-          echo '
-              <div class="alert alert-success alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <i class="fa fa-check-circle"></i> '.$success.'
-              </div>
-          ';
-      }
-    ?>
 		<!-- Outer Row -->
 		<div class="row justify-content-center mt-5 pt-lg-5">
 			<div class="col-xl-10 col-lg-12 col-md-9">
@@ -60,6 +37,28 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">Sistem Mading Digital - Login</h1>
 									</div>
+									<?php 
+                                        $success = $this->session->flashdata('success');
+                                        $failed = $this->session->flashdata('failed');
+
+                                        if (!empty($failed)) {
+                                            echo '
+                                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <i class="fa fa-times-circle"></i> '.$failed.'
+                                                </div>
+                                            ';
+                                        }
+
+                                        if (!empty($success)) {
+                                            echo '
+                                                <div class="alert alert-success alert-dismissible" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <i class="fa fa-check-circle"></i> '.$success.'
+                                                </div>
+                                            ';
+                                        }
+                                    ?>
 									<form class="user" method="post" action="<?= base_url() ?>Auth/">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user" name="username"
