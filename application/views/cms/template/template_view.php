@@ -9,17 +9,16 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title></title>
+        <title><?= $title; ?></title>
 
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="<?= base_url() ?>assets/CMS/vendor/bootstrap/css/bootstrap.min.css">
         <!-- Custom fonts for this template-->
         <link href="<?= base_url() ?>assets/CMS/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
         <!-- Custom styles for this template-->
         <link href="<?= base_url() ?>assets/CMS/css/sb-admin-2.min.css" rel="stylesheet">
-
-        <!-- Datepicker -->
-        <link href="<?= base_url(); ?>assets/CMS/vendor/daterangepicker/daterangepicker.css" rel="stylesheet">
 
         <!-- DataTables -->
         <link href="<?= base_url(); ?>assets/CMS/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -81,7 +80,7 @@
                 </div>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="<?= base_url('User_management') ?>">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Employee Account Management</span></a>
                 </li>
@@ -403,7 +402,7 @@
         <script src="<?= base_url(); ?>assets/CMS/vendor/datatables/responsive/js/responsive.bootstrap4.min.js"></script>
 
         <script src="<?= base_url(); ?>assets/CMS/vendor/gijgo/js/gijgo.min.js"></script>
-
+        <?php $this->load->view($JSON); ?>
     </body>
 
 </html>
