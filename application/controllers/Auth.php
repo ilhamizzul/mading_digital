@@ -49,7 +49,7 @@ class Auth extends CI_Controller {
                 $data_user = $this->auth->get_data_user($input);
                 if ($data_user != NULL) {
 
-                    if ($data_user['user_status'] == 'active') {
+                    if ($data_user['active']) {
 
                         $data_user = array(
                             'logged_in'         => TRUE,
