@@ -81,6 +81,33 @@ class User_management extends CI_Controller {
         
     }
 
+    public function get_user_by_id($id)
+    {
+        echo json_encode($this->admin->get('tb_user', ['id_user' => $id]));
+    }
+
+    public function toggle_user($id, $active_status)
+    {
+        if ($active_status == 'true') {
+            if ($id == $this->session->userdata('id_user')) {
+                $this->session->set_flashdata('failed', 'You can not unactivate your own account!');
+                return redirect('User_management');    
+            }
+            $data = array('active' => 'false' );
+        } else {
+            $data = array('active' => 'true' );
+        }
+
+        if($this->admin->update('tb_user', 'id_user', $id, $data) == TRUE ){
+            $this->session->set_flashdata('success', 'Toggle user role sucess!');
+            redirect('User_management');
+        } else {
+            $this->session->set_flashdata('failed', 'Toggle user role failed! Try again');
+            redirect('User_management');
+        }
+        
+    }
+
 }
 
 /* End of file User_management.php */

@@ -41,10 +41,11 @@
 						<td>
 							<button
 								class="btn btn-circle btn-sm <?= $data['active'] == 'true' ? 'btn-success' : 'btn-secondary' ?>"
-								title="<?= $data['active'] == 'true' ? 'Turn Off User Privelege' : 'Turn On User Privelege' ?>"
-								data-toggle="modal" data-target="#<?= $data['active'] == 'true' ? 'ActivationOff' : 'ActivationOn' ?>"><i class="fa fa-fw fa-power-off"></i></button>
-							<button class="btn btn-circle btn-sm btn-warning" title="Edit User" data-toggle="modal"
-								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button>
+								title="<?= $data['active'] == 'true' ? 'Turn Off User Privelege' : 'Turn On User Privelege' ?>" 
+								onclick="toggleUser('<?= $data['id_user'] ?>')"
+								data-toggle="modal" data-target="#dataToggleActivation"><i class="fa fa-fw fa-power-off"></i></button>
+							<!-- <button class="btn btn-circle btn-sm btn-warning" title="Edit User" onclick="" data-toggle="modal"
+								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button> -->
 						</td>
 					</tr>
 					<?php endforeach; ?>
@@ -98,7 +99,7 @@
 </div>
 
 <!-- MODAL EDIT -->
-<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -139,45 +140,24 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<!-- MODAL ACTIVATION ON -->
-<div class="modal fade" id="ActivationOn" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- MODAL TOGGLE ACTIVATION -->
+<div class="modal fade" id="dataToggleActivation" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Activate User</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle"><span class="active_status"></span> User <span class="user_name"></span></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-                <h5 style="text-align:center">Do you really want to activate this user privelege?</h5>
+                <h5 style="text-align:center">Do you really want to <span class="active_status"></span> this user privelege?</h5>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Activate</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- MODAL ACTIVATION OFF -->
-<div class="modal fade" id="ActivationOff" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Unactivate User</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-                <h5 style="text-align:center">Do you really want to unactivate this user privelege?</h5>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Unactivate</button>
+				<a href="" id="activate" class="btn btn-primary"><span class="active_status"></span></a>
 			</div>
 		</div>
 	</div>
