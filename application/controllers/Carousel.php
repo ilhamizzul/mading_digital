@@ -54,6 +54,19 @@ class Carousel extends CI_Controller {
         $number = str_pad($add_code, 4, '0', STR_PAD_LEFT);
         return $code . $number;
     }
+
+    public function _verify_format($input)
+    {
+        $format = substr($input['data_carousel'], -3);
+        if (($format == 'jpg' || $format == 'png' || $format == 'peg') && $input['data_type'] == 'image') {
+            return true;
+        } elseif (($format == 'mp4') && $input['data_type'] == 'video') {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
     
     public function index()
     {
@@ -73,29 +86,37 @@ class Carousel extends CI_Controller {
         if ($this->form_validation->run() == TRUE) {
 
             $input = $this->input->post(NULL, TRUE);
-            $this->_upload_config($input);
-            
-            if ( ! $this->upload->do_upload('data_carousel')){
-                $this->session->set_flashdata('failed', $this->upload->display_errors());
-                redirect('Carousel');
-            }
 
-            $data = array(
-                'id_carousel'       => $this->_generateId($input['data_type']),
-                'title'             => $this->input->post('title'),
-                'description'       => $this->input->post('description'),
-                'data_type'         => $this->input->post('data_type'),
-                'data_carousel'     => $this->upload->data()['file_name'],
-                'active'            => 'false',
-                'id_company'        => $this->session->userdata('id_company')
+            if ($this->_verify_format($input)) {
+
+                $this->_upload_config($input);
                 
-            );
-            
-            if ($this->admin->insert('tb_carousel', $data) == TRUE) {
-                $this->session->set_flashdata('success', 'New carousel has been added!');
-                redirect('Carousel');
+                if ( ! $this->upload->do_upload('data_carousel')){
+                    $this->session->set_flashdata('failed', $this->upload->display_errors());
+                    redirect('Carousel');
+                }
+    
+                $data = array(
+                    'id_carousel'       => $this->_generateId($input['data_type']),
+                    'title'             => $this->input->post('title'),
+                    'description'       => $this->input->post('description'),
+                    'data_type'         => $this->input->post('data_type'),
+                    'data_carousel'     => $this->upload->data()['file_name'],
+                    'active'            => 'false',
+                    'id_company'        => $this->session->userdata('id_company')
+                    
+                );
+                
+                if ($this->admin->insert('tb_carousel', $data) == TRUE) {
+                    $this->session->set_flashdata('success', 'New carousel has been added!');
+                    redirect('Carousel');
+                } else {
+                    $this->session->set_flashdata('failed', 'New carousel failed to add! Try again');
+                    redirect('Carousel');
+                }
+
             } else {
-                $this->session->set_flashdata('failed', 'New carousel failed to add! Try again');
+                $this->session->set_flashdata('failed', 'Data Type and file type not compatible!');
                 redirect('Carousel');
             }
             
