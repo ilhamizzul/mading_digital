@@ -23,8 +23,8 @@ class User_management extends CI_Controller {
 
     private function _validation()
     {
-        $this->form_validation->set_rules('user_name', 'User Name', 'required|min_length[5]|max_length[40]');
-        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[25]');
+        $this->form_validation->set_rules('user_name', 'User Name', 'required|min_length[5]|max_length[40]|is_unique[tb_user.user_name]');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[25]|is_unique[tb_user.username]');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]|max_length[25]');
         $this->form_validation->set_rules('role', 'User Role', 'required');
     }
