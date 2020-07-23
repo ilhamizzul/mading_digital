@@ -93,6 +93,28 @@ class Event extends CI_Controller {
         
     }
 
+    public function get_event_by_id($id)
+    {
+        echo json_encode($this->admin->get('tb_info', ['id_info' => $id]));
+    }
+
+    public function toggle_carousel($id, $active_status)
+    {
+        if ($active_status == 'true') {
+            $data = array('active' => 'false' );
+        } else {
+            $data = array('active' => 'true' );
+        }
+
+        if($this->admin->update('tb_info', 'id_info', $id, $data) == TRUE ){
+            $this->session->set_flashdata('success', 'Toggle data info sucess!');
+            redirect('Event');
+        } else {
+            $this->session->set_flashdata('failed', 'Toggle data info failed! Try again');
+            redirect('Event');
+        }
+    }
+
 }
 
 /* End of file Event.php */
