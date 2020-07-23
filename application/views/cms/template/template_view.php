@@ -62,7 +62,7 @@
                 </div>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="<?= base_url('Carousel') ?>">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Data Carousel</span></a>
                 </li>
