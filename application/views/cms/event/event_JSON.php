@@ -4,7 +4,7 @@
         $('#dataTable').dataTable()
 
         $('#create_button').click(function() {
-            $('#form_create_user').submit();
+            $('#form_create').submit();
         });
     })
 
