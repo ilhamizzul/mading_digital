@@ -111,6 +111,38 @@ class Carousel extends CI_Controller {
         echo json_encode($this->admin->get('tb_carousel', ['id_carousel' => $id]));
     }
 
+    public function delete_carousel($id)
+    {
+        $this->_has_login_session();
+
+        $data = $this->admin->get('tb_carousel', ['id_carousel' => $id]);
+        if ($data['active'] == 'true') {
+            $this->session->set_flashdata('failed', 'You can not delete active carousel!');
+            redirect('Carousel');
+        } else {
+            if ($data['data_type'] == 'image') {
+                $path = './uploads/'.$this->session->userdata('company_name').'/carousel/image/';
+            } else {
+                $path = './uploads/'.$this->session->userdata('company_name').'/carousel/video/';
+            }
+
+            if (!unlink($path.$data['data_carousel'])) {
+                $this->session->set_flashdata('failed', 'Can not delete due error!');
+                redirect('Carousel');
+            } else {
+                if ($this->admin->delete('tb_carousel', 'id_carousel', $id)) {
+                    $this->session->set_flashdata('success', 'Delete carousel success!');
+                    redirect('Carousel');
+                } else {
+                    $this->session->set_flashdata('failed', 'Delete carousel failed!');
+                    redirect('Carousel');
+                }
+                
+            }
+        }
+        
+    }
+
     public function toggle_carousel($id, $active_status)
     {
         if ($active_status == 'true') {

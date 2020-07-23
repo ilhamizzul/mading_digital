@@ -20,4 +20,11 @@
             
         })
     }
+
+    function deleteCarousel(id) {
+        $.getJSON('<?= base_url() ?>Carousel/get_carousel_by_id/' + id, (data) => { 
+            $('.id_carousel').html(data.id_carousel)
+            $('#delete_button').attr('href', '<?= base_url() ?>Carousel/delete_carousel/'+id)
+        })
+    }
 </script>

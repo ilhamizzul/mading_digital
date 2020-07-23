@@ -21,7 +21,12 @@ class admin_model extends CI_Model {
     public function update($table, $pk, $id, $data)
     {
         return $this->db->where($pk, $id)
-                        ->update($table, $data);
+                        ->update($table, $data);   
+    }
+
+    public function delete($table, $pk, $id)
+    {
+        return $this->db->delete($table, [$pk => $id]);
         
     }
 
