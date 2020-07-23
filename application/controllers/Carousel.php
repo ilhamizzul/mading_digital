@@ -28,14 +28,18 @@ class Carousel extends CI_Controller {
         $this->form_validation->set_rules('data_type', 'Data Type', 'required');
     }
 
-    public function _upload_config($input)
+    private function _path($data_type)
     {
-        if ($input['data_type'] == 'image') {
-            $config['upload_path'] = './uploads/'.$this->session->userdata('company_name').'/carousel/image/';    
+        if ($data_type == 'image') {
+            return './uploads/'.$this->session->userdata('company_name').'/carousel/image/';    
         } else {
-            $config['upload_path'] = './uploads/'.$this->session->userdata('company_name').'/carousel/video/';
+            return './uploads/'.$this->session->userdata('company_name').'/carousel/video/';
         }
-        
+    }
+
+    private function _upload_config($input)
+    {
+        $config['upload_path'] = $this->_path($input['data_type']);    
         $config['allowed_types'] = 'jpeg|jpg|png|mp4';
         
         $this->load->library('upload', $config);
@@ -60,7 +64,7 @@ class Carousel extends CI_Controller {
         $format = substr($input['data_carousel'], -3);
         if (($format == 'jpg' || $format == 'png' || $format == 'peg') && $input['data_type'] == 'image') {
             return true;
-        } elseif (($format == 'mp4') && $input['data_type'] == 'video') {
+        } elseif ($format == 'mp4' && $input['data_type'] == 'video') {
             return true;
         } else {
             return false;
@@ -87,7 +91,7 @@ class Carousel extends CI_Controller {
 
             $input = $this->input->post(NULL, TRUE);
 
-            if ($this->_verify_format($input)) {
+            // if ($this->_verify_format($input)) {
 
                 $this->_upload_config($input);
                 
@@ -104,7 +108,6 @@ class Carousel extends CI_Controller {
                     'data_carousel'     => $this->upload->data()['file_name'],
                     'active'            => 'false',
                     'id_company'        => $this->session->userdata('id_company')
-                    
                 );
                 
                 if ($this->admin->insert('tb_carousel', $data) == TRUE) {
@@ -115,10 +118,10 @@ class Carousel extends CI_Controller {
                     redirect('Carousel');
                 }
 
-            } else {
-                $this->session->set_flashdata('failed', 'Data Type and file type not compatible!');
-                redirect('Carousel');
-            }
+            // } else {
+            //     $this->session->set_flashdata('failed', 'Data Type and file type not compatible!');
+            //     redirect('Carousel');
+            // }
             
         } else {
             $this->session->set_flashdata('failed', validation_errors());
@@ -141,12 +144,7 @@ class Carousel extends CI_Controller {
             $this->session->set_flashdata('failed', 'You can not delete active carousel!');
             redirect('Carousel');
         } else {
-            if ($data['data_type'] == 'image') {
-                $path = './uploads/'.$this->session->userdata('company_name').'/carousel/image/';
-            } else {
-                $path = './uploads/'.$this->session->userdata('company_name').'/carousel/video/';
-            }
-
+            $path = $this->_path($data['data_type']);
             if (!unlink($path.$data['data_carousel'])) {
                 $this->session->set_flashdata('failed', 'Can not delete due error!');
                 redirect('Carousel');
@@ -159,6 +157,62 @@ class Carousel extends CI_Controller {
                     redirect('Carousel');
                 }
                 
+            }
+        }
+        
+    }
+
+    public function edit_carousel($id)
+    {
+        $this->_has_login_session();
+        $this->_validation();
+
+        $get_data = $this->admin->get('tb_Carousel', ['id_carousel' => $id]);
+        $input = $this->input->post(NULL, TRUE);
+        
+        if ($get_data['active'] == 'true') {
+            $this->session->set_flashdata('failed', 'You can not edit active carousel!');
+            redirect('Carousel');
+        } else {
+            if ($this->form_validation->run() == TRUE) {
+    
+                $this->_upload_config($input);
+                if (! $this->upload->do_upload('data_carousel')) {
+    
+                    $data = array(
+                        'title'             => $this->input->post('title'),
+                        'description'       => $this->input->post('description')
+                    );
+    
+                    if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {
+                        $this->session->set_flashdata('success', 'Carousel successfully updated!');
+                        redirect('Carousel');
+                    } else {
+                        $this->session->set_flashdata('failed', 'Carousel failed to update!');
+                        redirect('Carousel');
+                    }
+    
+                } else {
+                    $path = $this->_path($input['data_type']);
+                    unlink($path.$get_data['data_carousel']);
+                    
+                    $data = array(
+                        'title'             => $this->input->post('title'),
+                        'description'       => $this->input->post('description'),
+                        'data_carousel'     => $this->upload->data()['file_name']
+                    );
+
+                    if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {
+                        $this->session->set_flashdata('success', 'Carousel successfully updated!');
+                        redirect('Carousel');
+                    } else {
+                        $this->session->set_flashdata('failed', 'Carousel failed to update!');
+                        redirect('Carousel');
+                    }
+                }
+            } else {
+                $this->session->set_flashdata('failed', validation_errors());
+                redirect('Carousel');
             }
         }
         

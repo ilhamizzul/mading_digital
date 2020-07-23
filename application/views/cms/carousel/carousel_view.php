@@ -39,14 +39,14 @@
 						<td>
 							<?php if($data['data_type'] == 'image') : ?>
 							<img src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/carousel/image/<?= $data['data_carousel'] ?>"
-								style="max-width: 200px; height: auto;" alt="" srcset="">
+								style="max-width: 200px; height: auto;" alt="image not found">
 							<?php else : ?>
 							<video width="250" height="auto" controls>
 								<source
 									src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/carousel/video/<?= $data['data_carousel'] ?>"
 									type="video/mp4">
 							</video>
-							<?php endif; ?>
+                            <?php endif; ?>
 						</td>
 						<td><?= $data['title']?></td>
 						<td><?= $data['description'] ?></td>
@@ -57,7 +57,7 @@
 								title="<?= $data['active'] == 'true' ? 'Hide Data Carousel' : 'Show Data Carousel' ?>"
 								onclick="toggleCarousel('<?= $data['id_carousel'] ?>')" data-toggle="modal"
 								data-target="#dataToggleActivation"><i class="fa fa-fw fa-power-off"></i></button>
-							<button class="btn btn-circle btn-sm btn-warning" title="Edit Carousel" onclick=""
+							<button class="btn btn-circle btn-sm <?= ($data['active'] == 'true') ? 'btn-secondary' : 'btn-warning'?>" title="Edit Carousel" <?= ($data['active'] == 'true') ? 'disabled' : ''?> onclick="editCarousel('<?= $data['id_carousel'] ?>')"
 								data-toggle="modal" data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button>
 							<button
 								class="btn btn-circle btn-sm <?= ($data['active'] == 'true') ? 'btn-secondary' : 'btn-danger'?>"
@@ -117,48 +117,56 @@
 </div>
 
 <!-- MODAL EDIT -->
-<!-- <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Edit Data User</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Add New Carousel</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="" method="post">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" class="form-control" id="user_name" name="user_name">
-                    </div>
-                    <div class="form-row">    
-                        <div class="form-group col">
-                            <label>Username</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                <div class="row">
+                    <form action="" class="col" method="post" id="form_edit" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" id="title" name="title">
                         </div>
-                        <div class="form-group col">
-                            <label>Password</label>
-                            <input type="password" class="form-control" id="password" name="password">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label>Upload File</label>
+                                <input type="file" class="form-control" name="data_carousel">
+                            </div>
+                            <div class="form-group col">
+                                <label>Data Type</label>
+                                <select class="form-control" name="data_type">
+                                    <option value="" id="data_type" selected></option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col card">
+                        <div class="card-img-top" id="data_preview">
+
+                        </div>
+                        <div class="card-body">
+                            <center><p class="card-text" id="data_carousel"></p></center>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>User Role</label>
-                        <select id="role" class="form-control" name="role">
-                            <option value="">Chose...</option>
-                            <option value="owner">Owner</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-                </form>
+                </div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Submit</button>
+				<button type="button" id="edit_button" class="btn btn-warning">Submit</button>
 			</div>
 		</div>
 	</div>
-</div> -->
+</div>
 
 <!-- MODAL TOGGLE ACTIVATION -->
 <div class="modal fade" id="dataToggleActivation" tabindex="-1" role="dialog" aria-hidden="true">
