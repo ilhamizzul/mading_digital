@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller {
     {
         $data['title'] = $this->session->userdata('company_name')." - Dashboard";
         $data['main_view'] = 'cms/dashboard/dashboard_view';
+        $data['JSON'] = 'cms/dashboard/dashboard_JSON';
         $this->load->view('cms/template/template_view', $data);
     }
 

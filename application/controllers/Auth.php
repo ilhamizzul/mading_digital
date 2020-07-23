@@ -23,16 +23,15 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
     }
-
-    private function _user_exist($input)
+    
+    private function _user_exist($user_account)
     {
-        if ($this->auth->check_user($input) > 0) {
+        if ($user_account != NULL) {
             return TRUE;
-        } else {
-            return FALSE;
         }
-        
+        return FALSE;    
     }
+
     
     public function index()
     {
@@ -44,12 +43,14 @@ class Auth extends CI_Controller {
             $this->load->view('cms/auth/login_view', $data);
         } else {
             $input = $this->input->post(NULL, TRUE);
-            if ($this->_user_exist($input)) {
 
-                $data_user = $this->auth->get_data_user($input);
-                if ($data_user != NULL) {
+            $user_account = $this->auth->get_user_account($input['username']);
+            if ($this->_user_exist($user_account)) {
 
-                    if ($data_user['active']) {
+                if (password_verify($input['password'], $user_account['password'])) {
+
+                    $data_user = $this->auth->get_data_user($input['username'], $user_account['password']);
+                    if ($data_user['active'] == 'true') {
 
                         $data_user = array(
                             'logged_in'         => TRUE,
@@ -62,16 +63,18 @@ class Auth extends CI_Controller {
                         
                         $this->session->set_userdata( $data_user );
 
-                        $this->session->set_flashdata('success', 'Selamat Datang, '.$this->session->userdata('nama_user'));
+                        $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
                         redirect('Dashboard');
                     } else {
-                        $this->session->set_flashdata('failed', 'Akun User belum aktif, Silahkan hubungi Admin untuk aktivasi akun!');
+                        $this->session->set_flashdata('failed', 'User Account still not active, Please call admin for user activation!');
                         redirect('Auth');
                     }
+                } else {
+                    $this->session->set_flashdata('failed', 'Incorrect password account!');
+                    redirect('Auth');    
                 }
-                
             } else {
-                $this->session->set_flashdata('failed', 'Username akun tidak ditemukan!');
+                $this->session->set_flashdata('failed', 'Username account not found!');
                 redirect('Auth');
             }
         }

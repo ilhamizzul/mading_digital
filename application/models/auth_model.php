@@ -4,17 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class auth_model extends CI_Model {
 
-    public function check_user($input)
+    public function get_user_account($username)
     {
-        return $this->db->get_where('tb_user', ['username' => $input['username'], 'password' => $input['password']])
-                        ->num_rows();
-        
+        return $this->db->get_where('tb_user', ['username' => $username])
+                        ->row_array();
     }
 
-    public function get_data_user($input)
+    public function get_data_user($username, $password)
     {
         return $this->db->join('tb_company', 'tb_company.id_company = tb_user.id_company')
-                        ->get_where('tb_user', ['username' => $input['username'], 'password' => $input['password']])
+                        ->get_where('tb_user', ['username' => $username, 'password' => $password])
                         ->row_array();
     }
 
