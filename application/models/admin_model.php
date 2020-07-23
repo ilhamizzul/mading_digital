@@ -34,7 +34,7 @@ class admin_model extends CI_Model {
     public function getMax($table, $field, $code = null)
     {
         $this->db->select_max($field);
-        if ($kode != null) {
+        if ($code != null) {
             $this->db->like($field, $code, 'after');
         }
         return $this->db->get($table)->row_array()[$field];
