@@ -9,7 +9,7 @@ class admin_model extends CI_Model {
         if ($data != null) {
             return $this->db->get_where($table, $data)->row_array();
         } else {
-            return $this->db->order_by('createdAt', 'asc')->get_where($table, $where)->result_array();
+            return $this->db->get_where($table, $where)->result_array();
         }
     }
 

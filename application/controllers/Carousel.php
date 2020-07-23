@@ -106,6 +106,28 @@ class Carousel extends CI_Controller {
         
     }
 
+    public function get_carousel_by_id($id)
+    {
+        echo json_encode($this->admin->get('tb_carousel', ['id_carousel' => $id]));
+    }
+
+    public function toggle_carousel($id, $active_status)
+    {
+        if ($active_status == 'true') {
+            $data = array('active' => 'false' );
+        } else {
+            $data = array('active' => 'true' );
+        }
+
+        if($this->admin->update('tb_carousel', 'id_carousel', $id, $data) == TRUE ){
+            $this->session->set_flashdata('success', 'Toggle data carousel sucess!');
+            redirect('Carousel');
+        } else {
+            $this->session->set_flashdata('failed', 'Toggle data carousel failed! Try again');
+            redirect('Carousel');
+        }
+    }
+
 }
 
 /* End of file Carousel.php */

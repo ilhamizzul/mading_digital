@@ -157,13 +157,16 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle"><span class="active_status"></span> User <span class="user_name"></span></h5>
+				<h5 class="modal-title" id="exampleModalLongTitle"><span class="active_status"></span> this Data Carousel?</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-                <h5 style="text-align:center">Do you really want to <span class="active_status"></span> this user privelege?</h5>
+                <h5 style="text-align:center">
+                Do you really want to <span class="active_status"></span> this Carousel?
+                <b><span class="id_carousel"></span></b>
+                </h5>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
