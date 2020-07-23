@@ -36,7 +36,15 @@
                     foreach ($data_carousel as $data) : ?>
 					<tr>
 						<td><?= $no++ ?></td>
-						<td><?= $data['data_carousel'] ?></td>
+						<td>
+                            <?php if($data['data_type'] == 'image') : ?>
+                                <img src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/carousel/image/<?= $data['data_carousel'] ?>" style="max-width: 200px; height: auto;" alt="" srcset="">
+                            <?php else : ?>
+                                <video width="250" height="auto" controls>
+                                    <source src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/carousel/video/<?= $data['data_carousel'] ?>" type="video/mp4">
+                                </video>
+                            <?php endif; ?>
+                        </td>
 						<td><?= $data['title']?></td>
                         <td><?= $data['description'] ?></td>
                         <td><?= $data['data_type'] ?></td>
@@ -44,7 +52,7 @@
 							<button
 								class="btn btn-circle btn-sm <?= $data['active'] == 'true' ? 'btn-success' : 'btn-secondary' ?>"
 								title="<?= $data['active'] == 'true' ? 'Hide Data Carousel' : 'Show Data Carousel' ?>" 
-								onclick="toggleUser('<?= $data['id_user'] ?>')"
+								onclick="toggleCarousel('<?= $data['id_carousel'] ?>')"
 								data-toggle="modal" data-target="#dataToggleActivation"><i class="fa fa-fw fa-power-off"></i></button>
 							<!-- <button class="btn btn-circle btn-sm btn-warning" title="Edit User" onclick="" data-toggle="modal"
 								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button> -->
@@ -67,7 +75,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="<?= base_url()?>Carousel/add_new_carousel" method="post" id="form_create">
+				<form action="<?= base_url()?>Carousel/add_new_carousel" method="post" id="form_create" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Title</label>
                         <input type="text" class="form-control" name="title">
@@ -79,11 +87,11 @@
                     <div class="form-row">    
                         <div class="form-group col">
                             <label>Upload File</label>
-                            <input type="file" class="form-control" name="data_type">
+                            <input type="file" class="form-control" name="data_carousel">
                         </div>
                         <div class="form-group col">
                             <label>Data Type</label>
-                            <select class="form-control" name="role">
+                            <select class="form-control" name="data_type">
                                 <option value="">Chose...</option>
                                 <option value="image">Image</option>
                                 <option value="video">Video</option>

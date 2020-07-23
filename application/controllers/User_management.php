@@ -70,7 +70,7 @@ class User_management extends CI_Controller {
                 $this->session->set_flashdata('success', 'New user has been added!');
                 redirect('User_management');
             } else {
-                $this->session->set_flashdata('success', 'New user failed to add! Try again');
+                $this->session->set_flashdata('failed', 'New user failed to add! Try again');
                 redirect('User_management');
             }
             
