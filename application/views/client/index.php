@@ -21,20 +21,18 @@
 <body style="background-color: blanchedalmond;">
     <nav class="navbar navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <a class="navbar-brand" href="#">
-            <img src="assets/img/pyxis.png" class="d-inline-block align-top" alt="">
+            <img src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/company/<?= $this->session->userdata('company_logo') ?>" alt="not found" class="d-inline-block align-top" alt="">
         </a>
         <div class="nav navbar-nav pull-md-right">
             <ul class="nav navbar-nav">
                 <li class="nav-item">
-                    <p class="navbar-text" style="font-size:20px;"><?= date('d M Y') ?><br><span
-                            id="clock">00:00 WIB</span></p>
+                    <p class="navbar-text" style="font-size:20px;"><span id="datetime"></span></p>
                 </li>
             </ul>
         </div>
     </nav>
     <br>
     <div id="wrapper">
-
         <div class="container-fluid">
             <div class="row content">
                 <!-- <div class="col-md-8"> -->
@@ -71,37 +69,42 @@
                                         <th scope="col">Due Date</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="show_event">
                                     <tr>
                                         <td>Product Presentation</td>
                                         <td>Meeting Room A</td>
                                         <td>12:00 WIB, 12 june 2020</td>
                                     </tr>
                                     <tr>
-                                        <td>Jacob</td>
-                                        <td>Jacob</td>
-                                        <td>Larry</td>
+                                        <td>Product Presentation</td>
+                                        <td>Meeting Room A</td>
+                                        <td>12:00 WIB, 12 june 2020</td>
                                     </tr>
                                     <tr>
-                                        <td>Jacob</td>
-                                        <td>Jacob</td>
-                                        <td>Larry</td>
+                                        <td>Product Presentation</td>
+                                        <td>Meeting Room A</td>
+                                        <td>12:00 WIB, 12 june 2020</td>
                                     </tr>
                                     <tr>
-                                        <td>Jacob</td>
-                                        <td>Jacob</td>
-                                        <td>Larry</td>
+                                        <td>Product Presentation</td>
+                                        <td>Meeting Room A</td>
+                                        <td>12:00 WIB, 12 june 2020</td>
                                     </tr>
                                     <tr>
-                                        <td>Jacob</td>
-                                        <td>Jacob</td>
-                                        <td>Larry</td>
+                                        <td>Product Presentation</td>
+                                        <td>Meeting Room A</td>
+                                        <td>12:00 WIB, 12 june 2020</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Product Presentation</td>
+                                        <td>Meeting Room A</td>
+                                        <td>12:00 WIB, 12 june 2020</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <br>
+                    <!-- <br>
                     <div class="card" style="height:280px;">
                         <div class="card-body">
                             <table class="table table-striped">
@@ -131,7 +134,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- footer -->
@@ -143,18 +146,54 @@
             <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
         </div>
     </footer>
-    <script src="<?= base_url() ?>assets/client/vendor/jquery/jquery.slim.min.js"></script>
+    <script src="<?= base_url() ?>assets/client/vendor/jquery/jquery.min.js"></script>
     <script src="<?= base_url() ?>assets/client/vendor/popper.js/umd/popper.min.js"></script>
     <script src="<?= base_url() ?>assets/client/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?= base_url() ?>assets/client/js/date.js"></script>
     <script>
-        function time() {
-            var d = new Date()
-            var m = d.getMinutes()
-            var h = d.getHours()
-            $('#clock').html(h + ":" + m + " WIB")
-        }
+        $(document).ready(function(){ 
+            
+            function show_event(){
+                $.ajax({
+                    type  : 'ajax',
+                    url   : '<?= base_url()?>Home/get_all_active_event',
+                    async : true,
+                    dataType : 'json',
+                    success : function(data){
+                        var html = ''
+                        var i
+                        var time = ''
+                        var date = ''
+                        if (date.length == 0) {
+                            html += '<tr><td colspan="3" style="text-align:center">no incoming event</td></tr>'
+                        } else {
+                            for(i=0; i<data.length; i++){
+                                date = dateFormat(new Date(data[i].due_date), "d mmmm yyyy")
+                                time = dateFormat(new Date(data[i].due_date), "h:MM")
+                                html += '<tr>'+
+                                        '<td>'+data[i].description+'</td>'+
+                                        '<td>'+ data[i].location +'</td>'+
+                                        '<td>'+ time + ' WIB, '+ date + '</td>'+
+                                        '</tr>'
+                            }
+                        }
+                        $('#show_event').html(html)
+                    }
 
-        setInterval(time, 1000);
+                })
+            }
+            
+            function datetime() {
+                var dateNow = new Date()
+                var time = dateFormat(new Date(), "HH:MM")
+                var date = dateFormat(new Date(), "d mmmm yyyy")
+                html = date+'<br>'+time+' WIB'
+                $('#datetime').html(html)
+            }
+
+            setInterval(datetime, 1000)
+            setInterval(show_event, 1000)
+        })
     </script>
 </body>
 
