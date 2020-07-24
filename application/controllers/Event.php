@@ -115,6 +115,44 @@ class Event extends CI_Controller {
         }
     }
 
+    public function edit_event($id)
+    {
+        $this->_has_login_session();
+        $this->_validation();
+
+        $get_data = $this->admin->get('tb_info', ['id_info' => $id]);
+        $input = $this->input->post(NULL, TRUE);
+        
+        if ($get_data['active'] == 'true') {
+            $this->session->set_flashdata('failed', 'You can not edit active '.$get_data['info_type'].'!');
+            redirect('Event');
+        } else {
+            if ($this->form_validation->run() == TRUE) {
+
+                $data = array(
+                    'description'   => $this->input->post('description'),
+                    'location'      => $this->input->post('location'),
+                    'due_date'      => $this->_to_date($this->input->post('due_date')),
+                    'id_repeater'   => $this->input->post('id_repeater'),
+                    'info_type'     => $this->input->post('info_type')
+                );
+
+                if ($this->admin->update('tb_info', 'id_info', $id, $data)) {
+                    $this->session->set_flashdata('success', $get_data['info_type'].' successfully updated!');
+                    redirect('Event');
+                } else {
+                    $this->session->set_flashdata('failed', 'Failed to update '.$get_data['info_type'].'!');
+                    redirect('Event');
+                }
+                
+            } else {
+                $this->session->set_flashdata('failed', validation_errors());
+                redirect('Event');
+            }
+        }
+        
+    }
+
     public function delete_event($id)
     {
         $this->_has_login_session();

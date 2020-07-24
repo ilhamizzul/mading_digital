@@ -124,44 +124,48 @@
 	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Add New Carousel</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Edit <span class="info_type"></span></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-                <div class="row">
-                    <form action="" class="col" method="post" id="form_edit" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" class="form-control" id="title" name="title">
+				<form action="" method="post" id="form_edit" enctype="multipart/form-data">
+					<div class="form-group">
+						<label>Description</label>
+						<input type="text" class="form-control" id="description" name="description">
+					</div>
+					<div class="form-row">
+                        <div class="form-group col">
+                            <label>Location</label>
+                            <input type="text" class="form-control" id="location" name="location">
                         </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label>Upload File</label>
-                                <input type="file" class="form-control" name="data_carousel">
-                            </div>
-                            <div class="form-group col">
-                                <label>Data Type</label>
-                                <select class="form-control" name="data_type">
-                                    <option value="" id="data_type" selected></option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col card">
-                        <div class="card-img-top" id="data_preview">
-
-                        </div>
-                        <div class="card-body">
-                            <center><p class="card-text" id="data_carousel"></p></center>
+                        <div class="form-group col">
+                            <label>Due Date</label>
+                            <input class="form-control dateTimePicker" id="due_date" name="due_date">
                         </div>
                     </div>
-                </div>
+					<div class="form-row">
+                        <div class="form-group col">
+							<label>Repeated By</label>
+							<select class="form-control" id="id_repeater" name="id_repeater">
+                                <option value="">Chose...</option>
+                                <?php foreach ($data_repeater as $data) : ?>
+								    <option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
+                                <?php endforeach; ?>
+							</select>
+						</div>
+						<div class="form-group col">
+							<label>Info Type</label>
+							<select class="form-control" id="info_type" name="info_type">
+								<option value="">Chose...</option>
+								<option value="event">Event</option>
+                                <option value="slogan">Slogan</option>
+                                <option value="news">News</option>
+							</select>
+						</div>
+					</div>
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
