@@ -54,7 +54,11 @@
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url() ?>Home">
+                        <i class="fas fa-fw fa-home"></i>
+                        <span>Client View</span></a>
+                </li>
                 <hr class="sidebar-divider">
 
                 <div class="sidebar-heading">
@@ -87,7 +91,7 @@
 
                 <li class="nav-item <?php if($this->uri->segment(1) == 'Company_management') {echo 'active';}; ?>">
                     <a class="nav-link" href="<?= base_url() ?>Company_management">
-                        <i class="fas fa-fw fa-home"></i>
+                        <i class="fas fa-fw fa-building"></i>
                         <span>Company Management</span></a>
                 </li>
 
