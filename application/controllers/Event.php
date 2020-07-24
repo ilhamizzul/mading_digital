@@ -79,10 +79,10 @@ class Event extends CI_Controller {
                 'id_company'    => $this->session->userdata('id_company')
             );
             if ($this->admin->insert('tb_info', $data)) {
-                $this->session->set_flashdata('success', 'Add new event success!');
+                $this->session->set_flashdata('success', 'Add new '.$input['info_type'].' success!');
                 redirect('Event');
             } else {
-                $this->session->set_flashdata('failed', 'Add new event failed!');
+                $this->session->set_flashdata('failed', 'Add new '.$input['info_type'].' failed!');
                 redirect('Event');
             }
             
@@ -98,7 +98,7 @@ class Event extends CI_Controller {
         echo json_encode($this->admin->get('tb_info', ['id_info' => $id]));
     }
 
-    public function toggle_carousel($id, $active_status)
+    public function toggle_event($id, $active_status)
     {
         if ($active_status == 'true') {
             $data = array('active' => 'false' );
@@ -113,6 +113,27 @@ class Event extends CI_Controller {
             $this->session->set_flashdata('failed', 'Toggle data info failed! Try again');
             redirect('Event');
         }
+    }
+
+    public function delete_event($id)
+    {
+        $this->_has_login_session();
+        $data = $this->admin->get('tb_info', ['id_info' => $id]);
+
+        if ($data['active'] == 'true') {
+            $this->session->set_flashdata('failed', 'You can not edit active '.$data['info_type'].'!');
+            redirect('Event');
+        } else {
+            if ($this->admin->delete('tb_info', 'id_info', $id)) {
+                $this->session->set_flashdata('success', 'Delete '.$data['info_type'].' success!');
+                redirect('Event');
+            } else {
+                $this->session->set_flashdata('failed', 'Delete '.$data['info_type'].' failed!');
+                redirect('Event');
+            }
+            
+        }
+        
     }
 
 }

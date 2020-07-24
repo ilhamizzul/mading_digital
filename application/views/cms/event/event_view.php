@@ -200,15 +200,15 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Delete Carousel</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Delete <span class="info_type"></span></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
 				<h5 style="text-align:center">
-					Are you sure you want to delete this Carousel? <br>
-					<b><span class="id_carousel"></span></b>
+					Are you sure you want to delete this <span class="info_type"></span>? <br>
+					<b><span class="id_info"></span></b>
                 </h5>
                 <h6 style="text-align:center">(Once data has been deleted can not be revert back)</h6>
 			</div>
