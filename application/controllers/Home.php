@@ -9,7 +9,6 @@ class Home extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('client_model', 'client');
-        
     }
     
 
@@ -21,7 +20,12 @@ class Home extends CI_Controller {
 
     public function get_all_active_event()
     {
-        echo json_encode($this->client->get('tb_info', null, ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event']));
+        echo json_encode($this->client->get_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event']));
+    }
+
+    public function get_all_active_carousel()
+    {
+        echo json_encode($this->client->get_active_data('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true']));
     }
 
 }
