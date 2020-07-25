@@ -7,11 +7,20 @@
     <title><?= $title; ?></title>
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/vendor/bootstrap/css/bootstrap.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat');
+        * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+        }
         body {
-            background: url('<?= base_url()?>/assets/client/img/background.jpg') no-repeat center fixed;     
+            /* background: url('<?= base_url()?>/assets/client/img/background.jpg') no-repeat center fixed;      */
+            background-image: linear-gradient(to bottom right, #023e8a, #0096c7, #48cae4);
             background-size: cover;
             height: 100vh;
             display: flex;
+            font-family: 'Montserrat', 'sans-serif';
+            font-weight: 500;
         }
         .navbar {
             background-color: #a8dadc;
@@ -25,6 +34,72 @@
         .content-wrap {
             padding-bottom: 1.5rem; 
             height : 70vh;
+        }
+
+        :root {
+            --marquee-width: 100vw;
+            --marquee-height: 10vh;
+            --marquee-elements-displayed: 1;
+            --marquee-element-width: calc(var(--marquee-width)/var(--marquee-elements-displayed));
+            --marquee-animation-duration: calc(var(--marquee-elements)*8s); 
+
+            --footer-color: #03045e;
+        }
+
+        .marquee {
+            position: absolute;
+            bottom: 0;
+            width: var(--marquee-width);
+            height: var(--marquee-height);  
+            background-color: var(--footer-color);
+            color : white;
+            overflow : hidden;
+        }
+
+        .marquee:before, .marquee:after {
+            position: absolute;
+            top: 0;
+            width: 15rem;
+            height: 100%;
+            content: "";
+            z-index: 1;
+        }
+
+        .marquee:before {
+            left: 0;
+            background: linear-gradient(to right, var(--footer-color) 0%, transparent 100%);
+        }
+
+        .marquee:after {
+            right: 0;
+            background: linear-gradient(to left, var(--footer-color) 0%, transparent 100%);
+        }
+
+        .marquee-content {
+            list-style: none;
+            height: 100%;
+            display : flex;
+            align-items: center;
+            animation : scrolling var(--marquee-animation-duration) linear infinite;
+        }
+
+        @keyframes scrolling {
+            0% { transform : translateX(0); }
+            100% { 
+                transform : translateX(
+                    calc(
+                        -1*var(--marquee-element-width)*var(--marquee-elements)
+                    )
+                ); 
+            }
+        }
+
+        .marquee-content li {
+            flex-shrink: 0;
+            width: var(--marquee-element-width);
+            text-align: center;
+            font-size: 2.5rem;
+            white-space: nowrap;
         }
 
         /* table tbody { height:100px; overflow:auto; } */
@@ -51,8 +126,6 @@
                     </li>
                 </ul>
         </nav>
-        <br>    
-    <br>
         <br>    
         <div class="container-fluid content-wrap">
             <div class="row content">
@@ -116,13 +189,13 @@
             </div>
             <!-- footer -->
         </div>
-    </div>
-    <br>
-    <footer class="footer font-small blue" style="background-color: cornflowerblue; height:75px">
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
-        </div>
-    </footer>
+        <footer class="marquee">
+            <!-- <div class="footer-copyright text-center py-3">ihesfbvojdnsf cij usjd ncujedsf ncuijnsfcujndfcjx jsad xuos dxjwsdjx iejsufnciofdnscmuodnsmfcuos duxn</a>
+            </div> -->
+            <ul class="marquee-content">
+                <li>blalala lorem ipsum dolor sit amet</li>
+            </ul>
+        </footer>
     </div>
     <script src="<?= base_url() ?>assets/client/vendor/jquery/jquery.min.js"></script>
     <script src="<?= base_url() ?>assets/client/vendor/popper.js/umd/popper.min.js"></script>
@@ -241,6 +314,7 @@
 
 
     </script>
+    <script src="<?= base_url() ?>assets/client/js/marquee.js" defer></script>
 </body>
 
 </html>
