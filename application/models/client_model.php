@@ -9,8 +9,6 @@ class client_model extends CI_Model {
         return $this->db->limit(10)->get_where($table, $where)->result_array();
     }
 
-    
-
 }
 
 /* End of file client_model.php */

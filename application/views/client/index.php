@@ -14,7 +14,6 @@
             box-sizing: border-box;
         }
         body {
-            /* background: url('<?= base_url()?>/assets/client/img/background.jpg') no-repeat center fixed;      */
             background-image: linear-gradient(to bottom right, #023e8a, #0096c7, #48cae4);
             background-size: cover;
             height: 100vh;
@@ -25,11 +24,6 @@
         .navbar {
             background-color: #a8dadc;
         }
-
-        /* #page-container {
-            position: relative;
-            min-height: 100vh;
-        } */
 
         .content-wrap {
             padding-bottom: 1.5rem; 
@@ -154,44 +148,11 @@
                             </table>
                         </div>
                     </div>
-                    <!-- <br>
-                    <div class="card" style="height:280px;">
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">blablabla</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Meeting Room A</td>
-                                        <td>Occupied</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jacob</td>
-                                        <td>Jacob</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jacob</td>
-                                        <td>Larry</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jacob</td>
-                                        <td>Larry</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <!-- footer -->
         </div>
         <footer class="marquee">
-            <!-- <div class="footer-copyright text-center py-3">ihesfbvojdnsf cij usjd ncujedsf ncuijnsfcujndfcjx jsad xuos dxjwsdjx iejsufnciofdnscmuodnsmfcuos duxn</a>
-            </div> -->
             <ul class="marquee-content">
                 <li>blalala lorem ipsum dolor sit amet</li>
             </ul>
@@ -298,8 +259,12 @@
             //     $("#carousel").carousel('pause')
             // });
             setInterval(datetime, 1000)
-            setInterval(show_event, 10000)
-            setInterval(show_carousel, 30000)
+            <?php if ($this->db->affected_rows() > 0) :?>
+                show_event()
+                show_carousel()
+            <?php endif; ?>
+            // setInterval(show_event, 10000)
+            // setInterval(show_carousel, 30000)
         })
         
         // $('v-carousel.active > .view > video').on('ended', function (e) {
