@@ -113,7 +113,6 @@ class Carousel extends CI_Controller {
                 );
                 
                 if ($this->admin->insert('tb_carousel', $data) == TRUE) {
-                    $this->_pusher();
                     $this->session->set_flashdata('success', 'New carousel has been added!');
                     redirect('Carousel');
                 } else {
@@ -183,7 +182,6 @@ class Carousel extends CI_Controller {
                     );
     
                     if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {
-                        $this->_pusher();
                         $this->session->set_flashdata('success', 'Carousel successfully updated!');
                         redirect('Carousel');
                     } else {
