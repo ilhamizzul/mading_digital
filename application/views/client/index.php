@@ -178,6 +178,8 @@
             channel.bind('my-event', function(data) {
                 if(data.message === 'carousel_success'){
                     show_carousel()
+                } else if (data.message === 'event_success') {
+                    show_event()
                 }
             })
             function show_event(){
@@ -272,13 +274,7 @@
             //     $('.v-carousel.active').find('iframe').contents().find('body').find('video')[0].play()
             //     $("#carousel").carousel('pause')
             // });
-            setInterval(datetime, 1000)
-            <?php if ($this->db->affected_rows() > 0) :?>
-                show_event()
-                show_carousel()
-            <?php endif; ?>
-            // setInterval(show_event, 10000)
-            // setInterval(show_carousel, 30000)
+            setInterval(datetime, 1000*60)
         })
 
 
