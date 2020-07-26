@@ -21,6 +21,23 @@ class Carousel extends CI_Controller {
         }
     }
 
+    private function _pusher()
+    {
+        require __DIR__ . '/vendor/autoload.php';
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher\Pusher(
+            '7ba272c3a6631b4ffaf9',
+            'a20830d1c80edd41247d',
+            '1045050',
+            $options
+        );
+        $data['message'] = 'success';
+        $pusher->trigger('my-channel', 'my-event', $data);
+    }
+
     private function _validation()
     {
         $this->form_validation->set_rules('title', 'Title', 'min_length[5]|max_length[50]');
@@ -96,6 +113,7 @@ class Carousel extends CI_Controller {
                 );
                 
                 if ($this->admin->insert('tb_carousel', $data) == TRUE) {
+                    $this->_pusher();
                     $this->session->set_flashdata('success', 'New carousel has been added!');
                     redirect('Carousel');
                 } else {
@@ -130,6 +148,7 @@ class Carousel extends CI_Controller {
                 redirect('Carousel');
             } else {
                 if ($this->admin->delete('tb_carousel', 'id_carousel', $id)) {
+                    $this->_pusher();
                     $this->session->set_flashdata('success', 'Delete carousel success!');
                     redirect('Carousel');
                 } else {
@@ -165,6 +184,7 @@ class Carousel extends CI_Controller {
                     );
     
                     if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {
+                        $this->_pusher();
                         $this->session->set_flashdata('success', 'Carousel successfully updated!');
                         redirect('Carousel');
                     } else {
@@ -183,6 +203,7 @@ class Carousel extends CI_Controller {
                     );
 
                     if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {
+                        $this->_pusher();
                         $this->session->set_flashdata('success', 'Carousel successfully updated!');
                         redirect('Carousel');
                     } else {
@@ -207,6 +228,7 @@ class Carousel extends CI_Controller {
         }
 
         if($this->admin->update('tb_carousel', 'id_carousel', $id, $data) == TRUE ){
+            $this->_pusher();
             $this->session->set_flashdata('success', 'Toggle data carousel sucess!');
             redirect('Carousel');
         } else {
