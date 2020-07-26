@@ -148,7 +148,6 @@ class Carousel extends CI_Controller {
                 redirect('Carousel');
             } else {
                 if ($this->admin->delete('tb_carousel', 'id_carousel', $id)) {
-                    $this->_pusher();
                     $this->session->set_flashdata('success', 'Delete carousel success!');
                     redirect('Carousel');
                 } else {
