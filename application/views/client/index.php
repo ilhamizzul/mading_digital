@@ -162,10 +162,24 @@
     <script src="<?= base_url() ?>assets/client/vendor/popper.js/umd/popper.min.js"></script>
     <script src="<?= base_url() ?>assets/client/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?= base_url() ?>assets/client/js/date.js"></script>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
     <script>
         $(document).ready(function(){ 
             show_carousel()
             show_event()
+            // DELETE this when we push into production
+            Pusher.logToConsole = true
+
+            var pusher = new Pusher('7ba272c3a6631b4ffaf9', {
+                cluster: 'ap1'
+            })
+
+            var channel = pusher.subscribe('my-channel')
+            channel.bind('my-event', function(data) {
+                if(data.message === 'carousel_success'){
+                    show_carousel()
+                }
+            })
             function show_event(){
                 $.ajax({
                     type  : 'ajax',
@@ -266,16 +280,6 @@
             // setInterval(show_event, 10000)
             // setInterval(show_carousel, 30000)
         })
-        
-        // $('v-carousel.active > .view > video').on('ended', function (e) {
-        //     $("#carousel").carousel({ interval : 100})
-        // })
-
-        
-        // $('.v-carousel').hasClass('active', function () {
-        //     console.log('video active')
-        // })
-        // $('.carousel-image').carousel({ interval : 6000})
 
 
     </script>

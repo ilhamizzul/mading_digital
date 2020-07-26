@@ -23,7 +23,7 @@ class Carousel extends CI_Controller {
 
     private function _pusher()
     {
-        require __DIR__ . '/vendor/autoload.php';
+        require_once(APPPATH.'views/vendor/autoload.php');
         $options = array(
             'cluster' => 'ap1',
             'useTLS' => true
@@ -34,7 +34,7 @@ class Carousel extends CI_Controller {
             '1045050',
             $options
         );
-        $data['message'] = 'success';
+        $data['message'] = 'carousel_success';
         $pusher->trigger('my-channel', 'my-event', $data);
     }
 
