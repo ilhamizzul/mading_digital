@@ -55,7 +55,7 @@
                         <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url() ?>Home">
+                    <a class="nav-link" href="<?= base_url() ?>Home" target="_blank">
                         <i class="fas fa-fw fa-home"></i>
                         <span>Client View</span></a>
                 </li>

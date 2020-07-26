@@ -6,106 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title; ?></title>
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/vendor/bootstrap/css/bootstrap.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Montserrat');
-        * {
-            margin: 0;
-            padding: 0; 
-            box-sizing: border-box;
-        }
-        body {
-            background-image: linear-gradient(to bottom right, #023e8a, #0096c7, #48cae4);
-            background-size: cover;
-            height: 100vh;
-            display: flex;
-            font-family: 'Montserrat', 'sans-serif';
-            font-weight: 500;
-        }
-        .navbar {
-            background-color: #a8dadc;
-        }
-
-        .content-wrap {
-            padding-bottom: 1.5rem; 
-            height : 70vh;
-        }
-
-        :root {
-            --marquee-width: 100vw;
-            --marquee-height: 10vh;
-            --marquee-elements-displayed: 1;
-            --marquee-element-width: calc(var(--marquee-width)/var(--marquee-elements-displayed));
-            --marquee-animation-duration: calc(var(--marquee-elements)*8s); 
-
-            --footer-color: #03045e;
-        }
-
-        .marquee {
-            position: absolute;
-            bottom: 0;
-            width: var(--marquee-width);
-            height: var(--marquee-height);  
-            background-color: var(--footer-color);
-            color : white;
-            overflow : hidden;
-        }
-
-        .marquee:before, .marquee:after {
-            position: absolute;
-            top: 0;
-            width: 15rem;
-            height: 100%;
-            content: "";
-            z-index: 1;
-        }
-
-        .marquee:before {
-            left: 0;
-            background: linear-gradient(to right, var(--footer-color) 0%, transparent 100%);
-        }
-
-        .marquee:after {
-            right: 0;
-            background: linear-gradient(to left, var(--footer-color) 0%, transparent 100%);
-        }
-
-        .marquee-content {
-            list-style: none;
-            height: 100%;
-            display : flex;
-            align-items: center;
-            animation : scrolling var(--marquee-animation-duration) linear infinite;
-        }
-
-        @keyframes scrolling {
-            0% { transform : translateX(0); }
-            100% { 
-                transform : translateX(
-                    calc(
-                        -1*var(--marquee-element-width)*var(--marquee-elements)
-                    )
-                ); 
-            }
-        }
-
-        .marquee-content li {
-            flex-shrink: 0;
-            width: var(--marquee-element-width);
-            text-align: center;
-            font-size: 2.5rem;
-            white-space: nowrap;
-        }
-
-        /* table tbody { height:100px; overflow:auto; } */
-        table thead {
-            text-align: center;
-        }
-
-        /* #wrapper {
-            display: flex;
-        } */
-    </style>
-    
+    <link rel="stylesheet" href="<?= base_url() ?>assets/client/css/style.css">
 </head>
 
 <body>
@@ -114,9 +15,9 @@
             <a class="navbar-brand" href="<?= base_url() ?>Home">
                 <img src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/company/<?= $this->session->userdata('company_logo') ?>" alt="not found" class="d-inline-block align-top" alt="">
             </a>
-                <ul class="nav nav-pills justify-content-end">
+                <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <p class="navbar-link" style="font-size:20px;"><span id="datetime"></span></p>
+                        <p class="navbar-link datetime" style="font-size:20px;"><span id="datetime"></span></p>
                     </li>
                 </ul>
         </nav>
@@ -154,7 +55,6 @@
         </div>
         <footer class="marquee">
             <ul class="marquee-content">
-                <li>blalala lorem ipsum dolor sit amet</li>
             </ul>
         </footer>
     </div>
@@ -167,6 +67,9 @@
         $(document).ready(function(){ 
             show_carousel()
             show_event()
+            show_info()
+            datetime()
+
             // DELETE this when we push into production
             Pusher.logToConsole = true
 
@@ -180,6 +83,8 @@
                     show_carousel()
                 } else if (data.message === 'event_success') {
                     show_event()
+                } else {
+                    show_info()
                 }
             })
             function show_event(){
@@ -209,6 +114,35 @@
                         $('#show_event').html(html)
                     }
 
+                })
+            }
+
+            function show_info(){
+                $.ajax({
+                    type  : 'ajax',
+                    url   : '<?= base_url()?>Home/get_all_active_information',
+                    async : true,
+                    dataType : 'json',
+                    success : function(data){
+                        var html = ''
+                        var i
+                        console.log(data.length)
+                        if (data.length == 0) {
+                            html += '<li>no information available</li>'
+                        } else {
+                            for(i=0; i<data.length; i++){
+                                if (data[i].info_type == 'news') {
+                                    html += '<li class="news">'+data[i].description+'</li>'
+                                } else {
+                                    html += '<li>'+data[i].description+'</li>'
+                                }
+                            }
+                        }
+                        $('.marquee-content').html(html)
+                    }
+
+                }).done((data) => {
+                    set_marquee(data)
                 })
             }
 
@@ -265,21 +199,18 @@
                 $('#datetime').html(html)
             }
 
-            // $('v-carousel.active > .view > video').on('play', function (e) {
-            //     console.log('mlaku broo')
-            //     $("#carousel").carousel('pause')
-            // })
-            
-            // $('#myCarousel').bind('slid', function (e) {
-            //     $('.v-carousel.active').find('iframe').contents().find('body').find('video')[0].play()
-            //     $("#carousel").carousel('pause')
-            // });
+            function set_marquee(data) {
+                const root = document.documentElement
+    
+                const marqueeElementDisplayed = getComputedStyle(root).getPropertyValue("--marquee-elements-displayed")
+                const marqueeContent = document.querySelector(".marquee-content")
+    
+                root.style.setProperty('--marquee-elements', marqueeContent.children.length)
+                $('.marquee-content').append('<li>'+data[0].description+'</li>')
+            }
             setInterval(datetime, 1000*60)
         })
-
-
     </script>
-    <script src="<?= base_url() ?>assets/client/js/marquee.js" defer></script>
 </body>
 
 </html>
