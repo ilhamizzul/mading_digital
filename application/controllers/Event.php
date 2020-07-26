@@ -20,6 +20,28 @@ class Event extends CI_Controller {
         }
     }
 
+    private function _pusher($info_type)
+    {
+        require_once(APPPATH.'views/vendor/autoload.php');
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher\Pusher(
+            '7ba272c3a6631b4ffaf9',
+            'a20830d1c80edd41247d',
+            '1045050',
+            $options
+        );
+        if ($info_type == 'event') {
+            $data['message'] = 'event_success';    
+        } else {
+            $data['message'] = 'info_success';
+        }
+        
+        $pusher->trigger('my-channel', 'my-event', $data);
+    }
+
     private function _to_date($date)
     {
         $new_date = strtotime($date);
@@ -100,6 +122,7 @@ class Event extends CI_Controller {
 
     public function toggle_event($id, $active_status)
     {
+        $get_data = $this->admin->get('tb_info', ['id_info' => $id]);
         if ($active_status == 'true') {
             $data = array('active' => 'false' );
         } else {
@@ -107,6 +130,7 @@ class Event extends CI_Controller {
         }
 
         if($this->admin->update('tb_info', 'id_info', $id, $data) == TRUE ){
+            $this->_pusher($get_data['info_type']);
             $this->session->set_flashdata('success', 'Toggle data info sucess!');
             redirect('Event');
         } else {
