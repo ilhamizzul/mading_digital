@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <div class="card" style="height:700px;">
+                    <div class="card schedule">
                         <div class="card-body">
                             <table class="table table-striped">
                                 <thead class="thead-dark">
