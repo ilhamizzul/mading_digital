@@ -29,17 +29,18 @@ class Home extends CI_Controller {
 
     public function get_all_active_event()
     {
-        echo json_encode($this->client->get_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event', 'due_date >=' => date('Y-m-d H:i:s')], 10));
+        echo json_encode($this->client->get_active_data('tb_info', ['due_date >=' => date('Y-m-d H:i:s'), 'info_type' => 'event']));
     }
 
     public function get_all_active_carousel()
     {
-        echo json_encode($this->client->get_active_data('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true'], 10));
+        echo json_encode($this->client->get_active_carousel('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true'], 10));
+        // echo json_encode($this->client->get_active_data('tb_carousel'));
     }
 
     public function get_all_active_information()
     {
-        echo json_encode($this->client->get_active_info());
+        echo json_encode($this->client->get_active_data('tb_info', ['due_date >=' => date('Y-m-d H:i:s'), 'info_type !=' => 'event']));
     }
 
 }
