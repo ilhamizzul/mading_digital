@@ -42,7 +42,8 @@ class Carousel extends CI_Controller {
     {
         $this->form_validation->set_rules('title', 'Title', 'min_length[5]|max_length[50]');
         $this->form_validation->set_rules('description', 'Description', 'min_length[5]|max_length[100]');
-        // $this->form_validation->set_rules('data_type', 'Data Type', 'required');
+        $this->form_validation->set_rules('data_type', 'Data Type', 'required');
+        $this->form_validation->set_rules('id_repeater', 'Repeater', 'required');
     }
 
     private function _path($data_type)
@@ -58,10 +59,6 @@ class Carousel extends CI_Controller {
     {
         $config['upload_path'] = $this->_path($input['data_type']);    
         $config['allowed_types'] = 'jpeg|jpg|png|mp4';
-        if ($input['data_type'] == 'image') {
-            $config['max_width']   = 1040;
-            $config['max_height']  = 768;
-        }
         $this->load->library('upload', $config);
     }
 
@@ -85,6 +82,7 @@ class Carousel extends CI_Controller {
         $data['title']          = $this->session->userdata('company_name'). ' - Data Carousel';
         $data['data_carousel']  = $this->admin->get('tb_carousel', null, ['id_company' => $this->session->userdata('id_company')]);
         $data['main_view']      = 'cms/carousel/carousel_view';
+        $data['data_repeater'] = $this->admin->get('tb_repeater');
         $data['JSON']           = 'cms/carousel/carousel_JSON';
         $this->load->view('cms/template/template_view', $data);
     }
@@ -112,7 +110,8 @@ class Carousel extends CI_Controller {
                     'data_type'         => $this->input->post('data_type'),
                     'data_carousel'     => $this->upload->data()['file_name'],
                     'active'            => 'false',
-                    'id_company'        => $this->session->userdata('id_company')
+                    'id_company'        => $this->session->userdata('id_company'),
+                    'id_repeater'       => $this->input->post('id_repeater')
                 );
                 
                 if ($this->admin->insert('tb_carousel', $data) == TRUE) {
@@ -181,7 +180,8 @@ class Carousel extends CI_Controller {
     
                     $data = array(
                         'title'             => $this->input->post('title'),
-                        'description'       => $this->input->post('description')
+                        'description'       => $this->input->post('description'),
+                        'id_repeater'       => $this->input->post('id_repeater')
                     );
     
                     if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {
@@ -199,7 +199,8 @@ class Carousel extends CI_Controller {
                     $data = array(
                         'title'             => $this->input->post('title'),
                         'description'       => $this->input->post('description'),
-                        'data_carousel'     => $this->upload->data()['file_name']
+                        'data_carousel'     => $this->upload->data()['file_name'],
+                        'id_repeater'       => $this->input->post('id_repeater')
                     );
 
                     if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {

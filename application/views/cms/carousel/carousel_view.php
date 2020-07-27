@@ -94,8 +94,13 @@
 					</div>
 					<div class="form-row">
 						<div class="form-group col">
-							<label>Upload File</label>
-							<input type="file" class="form-control" name="data_carousel">
+							<label>Repeated By</label>
+							<select class="form-control" name="id_repeater">
+								<option value="">Chose...</option>
+								<?php foreach ($data_repeater as $data) :?>
+								<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
+								<?php endforeach; ?>
+							</select>
 						</div>
 						<div class="form-group col">
 							<label>Data Type</label>
@@ -105,6 +110,10 @@
 								<option value="video">Video</option>
 							</select>
 						</div>
+					</div>
+					<div class="form-group">
+						<label>Upload File</label>
+						<input type="file" class="form-control" name="data_carousel">
 					</div>
 				</form>
 			</div>
