@@ -94,10 +94,7 @@
                     async : true,
                     dataType : 'json',
                     success : function(data){
-                        var html = ''
-                        var i
-                        var time = ''
-                        var date = ''
+                        var html, time, date = '', i
                         if (data.length == 0) {
                             html += '<tr><td colspan="3" style="text-align:center">no incoming event</td></tr>'
                         } else {
@@ -206,7 +203,7 @@
                 const marqueeContent = document.querySelector(".marquee-content")
     
                 root.style.setProperty('--marquee-elements', marqueeContent.children.length)
-                $('.marquee-content').append('<li>'+data[0].description+'</li>')
+                $('.marquee-content li').siblings(':first-child').clone(true).appendTo('.marquee-content')
             }
             setInterval(datetime, 1000*60)
         })

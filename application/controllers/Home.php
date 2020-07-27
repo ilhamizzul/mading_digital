@@ -29,7 +29,7 @@ class Home extends CI_Controller {
 
     public function get_all_active_event()
     {
-        echo json_encode($this->client->get_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event'], 10));
+        echo json_encode($this->client->get_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event', 'due_date >=' => date('Y-m-d H:i:s')], 10));
     }
 
     public function get_all_active_carousel()
