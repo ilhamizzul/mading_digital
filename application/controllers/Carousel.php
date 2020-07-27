@@ -16,16 +16,33 @@ class Carousel extends CI_Controller {
         if($this->session->has_userdata('logged_in')) {
             return TRUE;
         } else {
-            $this->session->set_flashdata('failed', 'Masa waktu login berakhir! Silahkan login kembali');
+            $this->session->set_flashdata('failed', 'User login session has ended! Please login again');
             redirect('Auth');
         }
+    }
+
+    private function _pusher()
+    {
+        require_once(APPPATH.'views/vendor/autoload.php');
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher\Pusher(
+            '7ba272c3a6631b4ffaf9',
+            'a20830d1c80edd41247d',
+            '1045050',
+            $options
+        );
+        $data['message'] = 'carousel_success';
+        $pusher->trigger('my-channel', 'my-event', $data);
     }
 
     private function _validation()
     {
         $this->form_validation->set_rules('title', 'Title', 'min_length[5]|max_length[50]');
         $this->form_validation->set_rules('description', 'Description', 'min_length[5]|max_length[100]');
-        $this->form_validation->set_rules('data_type', 'Data Type', 'required');
+        // $this->form_validation->set_rules('data_type', 'Data Type', 'required');
     }
 
     private function _path($data_type)
@@ -41,7 +58,10 @@ class Carousel extends CI_Controller {
     {
         $config['upload_path'] = $this->_path($input['data_type']);    
         $config['allowed_types'] = 'jpeg|jpg|png|mp4';
-        
+        if ($input['data_type'] == 'image') {
+            $config['max_width']   = 1040;
+            $config['max_height']  = 768;
+        }
         $this->load->library('upload', $config);
     }
 
@@ -57,19 +77,6 @@ class Carousel extends CI_Controller {
         $add_code++;
         $number = str_pad($add_code, 4, '0', STR_PAD_LEFT);
         return $code . $number;
-    }
-
-    public function _verify_format($input)
-    {
-        $format = substr($input['data_carousel'], -3);
-        if (($format == 'jpg' || $format == 'png' || $format == 'peg') && $input['data_type'] == 'image') {
-            return true;
-        } elseif ($format == 'mp4' && $input['data_type'] == 'video') {
-            return true;
-        } else {
-            return false;
-        }
-        
     }
     
     public function index()
@@ -90,8 +97,6 @@ class Carousel extends CI_Controller {
         if ($this->form_validation->run() == TRUE) {
 
             $input = $this->input->post(NULL, TRUE);
-
-            // if ($this->_verify_format($input)) {
 
                 $this->_upload_config($input);
                 
@@ -117,11 +122,6 @@ class Carousel extends CI_Controller {
                     $this->session->set_flashdata('failed', 'New carousel failed to add! Try again');
                     redirect('Carousel');
                 }
-
-            // } else {
-            //     $this->session->set_flashdata('failed', 'Data Type and file type not compatible!');
-            //     redirect('Carousel');
-            // }
             
         } else {
             $this->session->set_flashdata('failed', validation_errors());
@@ -203,6 +203,7 @@ class Carousel extends CI_Controller {
                     );
 
                     if ($this->admin->update('tb_carousel', 'id_carousel', $id, $data)) {
+                        $this->_pusher();
                         $this->session->set_flashdata('success', 'Carousel successfully updated!');
                         redirect('Carousel');
                     } else {
@@ -227,6 +228,7 @@ class Carousel extends CI_Controller {
         }
 
         if($this->admin->update('tb_carousel', 'id_carousel', $id, $data) == TRUE ){
+            $this->_pusher();
             $this->session->set_flashdata('success', 'Toggle data carousel sucess!');
             redirect('Carousel');
         } else {

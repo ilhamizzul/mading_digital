@@ -58,7 +58,8 @@ class Auth extends CI_Controller {
                             'nama_user'         => $data_user['user_name'],
                             'role'              => $data_user['role'],
                             'id_company'        => $data_user['id_company'],
-                            'company_name'      => $data_user['company_name']
+                            'company_name'      => $data_user['company_name'],
+                            'company_logo'      => $data_user['company_logo']
                         );
                         
                         $this->session->set_userdata( $data_user );
