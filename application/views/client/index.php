@@ -18,7 +18,7 @@
             </a>
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <p class="navbar-link datetime" style="font-size:20px;"><span id="datetime"></span></p>
+                        <p class="navbar-link datetime"><span id="datetime"></span></p>
                     </li>
                 </ul>
         </nav>

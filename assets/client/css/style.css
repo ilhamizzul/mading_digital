@@ -13,8 +13,14 @@ body {
     font-weight: 500;
 }
 .navbar {
-    background-color: #a8dadc;
+    background-color: #03045e;
     min-width: 100vw;
+}
+
+.datetime {
+    font-size:20px;
+    color: white;
+    font-weight: 700;
 }
 
 .content-wrap {
