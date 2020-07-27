@@ -147,17 +147,26 @@
                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col">
-                                <label>Upload File</label>
-                                <input type="file" class="form-control" name="data_carousel">
-                            </div>
+							<div class="form-group col">
+								<label>Repeated By</label>
+								<select class="form-control" id="id_repeater" name="id_repeater">
+									<option value="">Chose...</option>
+									<?php foreach ($data_repeater as $data) :?>
+									<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
                             <div class="form-group col">
                                 <label>Data Type</label>
                                 <select class="form-control" name="data_type">
                                     <option value="" id="data_type" selected></option>
                                 </select>
                             </div>
-                        </div>
+						</div>
+						<div class="form-group">
+							<label>Upload File</label>
+							<input type="file" class="form-control" name="data_carousel">
+						</div>
                     </form>
                     <div class="col card">
                         <div class="card-img-top" id="data_preview">
