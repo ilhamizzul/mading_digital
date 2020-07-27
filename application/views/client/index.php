@@ -168,7 +168,7 @@
                             } else {
                                 html_carousel_data +=   '<div class="carousel-item v-carousel">' +
                                                             '<div class="view">' +
-                                                                '<video class="video-fluid v-data" autoplay loop muted>' +
+                                                                '<video class="video-fluid v-data" onplay="pauseCarousel()" onended="resumeCarousel()" muted>' +
                                                                     '<source src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/carousel/video/'+data[i].data_carousel+'" type="video/mp4" />'+
                                                                 '</video>'+
                                                             '</div>'+
@@ -187,7 +187,7 @@
                     }
                 })
             }
-            
+
             function datetime() {
                 var dateNow = new Date()
                 var time = dateFormat(new Date(), "HH:MM")
@@ -207,6 +207,19 @@
             }
             setInterval(datetime, 1000*60)
         })
+        function pauseCarousel() {
+            $("#carousel").carousel('pause');
+        }
+        function resumeCarousel() {
+            $("#carousel").carousel('next');
+            $("#carousel").carousel({ interval : 4000});
+        }
+        $('#carousel').on('slid.bs.carousel', function () {
+            if ($('.v-carousel').hasClass('active')) {
+                $('.v-data').get(0).play()
+            }
+        })
+
     </script>
 </body>
 
