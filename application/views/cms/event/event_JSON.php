@@ -11,7 +11,11 @@
         });
     })
 
-    $('.dateTimePicker').datetimepicker({ footer: true, modal: true });
+    $('.dateTimePicker').datetimepicker({ 
+        footer: true, 
+        modal: true,
+        format: 'yyyy-mm-dd HH:MM'
+    });
 
     function toggleEvent(id) {
         $.getJSON('<?= base_url() ?>Event/get_event_by_id/' + id, (data) => { 
