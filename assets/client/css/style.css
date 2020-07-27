@@ -14,11 +14,12 @@ body {
 }
 .navbar {
     background-color: #a8dadc;
+    min-width: 100vw;
 }
 
 .content-wrap {
     padding-bottom: 1.5rem; 
-    height : 70vh;
+    height : 75vh;
 }
 
 .schedule {
@@ -26,8 +27,13 @@ body {
 }
 
 #caousel {
-    height : 75vh;
-    min-width: 100%;
+    max-height : 75vh;
+    max-width: 100%; 
+}
+
+.v-carousel {
+    max-height : 700px;
+    max-width: 100%;
 }
 
 :root {

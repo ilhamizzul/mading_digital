@@ -42,7 +42,7 @@ class Carousel extends CI_Controller {
     {
         $this->form_validation->set_rules('title', 'Title', 'min_length[5]|max_length[50]');
         $this->form_validation->set_rules('description', 'Description', 'min_length[5]|max_length[100]');
-        $this->form_validation->set_rules('data_type', 'Data Type', 'required');
+        // $this->form_validation->set_rules('data_type', 'Data Type', 'required');
     }
 
     private function _path($data_type)
@@ -58,7 +58,10 @@ class Carousel extends CI_Controller {
     {
         $config['upload_path'] = $this->_path($input['data_type']);    
         $config['allowed_types'] = 'jpeg|jpg|png|mp4';
-        
+        if ($input['data_type'] == 'image') {
+            $config['max_width']   = 1040;
+            $config['max_height']  = 768;
+        }
         $this->load->library('upload', $config);
     }
 

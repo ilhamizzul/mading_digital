@@ -125,7 +125,7 @@
                         var i
                         console.log(data.length)
                         if (data.length == 0) {
-                            html += '<li>no information available</li>'
+                            html += '<li>no information available</li><li>no information available</li>'
                         } else {
                             for(i=0; i<data.length; i++){
                                 if (data[i].info_type == 'news') {
@@ -168,7 +168,7 @@
                             } else {
                                 html_carousel_data +=   '<div class="carousel-item v-carousel">' +
                                                             '<div class="view">' +
-                                                                '<video class="video-fluid v-data" controls muted>' +
+                                                                '<video class="video-fluid v-data" autoplay loop muted>' +
                                                                     '<source src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/carousel/video/'+data[i].data_carousel+'" type="video/mp4" />'+
                                                                 '</video>'+
                                                             '</div>'+
