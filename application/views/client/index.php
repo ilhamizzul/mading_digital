@@ -203,7 +203,11 @@
                 const marqueeContent = document.querySelector(".marquee-content")
     
                 root.style.setProperty('--marquee-elements', marqueeContent.children.length)
-                $('.marquee-content li').siblings(':first-child').clone(true).appendTo('.marquee-content')
+                if (data.length == 1) {
+                    $('.marquee-content li').clone(true).appendTo('.marquee-content')
+                } else {
+                    $('.marquee-content li').siblings(':first-child').clone(true).appendTo('.marquee-content')
+                }
             }
             setInterval(datetime, 1000*60)
         })
