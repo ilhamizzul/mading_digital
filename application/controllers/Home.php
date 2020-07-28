@@ -23,6 +23,7 @@ class Home extends CI_Controller {
 
     public function index()
     {
+        $this->_has_login_session();
         $data['title'] = $this->session->userdata('company_name').' - Mading Digital';
         $this->load->view('client/index', $data);
     }
