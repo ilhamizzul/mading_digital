@@ -37,6 +37,17 @@ body {
     max-width: 100%; 
 }
 
+.carousel-empty {
+    background: linear-gradient(#343a40, #212529);
+    min-height : 75vh;
+    min-width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #adb5bd; 
+    display: flex;
+    font-weight: 700;
+}
+
 .v-carousel {
     max-height : 700px;
     max-width: 100%;
