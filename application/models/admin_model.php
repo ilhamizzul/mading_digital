@@ -65,6 +65,12 @@ class admin_model extends CI_Model {
         return $this->db->get($table)->row_array()[$field];
     }
 
+    public function count_active_data($tb, $where)
+    {
+        return $this->db->where($where)
+                        ->count_all_results($tb);
+    }
+
 }
 
 /* End of file admin_model.php */
