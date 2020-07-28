@@ -60,6 +60,7 @@ class Auth extends CI_Controller {
                                 'logged_in'         => TRUE,
                                 'id_user'           => $data_user['id_user'],
                                 'nama_user'         => $data_user['user_name'],
+                                'username'          => $data_user['username'],
                                 'role'              => $data_user['role'],
                                 'profile_picture'   => $data_user['profile_picture'],
                                 'id_company'        => $data_user['id_company'],
