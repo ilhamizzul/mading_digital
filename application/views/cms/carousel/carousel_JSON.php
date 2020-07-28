@@ -40,6 +40,7 @@
             $('#data_type').val(data.data_type)
             $('#data_type').text(data.data_type)
             $('#form_edit').attr('action', '<?= base_url() ?>Carousel/edit_carousel/'+id)
+            $('#id_repeater option[value='+data.id_repeater+']').attr('selected', 'selected')
             if (data.data_type == 'image') {
                 $('#data_preview').html('<img src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/carousel/image/'+data.data_carousel+'"style="max-width: 100%; height: auto;" alt="image not found">')
             } else {

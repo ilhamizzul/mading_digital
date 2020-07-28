@@ -13,12 +13,33 @@ body {
     font-weight: 500;
 }
 .navbar {
-    background-color: #a8dadc;
+    background-color: #03045e;
+    min-width: 100vw;
+}
+
+.datetime {
+    font-size:20px;
+    color: white;
+    font-weight: 700;
 }
 
 .content-wrap {
     padding-bottom: 1.5rem; 
-    height : 70vh;
+    height : 75vh;
+}
+
+.schedule {
+    height : 75vh;
+}
+
+#caousel {
+    max-height : 75vh;
+    max-width: 100%; 
+}
+
+.v-carousel {
+    max-height : 700px;
+    max-width: 100%;
 }
 
 :root {
@@ -27,7 +48,6 @@ body {
     --marquee-elements-displayed: 1;
     --marquee-element-width: calc(var(--marquee-width)/var(--marquee-elements-displayed));
     --marquee-animation-duration: calc(var(--marquee-elements)*8s); 
-
     --footer-color: #03045e;
 }
 

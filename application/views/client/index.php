@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="360">
     <title><?= $title; ?></title>
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/css/style.css">
@@ -17,7 +18,7 @@
             </a>
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <p class="navbar-link datetime" style="font-size:20px;"><span id="datetime"></span></p>
+                        <p class="navbar-link datetime"><span id="datetime"></span></p>
                     </li>
                 </ul>
         </nav>
@@ -31,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <div class="card" style="height:700px;">
+                    <div class="card schedule">
                         <div class="card-body">
                             <table class="table table-striped">
                                 <thead class="thead-dark">
@@ -94,10 +95,7 @@
                     async : true,
                     dataType : 'json',
                     success : function(data){
-                        var html = ''
-                        var i
-                        var time = ''
-                        var date = ''
+                        var html, time, date = '', i
                         if (data.length == 0) {
                             html += '<tr><td colspan="3" style="text-align:center">no incoming event</td></tr>'
                         } else {
@@ -128,7 +126,7 @@
                         var i
                         console.log(data.length)
                         if (data.length == 0) {
-                            html += '<li>no information available</li>'
+                            html += '<li>no information available</li><li>no information available</li>'
                         } else {
                             for(i=0; i<data.length; i++){
                                 if (data[i].info_type == 'news') {
@@ -171,7 +169,7 @@
                             } else {
                                 html_carousel_data +=   '<div class="carousel-item v-carousel">' +
                                                             '<div class="view">' +
-                                                                '<video class="video-fluid v-data" controls muted>' +
+                                                                '<video class="video-fluid v-data" onplay="pauseCarousel()" onended="resumeCarousel()" muted>' +
                                                                     '<source src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/carousel/video/'+data[i].data_carousel+'" type="video/mp4" />'+
                                                                 '</video>'+
                                                             '</div>'+
@@ -190,7 +188,7 @@
                     }
                 })
             }
-            
+
             function datetime() {
                 var dateNow = new Date()
                 var time = dateFormat(new Date(), "HH:MM")
@@ -206,10 +204,27 @@
                 const marqueeContent = document.querySelector(".marquee-content")
     
                 root.style.setProperty('--marquee-elements', marqueeContent.children.length)
-                $('.marquee-content').append('<li>'+data[0].description+'</li>')
+                if (data.length == 1) {
+                    $('.marquee-content li').clone(true).appendTo('.marquee-content')
+                } else {
+                    $('.marquee-content li').siblings(':first-child').clone(true).appendTo('.marquee-content')
+                }
             }
             setInterval(datetime, 1000*60)
         })
+        function pauseCarousel() {
+            $("#carousel").carousel('pause');
+        }
+        function resumeCarousel() {
+            $("#carousel").carousel('next');
+            $("#carousel").carousel({ interval : 4000});
+        }
+        $('#carousel').on('slid.bs.carousel', function () {
+            if ($('.v-carousel').hasClass('active')) {
+                $('.v-data').get(0).play()
+            }
+        })
+
     </script>
 </body>
 
