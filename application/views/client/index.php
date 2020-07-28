@@ -154,30 +154,39 @@
                         var html_carousel_indicator = ''
                         var html_carousel_data = ''
                         var i
-                        for(i=0; i<data.length; i++){
-                            html_carousel_indicator += '<li data-target="#carouselExampleIndicators" data-slide-to="'+i+'"></li>'
-                            if (data[i].data_type == "image") {
-                                html_carousel_data += '<div class="carousel-item">' +
-                                                            '<div class="view">' +
-                                                                '<img class="d-block w-100 carousel-image" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/carousel/image/'+data[i].data_carousel+'">'+
-                                                            '</div>' +
-                                                            '<div class="carousel-caption">' +
-                                                                '<h3 class="h3-responsive">'+data[i].title+'</h3>' +
-                                                                '<p>'+data[i].description+'</p>' +
-                                                            '</div>' +
-                                                        '</div>'
-                            } else {
-                                html_carousel_data +=   '<div class="carousel-item v-carousel">' +
-                                                            '<div class="view">' +
-                                                                '<video class="video-fluid v-data" onplay="pauseCarousel()" onended="resumeCarousel()" muted>' +
-                                                                    '<source src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/carousel/video/'+data[i].data_carousel+'" type="video/mp4" />'+
-                                                                '</video>'+
-                                                            '</div>'+
-                                                            '<div class="carousel-caption">' +
-                                                                '<h3 class="h3-responsive">'+data[i].title+'</h3>' +
-                                                                '<p>'+data[i].description+'</p>' +
-                                                            '</div>' +
-                                                        '</div>'
+                        if (data.length == 0) {
+                            html_carousel_indicator += '<li data-target="#carouselExampleIndicators" data-slide-to="0"></li>'
+                            html_carousel_data += '<div class="col-md-12 carousel-item">' +
+                                                        '<div class="carousel-empty">' +
+                                                            '<h2>No Data Available</h2>'
+                                                        '</div>' +
+                                                    '</div>'
+                        } else {
+                            for(i=0; i<data.length; i++){
+                                html_carousel_indicator += '<li data-target="#carouselExampleIndicators" data-slide-to="'+i+'"></li>'
+                                if (data[i].data_type == "image") {
+                                    html_carousel_data += '<div class="carousel-item">' +
+                                                                '<div class="view">' +
+                                                                    '<img class="d-block w-100 carousel-image" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/carousel/image/'+data[i].data_carousel+'">'+
+                                                                '</div>' +
+                                                                '<div class="carousel-caption">' +
+                                                                    '<h3 class="h3-responsive">'+data[i].title+'</h3>' +
+                                                                    '<p>'+data[i].description+'</p>' +
+                                                                '</div>' +
+                                                            '</div>'
+                                } else {
+                                    html_carousel_data +=   '<div class="carousel-item v-carousel">' +
+                                                                '<div class="view">' +
+                                                                    '<video class="video-fluid v-data" onplay="pauseCarousel()" onended="resumeCarousel()" muted>' +
+                                                                        '<source src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name') ?>/carousel/video/'+data[i].data_carousel+'" type="video/mp4" />'+
+                                                                    '</video>'+
+                                                                '</div>'+
+                                                                '<div class="carousel-caption">' +
+                                                                    '<h3 class="h3-responsive">'+data[i].title+'</h3>' +
+                                                                    '<p>'+data[i].description+'</p>' +
+                                                                '</div>' +
+                                                            '</div>'
+                                }
                             }
                         }
                         $('.carousel-inner').html(html_carousel_data)
