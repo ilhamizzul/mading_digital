@@ -18,6 +18,14 @@ class User_account extends CI_Controller {
         $this->form_validation->set_rules('new_password', 'New Password', 'required');
     }
 
+    public function _upload_config()
+    {
+        $config['upload_path'] = './uploads/'.$this->session->userdata('company_name').'/user/'.$this->session->userdata('username');
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        
+        $this->load->library('upload', $config);
+    }
+
     private function _has_login_session()
     {
         if($this->session->has_userdata('logged_in')) {
@@ -66,6 +74,33 @@ class User_account extends CI_Controller {
             
         } else {
             $this->session->set_flashdata('failed', validation_errors());
+            redirect('User_Account');
+        }
+        
+    }
+
+    public function change_profile_picture()
+    {
+        $this->_has_login_session();
+        $this->_upload_config();
+        
+        if ($this->upload->do_upload('profile_picture')) {
+
+            $data = array('profile_picture' => $this->upload->data()['file_name']);
+
+            if ($this->admin->update('tb_user', 'id_user', $this->session->userdata('id_user'), $data)) {
+                unlink('./uploads/'.$this->session->userdata('company_name').'/user/'.$this->session->userdata('username').'/'.$this->session->userdata('profile_picture'));
+                $this->session->set_userdata('profile_picture', $this->upload->data()['file_name']);
+                $this->session->set_flashdata('success', 'Update profile picture success!');
+                redirect('User_Account');
+            } else {
+                unlink('./uploads/'.$this->session->userdata('company_name').'/user/'.$this->session->userdata('username').'/'.$this->input->post('profile_picture'));
+                $this->session->set_flashdata('failed', 'Update profile picture failed!');
+                redirect('User_Account');
+            }
+            
+        } else {
+            $this->session->set_flashdata('failed', $this->upload->display_errors());
             redirect('User_Account');
         }
         

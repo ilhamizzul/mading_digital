@@ -15,7 +15,7 @@
                     <?php if($this->session->userdata('profile_picture') == null): ?>
                         <img class="img-profile rounded-circle img-fluid img-thumbnail w-50 mx-auto d-block" src="<?= base_url() ?>assets/CMS/img/default_user.webp">
                     <?php else: ?>
-                        <img class="img-profile rounded-circle img-fluid img-thumbnail w-50 mx-auto d-block" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $data_account['profile_picture'] ?>">
+                        <img class="img-profile rounded-circle img-fluid img-thumbnail w-50 mx-auto d-block" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $data_account['username'] ?>/<?= $data_account['profile_picture'] ?>">
                     <?php endif; ?>
                     <h4 class="h3 text-center mt-2 font-weight-bold text-primary">
                         <?= $data_account['user_name'] ?>
@@ -26,7 +26,7 @@
                     <?php if($data_account['profile_picture'] == null): ?>
                         <img class="img-profile rounded-circle img-fluid img-thumbnail" width="10%" src="<?= base_url() ?>assets/CMS/img/default_user.webp">
                     <?php else: ?>
-                        <img class="img-profile rounded-circle img-fluid img-thumbnail" width="10%" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $data_account['profile_picture'] ?>">
+                        <img class="img-profile rounded-circle img-fluid img-thumbnail" width="10%" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $data_account['username'] ?>/<?= $data_account['profile_picture'] ?>">
                     <?php endif; ?>
                     <button class="ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target="#change_picture">Change Profile Picture</button>
                     <hr>
@@ -102,13 +102,13 @@
 				</button>
 			</div>
 			<div class="modal-body">
-                <?php if($this->session->userdata('profile_picture') == null): ?>
+                <?php if($data_account['profile_picture'] == null): ?>
                     <img class="img-profile rounded-circle img-fluid img-thumbnail w-50 mx-auto d-block" src="<?= base_url() ?>assets/CMS/img/default_user.webp">
                 <?php else: ?>
-                    <img class="img-profile rounded-circle img-fluid img-thumbnail w-50 mx-auto d-block" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $data_account['profile_picture'] ?>">
+                    <img class="img-profile rounded-circle img-fluid img-thumbnail w-50 mx-auto d-block" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $data_account['username'] ?>/<?= $data_account['profile_picture'] ?>">
                 <?php endif; ?>
                 <h4 class="h6 text-center mt-2 font-weight-bold text-primary">Current Profile Picture</h4>
-				<form action="<?= base_url()?>User_account/change_profile_picture" method="post" id="form_change_picture">
+				<form action="<?= base_url()?>User_account/change_profile_picture" method="post" id="form_change_picture" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Upload Profile Picture</label>
                         <input type="file" class="form-control" name="profile_picture">
