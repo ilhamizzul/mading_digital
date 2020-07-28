@@ -31,7 +31,7 @@
                     <button class="ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target="#change_picture">Change Profile Picture</button>
                     <hr>
                     <h4 class="h5 font-weight-bold text-primary">Biodata</h4>
-                    <form action="<?= base_url()?>User_account/" method="post" id="form_create_user">
+                    <form action="<?= base_url()?>User_account/update_profile" method="post" id="form_update_profile">
                         <div class="form-group">
                             <label>Full Name</label>
                             <input type="text" class="form-control" value="<?= $data_account['user_name'] ?>" name="user_name">
@@ -53,7 +53,7 @@
                     <h4 class="h5 font-weight-bold text-primary">Password</h4>
                     <button class="ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target="#change_password">Change Password</button>
                     <hr>
-                    <button type="submit" id="create_button" class="btn btn-primary text-center">Update Profile</button>
+                    <button type="submit" id="btn_update_profile" class="btn btn-primary text-center">Update Profile</button>
                     <a href="<?= base_url() ?>Dashboard" class="btn btn-secondary text-center" >Cancel</a>
                 </div>
             </div>
@@ -75,11 +75,11 @@
 				<form action="<?= base_url()?>User_account/change_password" method="post" id="form_change_password">
                     <div class="form-group">
                         <label>Old Password</label>
-                        <input type="password" class="form-control" name="user_name">
+                        <input type="password" class="form-control" name="old_password">
                     </div>
                     <div class="form-group">
                         <label>New Password</label>
-                        <input type="password" class="form-control" name="user_name">
+                        <input type="password" class="form-control" name="new_password">
                     </div>
                 </form>
 			</div>
