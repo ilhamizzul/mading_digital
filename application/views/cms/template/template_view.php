@@ -269,7 +269,7 @@
                                     <?php if($this->session->userdata('profile_picture') == null): ?>
                                         <img class="img-profile rounded-circle" src="<?= base_url() ?>assets/CMS/img/default_user.webp">
                                     <?php else: ?>
-                                        <img class="img-profile rounded-circle" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $data_account['username'] ?>/<?= $this->session->userdata('profile_picture') ?>">
+                                        <img class="img-profile rounded-circle" src="<?= base_url() ?>uploads/<?= $this->session->userdata('company_name')?>/user/<?= $this->session->userdata('username')?>/<?= $this->session->userdata('profile_picture') ?>">
                                     <?php endif; ?>
                                 </a>
                                 <!-- Dropdown - User Information -->
