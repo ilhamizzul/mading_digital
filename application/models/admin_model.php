@@ -65,6 +65,18 @@ class admin_model extends CI_Model {
         return $this->db->get($table)->row_array()[$field];
     }
 
+    public function count_all_users()
+    {
+        return $this->db->where('id_company' , $this->session->userdata('id_company'))
+                        ->count_all_results('tb_user');
+    }
+
+    public function count_all_active_users()
+    {
+        return $this->db->where(['id_company' => $this->session->userdata('id_company'), 'active' => 'true'])
+                        ->count_all_results('tb_user');
+    }
+
 }
 
 /* End of file admin_model.php */

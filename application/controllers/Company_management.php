@@ -48,6 +48,8 @@ class Company_management extends CI_Controller {
         $this->_is_owner();
         $data['title'] = $this->session->userdata('company_name').' - Company Setting';
         $data['main_view'] = 'cms/company/company_view';
+        $data['count_users'] = $this->admin->count_all_users();
+        $data['count_active_users'] = $this->admin->count_all_active_users();
         $data['data_company'] = $this->admin->get('tb_company', ['id_company' => $this->session->userdata('id_company')]);
         $data['JSON'] = 'cms/company/company_JSON';
         $this->load->view('cms/template/template_view', $data);
