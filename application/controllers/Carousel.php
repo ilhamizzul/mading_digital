@@ -80,7 +80,7 @@ class Carousel extends CI_Controller {
     {
         $this->_has_login_session();
         $data['title']          = $this->session->userdata('company_name'). ' - Data Carousel';
-        $data['data_carousel']  = $this->admin->get('tb_carousel', null, ['id_company' => $this->session->userdata('id_company')]);
+        $data['data_carousel']  = $this->admin->get_all_carousels();
         $data['main_view']      = 'cms/carousel/carousel_view';
         $data['data_repeater'] = $this->admin->get('tb_repeater');
         $data['JSON']           = 'cms/carousel/carousel_JSON';

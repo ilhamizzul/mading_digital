@@ -28,6 +28,7 @@
 						<th>Title</th>
 						<th>Description</th>
 						<th>Data Type</th>
+						<th>Repeated By</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -49,8 +50,9 @@
                             <?php endif; ?>
 						</td>
 						<td><?= $data['title']?></td>
-						<td><?= $data['description'] ?></td>
+						<td><?= $data['carousel_description'] ?></td>
 						<td><?= $data['data_type'] ?></td>
+						<td><?= $data['repeater'] ?></td>
 						<td>
 							<button
 								class="btn btn-circle btn-sm <?= $data['active'] == 'true' ? 'btn-success' : 'btn-secondary' ?>"
