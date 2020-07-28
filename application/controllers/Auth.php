@@ -52,28 +52,38 @@ class Auth extends CI_Controller {
                     $data_user = $this->auth->get_data_user($input['username'], $user_account['password']);
                     if ($data_user['active'] == 'true') {
 
-                        $data_user = array(
-                            'logged_in'         => TRUE,
-                            'id_user'           => $data_user['id_user'],
-                            'nama_user'         => $data_user['user_name'],
-                            'role'              => $data_user['role'],
-                            'id_company'        => $data_user['id_company'],
-                            'company_name'      => $data_user['company_name'],
-                            'company_logo'      => $data_user['company_logo']
-                        );
-                        
-                        $this->session->set_userdata( $data_user );
+                        if ($data_user['onLogin'] == true) {
+                            $this->session->set_flashdata('failed', 'User Account have been used now!');
+                            redirect('Auth');
+                        } else {
+                            $data_user = array(
+                                'logged_in'         => TRUE,
+                                'id_user'           => $data_user['id_user'],
+                                'nama_user'         => $data_user['user_name'],
+                                'role'              => $data_user['role'],
+                                'id_company'        => $data_user['id_company'],
+                                'company_name'      => $data_user['company_name'],
+                                'company_logo'      => $data_user['company_logo']
+                            );
+                            
+                            $this->session->set_userdata( $data_user );
 
-                        $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
-                        redirect('Dashboard');
+                            $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => true]);
+
+                            $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
+                            redirect('Dashboard');
+                        }
+
                     } else {
                         $this->session->set_flashdata('failed', 'User Account still not active, Please call admin for user activation!');
                         redirect('Auth');
                     }
+
                 } else {
                     $this->session->set_flashdata('failed', 'Incorrect password account!');
                     redirect('Auth');    
                 }
+
             } else {
                 $this->session->set_flashdata('failed', 'Username account not found!');
                 redirect('Auth');
@@ -84,6 +94,7 @@ class Auth extends CI_Controller {
 
     public function logout()
     {
+        $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => false]);
         $this->session->sess_destroy();
         redirect('Auth','refresh');
     }
