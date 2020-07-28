@@ -35,6 +35,13 @@ class Company_management extends CI_Controller {
         }
     }
 
+    public function _company_validation()
+    {
+        $this->form_validation->set_rules('company_name', 'Company Name', 'required|min_length[5]|max_length[40]');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[5]|max_length[35]');
+        $this->form_validation->set_rules('address', 'Address', 'trim|required|min_length[5]|max_length[250]');
+    }
+
     public function index()
     {
         $this->_has_login_session();
@@ -72,7 +79,34 @@ class Company_management extends CI_Controller {
         }
     }
 
+    public function update_company()
+    {
+        $this->_has_login_session();
+        $this->_company_validation();
+        if ($this->form_validation->run() == TRUE) {
+            $data = $this->input->post(null, TRUE);
+            if ($this->admin->update('tb_company', 'id_company', $this->session->userdata('id_company'), $data)) {
+                
+                if ($this->input->post('company_name') != $this->session->userdata('company_name')) {
+                    $oldDir = './uploads/'.$this->session->userdata('company_name');
+                    $newDir = './uploads/'.$this->input->post('company_name');
+                    rename($oldDir, $newDir);
+                    $this->session->set_userdata('company_name', $this->input->post('company_name'));
+                }
 
+                $this->session->set_flashdata('success', 'Update company success!');
+                redirect('Company_management');
+            } else {
+                $this->session->set_flashdata('failed', 'Update company failed!');
+                redirect('Company_management');
+            }
+            
+        } else {
+            $this->session->set_flashdata('failed', $this->upload->display_errors());
+            redirect('Company_management');
+        }
+        
+    }
 
 }
 
