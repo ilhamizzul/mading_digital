@@ -18,6 +18,14 @@ class User_account extends CI_Controller {
         $this->form_validation->set_rules('new_password', 'New Password', 'required');
     }
 
+    public function _profile_validation()
+    {
+        $this->form_validation->set_rules('user_name', 'Full Name', 'required|min_length[5]|max_length[40]');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[25]');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[5]|max_length[35]');
+        $this->form_validation->set_rules('address', 'Address', 'trim|required|min_length[5]|max_length[250]');
+    }
+
     public function _upload_config()
     {
         $config['upload_path'] = './uploads/'.$this->session->userdata('company_name').'/user/'.$this->session->userdata('username');
@@ -96,6 +104,37 @@ class User_account extends CI_Controller {
             } else {
                 unlink('./uploads/'.$this->session->userdata('company_name').'/user/'.$this->session->userdata('username').'/'.$this->input->post('profile_picture'));
                 $this->session->set_flashdata('failed', 'Update profile picture failed!');
+                redirect('User_Account');
+            }
+            
+        } else {
+            $this->session->set_flashdata('failed', $this->upload->display_errors());
+            redirect('User_Account');
+        }
+    }
+
+    public function update_profile()
+    {
+        $this->_has_login_session();
+        $this->_profile_validation();
+        $get_data = $this->admin->get('tb_user', ['id_user' => $this->session->userdata('id_user')]);
+        if ($this->form_validation->run() == TRUE) {
+            $data = $this->input->post(null, TRUE);
+            if ($this->admin->update('tb_user', 'id_user', $this->session->userdata('id_user'), $data)) {
+                if ($this->input->post('username') != $this->session->userdata('username')) {
+                    $oldDir = './uploads/'.$this->session->userdata('company_name').'/user/'.$this->session->userdata('username').'/';
+                    $newDir = './uploads/'.$this->session->userdata('company_name').'/user/'.$this->input->post('username').'/';
+                    rename($oldDir, $newDir);
+                    $this->session->set_userdata('username', $this->input->post('username'));
+                }
+                if ($this->input->post('user_name') != $this->session->userdata('nama_user')) {
+                    $this->session->set_userdata('nama_user', $this->input->post('user_name'));
+                }
+
+                $this->session->set_flashdata('success', 'Update profile success!');
+                redirect('User_Account');
+            } else {
+                $this->session->set_flashdata('failed', 'Update profile failed!');
                 redirect('User_Account');
             }
             
