@@ -76,7 +76,7 @@
                         <i class="fas fa-fw fa-info-circle"></i>
                         <span>Data Event</span></a>
                 </li>
-
+                <?php if ($this->session->userdata('role') == 'owner'):?>
                 <hr class="sidebar-divider">
 
                 <div class="sidebar-heading">
@@ -94,6 +94,7 @@
                         <i class="fas fa-fw fa-building"></i>
                         <span>Company Management</span></a>
                 </li>
+                <?php endif; ?>
 
                 <hr class="sidebar-divider d-none d-md-block">
 
