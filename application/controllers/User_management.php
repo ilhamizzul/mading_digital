@@ -67,6 +67,7 @@ class User_management extends CI_Controller {
             );
 
             if ($this->admin->insert('tb_user', $data) == TRUE) {
+                mkdir('./uploads/'.$this->session->userdata('company_name').'/user/'.$this->input->post('username'));
                 $this->session->set_flashdata('success', 'New user has been added!');
                 redirect('User_management');
             } else {
