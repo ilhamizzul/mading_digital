@@ -46,6 +46,16 @@ class admin_model extends CI_Model {
                 ->result_array();   
     }
 
+    public function get_all_carousels()
+    {
+        return $this->db->select('id_carousel, tb_carousel.description as carousel_description, tb_repeater.description as repeater, title, data_type, data_carousel, active, id_company')
+                ->from('tb_carousel')
+                ->join('tb_repeater', 'tb_repeater.id_repeater = tb_carousel.id_repeater')
+                ->where('id_company', $this->session->userdata('id_company'))
+                ->get()
+                ->result_array();   
+    }
+
     public function getMax($table, $field, $code = null)
     {
         $this->db->select_max($field);

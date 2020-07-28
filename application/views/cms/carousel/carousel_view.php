@@ -28,6 +28,7 @@
 						<th>Title</th>
 						<th>Description</th>
 						<th>Data Type</th>
+						<th>Repeated By</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -49,8 +50,9 @@
                             <?php endif; ?>
 						</td>
 						<td><?= $data['title']?></td>
-						<td><?= $data['description'] ?></td>
+						<td><?= $data['carousel_description'] ?></td>
 						<td><?= $data['data_type'] ?></td>
+						<td><?= $data['repeater'] ?></td>
 						<td>
 							<button
 								class="btn btn-circle btn-sm <?= $data['active'] == 'true' ? 'btn-success' : 'btn-secondary' ?>"
@@ -94,8 +96,13 @@
 					</div>
 					<div class="form-row">
 						<div class="form-group col">
-							<label>Upload File</label>
-							<input type="file" class="form-control" name="data_carousel">
+							<label>Repeated By</label>
+							<select class="form-control" name="id_repeater">
+								<option value="">Chose...</option>
+								<?php foreach ($data_repeater as $data) :?>
+								<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
+								<?php endforeach; ?>
+							</select>
 						</div>
 						<div class="form-group col">
 							<label>Data Type</label>
@@ -105,6 +112,10 @@
 								<option value="video">Video</option>
 							</select>
 						</div>
+					</div>
+					<div class="form-group">
+						<label>Upload File</label>
+						<input type="file" class="form-control" name="data_carousel">
 					</div>
 				</form>
 			</div>
@@ -138,17 +149,26 @@
                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col">
-                                <label>Upload File</label>
-                                <input type="file" class="form-control" name="data_carousel">
-                            </div>
+							<div class="form-group col">
+								<label>Repeated By</label>
+								<select class="form-control" id="id_repeater" name="id_repeater">
+									<option value="">Chose...</option>
+									<?php foreach ($data_repeater as $data) :?>
+									<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
                             <div class="form-group col">
                                 <label>Data Type</label>
                                 <select class="form-control" name="data_type">
                                     <option value="" id="data_type" selected></option>
                                 </select>
                             </div>
-                        </div>
+						</div>
+						<div class="form-group">
+							<label>Upload File</label>
+							<input type="file" class="form-control" name="data_carousel">
+						</div>
                     </form>
                     <div class="col card">
                         <div class="card-img-top" id="data_preview">
