@@ -23,7 +23,7 @@ class Company_management extends CI_Controller {
         if($this->session->has_userdata('logged_in')) {
             return TRUE;
         } else {
-            $this->session->set_flashdata('failed', 'User login session has ended! Please login again');
+            $this->session->set_flashdata('failed', 'company login session has ended! Please login again');
             redirect('Auth');
         }
     }
@@ -39,12 +39,40 @@ class Company_management extends CI_Controller {
     {
         $this->_has_login_session();
         $this->_is_owner();
-        $data['title'] = $this->session->userdata('company_name').'- Company Setting';
+        $data['title'] = $this->session->userdata('company_name').' - Company Setting';
         $data['main_view'] = 'cms/company/company_view';
         $data['data_company'] = $this->admin->get('tb_company', ['id_company' => $this->session->userdata('id_company')]);
         $data['JSON'] = 'cms/company/company_JSON';
         $this->load->view('cms/template/template_view', $data);
     }
+
+    public function change_company_logo()
+    {
+        $this->_has_login_session();
+        $this->_upload_config();
+        
+        if ($this->upload->do_upload('company_logo')) {
+
+            $data = array('company_logo' => $this->upload->data()['file_name']);
+
+            if ($this->admin->update('tb_company', 'id_company', $this->session->userdata('id_company'), $data)) {
+                unlink('./uploads/'.$this->session->userdata('company_name').'/company/'.$this->session->userdata('company_logo'));
+                $this->session->set_userdata('company_logo', $this->upload->data()['file_name']);
+                $this->session->set_flashdata('success', 'Update company logo success!');
+                redirect('Company_management');
+            } else {
+                unlink('./uploads/'.$this->session->userdata('company_name').'/company/'.$this->input->post('company_logo'));
+                $this->session->set_flashdata('failed', 'Update company logo failed!');
+                redirect('Company_management');
+            }
+            
+        } else {
+            $this->session->set_flashdata('failed', $this->upload->display_errors());
+            redirect('Company_management');
+        }
+    }
+
+
 
 }
 
