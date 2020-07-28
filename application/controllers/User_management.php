@@ -16,7 +16,7 @@ class User_management extends CI_Controller {
         if($this->session->has_userdata('logged_in')) {
             return TRUE;
         } else {
-            $this->session->set_flashdata('failed', 'Masa waktu login berakhir! Silahkan login kembali');
+            $this->session->set_flashdata('failed', 'User login session has ended! Please login again');
             redirect('Auth');
         }
     }
@@ -70,7 +70,7 @@ class User_management extends CI_Controller {
                 $this->session->set_flashdata('success', 'New user has been added!');
                 redirect('User_management');
             } else {
-                $this->session->set_flashdata('success', 'New user failed to add! Try again');
+                $this->session->set_flashdata('failed', 'New user failed to add! Try again');
                 redirect('User_management');
             }
             

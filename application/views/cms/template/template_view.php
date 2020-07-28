@@ -37,7 +37,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url() ?>Dashboard">
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
                     </div>
@@ -49,47 +49,52 @@
                 <div class="sidebar-heading">
                     Navigation
                 </div>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Dashboard') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url() ?>Dashboard">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url() ?>Home" target="_blank">
+                        <i class="fas fa-fw fa-home"></i>
+                        <span>Client View</span></a>
+                </li>
                 <hr class="sidebar-divider">
 
                 <div class="sidebar-heading">
                     Information
                 </div>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Carousel') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url('Carousel') ?>">
+                        <i class="fas fa-fw fa-file-image"></i>
                         <span>Data Carousel</span></a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Event') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url('Event') ?>">
+                        <i class="fas fa-fw fa-info-circle"></i>
                         <span>Data Event</span></a>
                 </li>
-
+                <?php if ($this->session->userdata('role') == 'owner'):?>
                 <hr class="sidebar-divider">
 
                 <div class="sidebar-heading">
                     Control Settings
                 </div>
 
-                <li class="nav-item">
+                <li class="nav-item <?php if($this->uri->segment(1) == 'User_management') {echo 'active';}; ?>">
                     <a class="nav-link" href="<?= base_url('User_management') ?>">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <i class="fas fa-fw fa-users"></i>
                         <span>Employee Account Management</span></a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Company_management') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url() ?>Company_management">
+                        <i class="fas fa-fw fa-building"></i>
                         <span>Company Management</span></a>
                 </li>
+                <?php endif; ?>
 
                 <hr class="sidebar-divider d-none d-md-block">
 

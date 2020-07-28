@@ -17,6 +17,12 @@ class auth_model extends CI_Model {
                         ->row_array();
     }
 
+    public function toggleLoginStatus($id, $data)
+    {
+        return $this->db->where('id_user', $id)
+                        ->update('tb_user', $data);   
+    }
+
 }
 
 /* End of file auth_model.php */
