@@ -7,20 +7,12 @@
 				</h4>
 			</div>
 			<div class="col-auto">
-				<a href="" class="btn btn-sm btn-danger btn-icon-split" data-toggle="modal" data-target="#Insert">
-					<span class="icon">
-						<i class="fa fa-info"></i>
-					</span>
-					<span class="text">
-						View Outdate Active Event
-					</span>
-				</a>
 				<button class="btn btn-sm btn-primary btn-icon-split" data-toggle="modal" data-target="#Insert">
 					<span class="icon">
-						<i class="fa fa-plus"></i>
+						<i class="fa fa-backward"></i>
 					</span>
 					<span class="text">
-						Add New Event
+						Back
 					</span>
 				</button>
 			</div>
@@ -67,103 +59,6 @@
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		</div>
-	</div>
-</div>
-<!-- MODAL INSERT -->
-<div class="modal fade" id="Insert" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Add New Event</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form action="<?= base_url()?>Event/add_new_event" method="post" id="form_create"
-					enctype="multipart/form-data">
-					<div class="form-group">
-						<label>Description</label>
-						<input type="text" class="form-control" name="description">
-					</div>
-					<div class="form-row">
-						<div class="form-group col">
-                            <label>Due Date</label>
-                            <input class="form-control dateTimePicker" name="due_date">
-                        </div>
-						<div class="form-group col">
-							<label>Info Type</label>
-							<select class="form-control type" name="info_type">
-								<option value="">Chose...</option>
-								<option value="event">Event</option>
-                                <option value="slogan">Slogan</option>
-                                <option value="news">News</option>
-							</select>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" id="create_button" class="btn btn-primary">Submit</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- MODAL EDIT -->
-<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Edit <span class="info_type"></span></h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form action="" method="post" id="form_edit" enctype="multipart/form-data">
-					<div class="form-group">
-						<label>Description</label>
-						<input type="text" class="form-control" id="description" name="description">
-					</div>
-					<div class="form-row">
-                        <div class="form-group col">
-                            <label>Location</label>
-                            <input type="text" class="form-control" id="location" name="location">
-                        </div>
-                        <div class="form-group col">
-                            <label>Due Date</label>
-                            <input class="form-control dateTimePicker" id="due_date" name="due_date">
-                        </div>
-                    </div>
-					<div class="form-row">
-                        <div class="form-group col">
-							<label>Repeated By</label>
-							<select class="form-control" id="id_repeater" name="id_repeater">
-                                <option value="">Chose...</option>
-                                <?php foreach ($data_repeater as $data) : ?>
-								    <option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
-                                <?php endforeach; ?>
-							</select>
-						</div>
-						<div class="form-group col">
-							<label>Info Type</label>
-							<select class="form-control" id="info_type" name="info_type">
-								<option value="">Chose...</option>
-								<option value="event">Event</option>
-                                <option value="slogan">Slogan</option>
-                                <option value="news">News</option>
-							</select>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" id="edit_button" class="btn btn-warning">Submit</button>
-			</div>
 		</div>
 	</div>
 </div>
