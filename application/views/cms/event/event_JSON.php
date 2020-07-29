@@ -52,6 +52,16 @@
         })
     }).change()
 
+    $('#info_type').change( function () {
+        $(this).find("option:selected").each(function(){ 
+            if ($(this).attr("value") != 'event') {
+                $('#location').attr('disabled', 'disabled')
+            } else {
+                $('#location').removeAttr('disabled')
+            }
+        })
+    }).change()
+
     $('.dateTimePicker').datetimepicker({ 
         footer: true, 
         modal: true,
@@ -90,6 +100,11 @@
             $('#info_type').val(data.info_type)
             $('#id_repeater').val(data.id_repeater)
             $('#form_edit').attr('action', '<?= base_url() ?>Event/edit_event/'+id)
+            if (data.info_type != 'event') {
+                $('#location').attr('disabled', 'disabled')
+            } else {
+                $('#location').removeAttr('disabled')
+            }
         })
     }
 </script>
