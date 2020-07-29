@@ -29,7 +29,6 @@
 						<th>Due Date</th>
                         <th>Info Type</th>
                         <th>Repeated By</th>
-						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,19 +41,6 @@
 						<td><?= $data['due_date'] ?></td>
                         <td><?= $data['info_type'] ?></td>
                         <td><?= $data['repeater'] ?></td>
-						<td>
-							<button
-								class="btn btn-circle btn-sm <?= $data['active'] == 'true' ? 'btn-success' : 'btn-secondary' ?>"
-								title="<?= $data['active'] == 'true' ? 'Hide Event' : 'Show Event' ?>"
-								onclick="toggleEvent('<?= $data['id_info'] ?>')" data-toggle="modal"
-								data-target="#dataToggleActivation"><i class="fa fa-fw fa-power-off"></i></button>
-							<button class="btn btn-circle btn-sm <?= ($data['active'] == 'true') ? 'btn-secondary' : 'btn-warning'?>" title="Edit Event" <?= ($data['active'] == 'true') ? 'disabled' : ''?> onclick="editEvent('<?= $data['id_info'] ?>')"
-								data-toggle="modal" data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button>
-							<button
-								class="btn btn-circle btn-sm <?= ($data['active'] == 'true') ? 'btn-secondary' : 'btn-danger'?>"
-								title="Delete Event" <?= ($data['active'] == 'true') ? 'disabled' : ''?> onclick="deleteEvent('<?= $data['id_info'] ?>')"
-								data-toggle="modal" data-target="#delete"><i class="fa fa-fw fa-trash"></i></button>
-						</td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
