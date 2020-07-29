@@ -15,7 +15,7 @@ class client_model extends CI_Model {
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
-                                        'DATE_FORMAT(activedAt,\'Y-m-d\')' => date('Y-m-d'),
+                                        'DATE_FORMAT(activedAt,"%Y-%m-%d")' => date('Y-m-d'),
                                         'id_repeater' => 'RE001'
                                     ])->where($where)->get_compiled_select();
         
@@ -31,7 +31,7 @@ class client_model extends CI_Model {
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
-                                        'DATE_FORMAT(activedAt,\'l\')' => date('l'),
+                                        'DATE_FORMAT(activedAt,"%W")' => date('l'),
                                         'id_repeater' => 'RE003'
                                     ])->where($where)->get_compiled_select();
 
@@ -39,7 +39,7 @@ class client_model extends CI_Model {
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
-                                        'DATE_FORMAT(activedAt,\'d\')' => date('d'),
+                                        'DATE_FORMAT(activedAt,"%d")' => date('d'),
                                         'id_repeater' => 'RE004'
                                     ])->where($where)->get_compiled_select();
                                     
@@ -47,8 +47,8 @@ class client_model extends CI_Model {
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
-                                        'DATE_FORMAT(activedAt,\'Y\') <' => date('Y'),
-                                        'DATE_FORMAT(activedAt,\'m-d\')' => date('m-d'),
+                                        'DATE_FORMAT(activedAt,"%Y") <' => date('Y'),
+                                        'DATE_FORMAT(activedAt,"%m-%d")' => date('m-d'),
                                         'id_repeater' => 'RE004'
                                     ])->where($where)->get_compiled_select();
 
