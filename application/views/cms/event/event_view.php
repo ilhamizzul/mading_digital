@@ -7,7 +7,7 @@
 				</h4>
 			</div>
 			<div class="col-auto">
-				<a href="" class="btn btn-sm btn-danger btn-icon-split" data-toggle="modal" data-target="#Insert">
+				<a href="<?= base_url() ?>Event/outdate_event" class="btn btn-sm btn-danger btn-icon-split">
 					<span class="icon">
 						<i class="fa fa-info"></i>
 					</span>

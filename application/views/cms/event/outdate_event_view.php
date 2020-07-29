@@ -3,11 +3,11 @@
 		<div class="row">
 			<div class="col">
 				<h4 class="h5 align-middle m-0 font-weight-bold text-primary">
-					Data Event
+					Outdate Data Event
 				</h4>
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-sm btn-primary btn-icon-split" data-toggle="modal" data-target="#Insert">
+				<button class="btn btn-sm btn-primary btn-icon-split" onclick="history.back();">
 					<span class="icon">
 						<i class="fa fa-backward"></i>
 					</span>

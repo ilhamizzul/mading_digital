@@ -83,6 +83,15 @@ class Event extends CI_Controller {
         $this->load->view('cms/template/template_view', $data);
     }
 
+    public function outdate_event()
+    {
+        $this->_has_login_session();
+        $data['title']      = $this->session->userdata('company_name').' - Outdate Data Event';
+        $data['main_view']  = 'cms/event/outdate_event_view';
+        $data['JSON']       = 'cms/event/event_JSON';
+        $this->load->view('cms/template/template_view', $data);
+    }
+
     public function add_new_event()
     {
         $this->_has_login_session();
