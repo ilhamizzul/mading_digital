@@ -134,23 +134,29 @@ class Event extends CI_Controller {
         echo json_encode($this->admin->get('tb_info', ['id_info' => $id]));
     }
 
-    public function toggle_event($id, $active_status)
+    public function toggle_event($id)
     {
         $get_data = $this->admin->get('tb_info', ['id_info' => $id]);
-        if ($active_status == 'true') {
+        if ($get_data['active'] == 'true') {
             $data = array('active' => 'false' );
         } else {
             $data = array('active' => 'true' );
         }
-
-        if($this->admin->update('tb_info', 'id_info', $id, $data) == TRUE ){
-            $this->_pusher($get_data['info_type']);
-            $this->session->set_flashdata('success', 'Toggle data info sucess!');
+        // if data is pass due date (EXPIRED) and data active status is false
+        if (($get_data['due_date'] < date('Y-m-d H:i:s')) && ($get_data['active'] == 'false')) {
+            $this->session->set_flashdata('failed', 'You can not activate data where the data is pass due date!');
             redirect('Event');
         } else {
-            $this->session->set_flashdata('failed', 'Toggle data info failed! Try again');
-            redirect('Event');
+            if($this->admin->update('tb_info', 'id_info', $id, $data) == TRUE ){
+                $this->_pusher($get_data['info_type']);
+                $this->session->set_flashdata('success', 'Toggle data info sucess!');
+                redirect('Event');
+            } else {
+                $this->session->set_flashdata('failed', 'Toggle data info failed! Try again');
+                redirect('Event');
+            }
         }
+        
     }
 
     public function edit_event($id)

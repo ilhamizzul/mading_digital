@@ -73,7 +73,7 @@
         $.getJSON('<?= base_url() ?>Event/get_event_by_id/' + id, (data) => { 
             $('.id_info').html(data.id_info)
             $('.info_type').html(data.info_type)    
-            $('#activate').attr('href', '<?= base_url() ?>Event/toggle_event/'+id+'/'+data.active)
+            $('#activate').attr('href', '<?= base_url() ?>Event/toggle_event/'+id)
             if (data.active == 'true') {
                 $('.active_status').html('Unactivate')    
             } else {
