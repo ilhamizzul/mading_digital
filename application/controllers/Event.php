@@ -90,16 +90,30 @@ class Event extends CI_Controller {
 
         $input = $this->input->post(NULL, TRUE);
         if ($this->form_validation->run() == TRUE) {
-            $data = array(
-                'id_info'       => $this->_generateId($input['info_type']),
-                'description'   => $this->input->post('description'),
-                'location'      => $this->input->post('location'),
-                'due_date'      => $this->_to_date($this->input->post('due_date')),
-                'id_repeater'   => $this->input->post('id_repeater'),
-                'info_type'     => $this->input->post('info_type'),
-                'active'        => 'false',
-                'id_company'    => $this->session->userdata('id_company')
-            );
+            if ($this->input->post('info_type') != 'event') {
+                $data = array(
+                    'id_info'       => $this->_generateId($input['info_type']),
+                    'description'   => $this->input->post('description'),
+                    'location'      => '-',
+                    'due_date'      => $this->_to_date($this->input->post('due_date')),
+                    'id_repeater'   => $this->input->post('id_repeater'),
+                    'info_type'     => $this->input->post('info_type'),
+                    'active'        => 'false',
+                    'id_company'    => $this->session->userdata('id_company')
+                );
+            } else {
+                $data = array(
+                    'id_info'       => $this->_generateId($input['info_type']),
+                    'description'   => $this->input->post('description'),
+                    'location'      => $this->input->post('location'),
+                    'due_date'      => $this->_to_date($this->input->post('due_date')),
+                    'id_repeater'   => $this->input->post('id_repeater'),
+                    'info_type'     => $this->input->post('info_type'),
+                    'active'        => 'false',
+                    'id_company'    => $this->session->userdata('id_company')
+                );
+            }
+            
             if ($this->admin->insert('tb_info', $data)) {
                 $this->session->set_flashdata('success', 'Add new '.$input['info_type'].' success!');
                 redirect('Event');

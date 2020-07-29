@@ -11,11 +11,53 @@
         });
     })
 
+    $(".type").change(function(){
+        $(this).find("option:selected").each(function(){
+            var optionValue = $(this).attr("value")
+            var html = ''
+            if(optionValue == ''){
+                $(".event").remove()
+                $(".general-info").remove()
+            } else if(optionValue == 'event'){
+                html += '<div class="form-row event">' +
+                            '<div class="form-group col">' +
+                                '<label>Location</label>' +
+                                '<input type="text" class="form-control" name="location">'+
+                            '</div>'+
+                            '<div class="form-group col">'+
+                                '<label>Repeated By</label>'+
+                                '<select class="form-control" name="id_repeater">'+
+                                    '<option value="">Chose...</option>'+
+                                    <?php foreach ($data_repeater as $data) : ?>
+                                        '<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>'+
+                                    <?php endforeach; ?>
+                                '</select>'+
+                            '</div>'+
+                        '</div>'
+                $(".general-info").remove()
+            } else {
+                html += '<div class="form-group general-info">'+
+                            '<label>Repeated By</label>'+
+                            '<select class="form-control" name="id_repeater">'+
+                                '<option value="">Chose...</option>'+
+                                <?php foreach ($data_repeater as $data) : ?>
+                                    '<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>'+
+                                <?php endforeach; ?>
+                            '</select>'+
+                        '</div>'
+                $(".event").remove()
+                $(".general-info").remove()
+            }
+            $('#form_create').append(html)
+        })
+    }).change()
+
     $('.dateTimePicker').datetimepicker({ 
         footer: true, 
         modal: true,
         format: 'yyyy-mm-dd HH:MM'
     });
+
 
     function toggleEvent(id) {
         $.getJSON('<?= base_url() ?>Event/get_event_by_id/' + id, (data) => { 
