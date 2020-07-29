@@ -42,6 +42,18 @@ class admin_model extends CI_Model {
                 ->from('tb_info')
                 ->join('tb_repeater', 'tb_repeater.id_repeater = tb_info.id_repeater')
                 ->where('id_company', $this->session->userdata('id_company'))
+                ->where('due_date >', date('Y-m-d H:i:s'))
+                ->get()
+                ->result_array();   
+    }
+
+    public function get_all_expired_events()
+    {
+        return $this->db->select('id_info, tb_info.description as info_description, tb_repeater.description as repeater, location, due_date, info_type, active, id_company')
+                ->from('tb_info')
+                ->join('tb_repeater', 'tb_repeater.id_repeater = tb_info.id_repeater')
+                ->where('id_company', $this->session->userdata('id_company'))
+                ->where('due_date <', date('Y-m-d H:i:s'))
                 ->get()
                 ->result_array();   
     }

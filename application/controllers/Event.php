@@ -83,6 +83,16 @@ class Event extends CI_Controller {
         $this->load->view('cms/template/template_view', $data);
     }
 
+    public function outdate_event()
+    {
+        $this->_has_login_session();
+        $data['title']      = $this->session->userdata('company_name').' - Outdate Data Event';
+        $data['main_view']  = 'cms/event/outdate_event_view';
+        $data['data_event'] = $this->admin->get_all_expired_events();
+        $data['JSON']       = 'cms/event/event_JSON';
+        $this->load->view('cms/template/template_view', $data);
+    }
+
     public function add_new_event()
     {
         $this->_has_login_session();
@@ -90,16 +100,30 @@ class Event extends CI_Controller {
 
         $input = $this->input->post(NULL, TRUE);
         if ($this->form_validation->run() == TRUE) {
-            $data = array(
-                'id_info'       => $this->_generateId($input['info_type']),
-                'description'   => $this->input->post('description'),
-                'location'      => $this->input->post('location'),
-                'due_date'      => $this->_to_date($this->input->post('due_date')),
-                'id_repeater'   => $this->input->post('id_repeater'),
-                'info_type'     => $this->input->post('info_type'),
-                'active'        => 'false',
-                'id_company'    => $this->session->userdata('id_company')
-            );
+            if ($this->input->post('info_type') != 'event') {
+                $data = array(
+                    'id_info'       => $this->_generateId($input['info_type']),
+                    'description'   => $this->input->post('description'),
+                    'location'      => '-',
+                    'due_date'      => $this->_to_date($this->input->post('due_date')),
+                    'id_repeater'   => $this->input->post('id_repeater'),
+                    'info_type'     => $this->input->post('info_type'),
+                    'active'        => 'false',
+                    'id_company'    => $this->session->userdata('id_company')
+                );
+            } else {
+                $data = array(
+                    'id_info'       => $this->_generateId($input['info_type']),
+                    'description'   => $this->input->post('description'),
+                    'location'      => $this->input->post('location'),
+                    'due_date'      => $this->_to_date($this->input->post('due_date')),
+                    'id_repeater'   => $this->input->post('id_repeater'),
+                    'info_type'     => $this->input->post('info_type'),
+                    'active'        => 'false',
+                    'id_company'    => $this->session->userdata('id_company')
+                );
+            }
+            
             if ($this->admin->insert('tb_info', $data)) {
                 $this->session->set_flashdata('success', 'Add new '.$input['info_type'].' success!');
                 redirect('Event');
@@ -120,23 +144,29 @@ class Event extends CI_Controller {
         echo json_encode($this->admin->get('tb_info', ['id_info' => $id]));
     }
 
-    public function toggle_event($id, $active_status)
+    public function toggle_event($id)
     {
         $get_data = $this->admin->get('tb_info', ['id_info' => $id]);
-        if ($active_status == 'true') {
+        if ($get_data['active'] == 'true') {
             $data = array('active' => 'false' );
         } else {
             $data = array('active' => 'true' );
         }
-
-        if($this->admin->update('tb_info', 'id_info', $id, $data) == TRUE ){
-            $this->_pusher($get_data['info_type']);
-            $this->session->set_flashdata('success', 'Toggle data info sucess!');
+        // if data is pass due date (EXPIRED) and data active status is false
+        if (($get_data['due_date'] < date('Y-m-d H:i:s')) && ($get_data['active'] == 'false')) {
+            $this->session->set_flashdata('failed', 'You can not activate data where the data is pass due date!');
             redirect('Event');
         } else {
-            $this->session->set_flashdata('failed', 'Toggle data info failed! Try again');
-            redirect('Event');
+            if($this->admin->update('tb_info', 'id_info', $id, $data) == TRUE ){
+                $this->_pusher($get_data['info_type']);
+                $this->session->set_flashdata('success', 'Toggle data info sucess!');
+                redirect('Event');
+            } else {
+                $this->session->set_flashdata('failed', 'Toggle data info failed! Try again');
+                redirect('Event');
+            }
         }
+        
     }
 
     public function edit_event($id)

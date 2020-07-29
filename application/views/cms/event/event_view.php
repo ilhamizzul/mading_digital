@@ -7,6 +7,14 @@
 				</h4>
 			</div>
 			<div class="col-auto">
+				<a href="<?= base_url() ?>Event/outdate_event" class="btn btn-sm btn-danger btn-icon-split">
+					<span class="icon">
+						<i class="fa fa-info"></i>
+					</span>
+					<span class="text">
+						View Outdate Active Event
+					</span>
+				</a>
 				<button class="btn btn-sm btn-primary btn-icon-split" data-toggle="modal" data-target="#Insert">
 					<span class="icon">
 						<i class="fa fa-plus"></i>
@@ -80,28 +88,13 @@
 						<input type="text" class="form-control" name="description">
 					</div>
 					<div class="form-row">
-                        <div class="form-group col">
-                            <label>Location</label>
-                            <input type="text" class="form-control" name="location">
-                        </div>
-                        <div class="form-group col">
+						<div class="form-group col">
                             <label>Due Date</label>
                             <input class="form-control dateTimePicker" name="due_date">
                         </div>
-                    </div>
-					<div class="form-row">
-                        <div class="form-group col">
-							<label>Repeated By</label>
-							<select class="form-control" name="id_repeater">
-                                <option value="">Chose...</option>
-                                <?php foreach ($data_repeater as $data) : ?>
-								    <option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
-                                <?php endforeach; ?>
-							</select>
-						</div>
 						<div class="form-group col">
 							<label>Info Type</label>
-							<select class="form-control" name="info_type">
+							<select class="form-control type" name="info_type">
 								<option value="">Chose...</option>
 								<option value="event">Event</option>
                                 <option value="slogan">Slogan</option>
