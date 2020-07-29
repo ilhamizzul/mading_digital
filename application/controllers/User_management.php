@@ -11,6 +11,13 @@ class User_management extends CI_Controller {
         $this->load->model('admin_model', 'admin');
     }
 
+    public function _is_owner()
+    {
+        if ($this->session->userdata('role') != 'owner') {
+            redirect('Custom404');
+        }
+    }
+
     private function _has_login_session()
     {
         if($this->session->has_userdata('logged_in')) {
@@ -41,6 +48,7 @@ class User_management extends CI_Controller {
 
     public function index()
     {
+        $this->_is_owner();
         $this->_has_login_session();
         $data['title'] = $this->session->userdata('company_name').'- User Management';
         $data['main_view'] = 'cms/user/user_view';
@@ -51,6 +59,7 @@ class User_management extends CI_Controller {
 
     public function add_new_user()
     {
+        $this->_is_owner();
         $this->_has_login_session();
         $this->_validation();
 
@@ -89,6 +98,7 @@ class User_management extends CI_Controller {
 
     public function toggle_user($id, $active_status)
     {
+        $this->_is_owner();
         if ($active_status == 'true') {
             if ($id == $this->session->userdata('id_user')) {
                 $this->session->set_flashdata('failed', 'You can not unactivate your own account!');

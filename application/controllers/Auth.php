@@ -18,6 +18,26 @@ class Auth extends CI_Controller {
         }
     }
 
+    public function _is_company_active($company_active_status)
+    {
+        if ($company_active_status == TRUE) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
+    public function _is_user_active($user_active_status)
+    {
+        if ($user_active_status == 'true') {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+        
+    }
+
     private function _login_validation()
     {
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -37,7 +57,7 @@ class Auth extends CI_Controller {
     {
         $this->_has_login();
         $this->_login_validation();
-        
+
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Login';
             $this->load->view('cms/auth/login_view', $data);
@@ -50,31 +70,36 @@ class Auth extends CI_Controller {
                 if (password_verify($input['password'], $user_account['password'])) {
 
                     $data_user = $this->auth->get_data_user($input['username'], $user_account['password']);
-                    if ($data_user['active'] == 'true') {
+                    if ($this->_is_user_active($data_user['active'])) {
+                        if ($this->_is_company_active($data_user['activeStatus'])) {
+                            if ($data_user['onLogin'] == true) {
+                                $this->session->set_flashdata('failed', 'User Account have been used now!');
+                                redirect('Auth');
+                            } else {
+                                $data_user = array(
+                                    'logged_in'         => TRUE,
+                                    'id_user'           => $data_user['id_user'],
+                                    'nama_user'         => $data_user['user_name'],
+                                    'username'          => $data_user['username'],
+                                    'role'              => $data_user['role'],
+                                    'profile_picture'   => $data_user['profile_picture'],
+                                    'id_company'        => $data_user['id_company'],
+                                    'company_name'      => $data_user['company_name'],
+                                    'company_logo'      => $data_user['company_logo']
+                                );
 
-                        if ($data_user['onLogin'] == true) {
-                            $this->session->set_flashdata('failed', 'User Account have been used now!');
-                            redirect('Auth');
+                                $this->session->set_userdata( $data_user );
+
+                                $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => true]);
+
+                                $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
+                                redirect('Dashboard');
+                            }
                         } else {
-                            $data_user = array(
-                                'logged_in'         => TRUE,
-                                'id_user'           => $data_user['id_user'],
-                                'nama_user'         => $data_user['user_name'],
-                                'username'          => $data_user['username'],
-                                'role'              => $data_user['role'],
-                                'profile_picture'   => $data_user['profile_picture'],
-                                'id_company'        => $data_user['id_company'],
-                                'company_name'      => $data_user['company_name'],
-                                'company_logo'      => $data_user['company_logo']
-                            );
-                            
-                            $this->session->set_userdata( $data_user );
-
-                            $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => true]);
-
-                            $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
-                            redirect('Dashboard');
+                            $this->session->set_flashdata('failed', 'Company Account still not active, Please call superadmin for company activation!');
+                            redirect('Auth');
                         }
+                        
 
                     } else {
                         $this->session->set_flashdata('failed', 'User Account still not active, Please call admin for user activation!');

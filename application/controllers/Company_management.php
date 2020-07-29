@@ -31,7 +31,7 @@ class Company_management extends CI_Controller {
     public function _is_owner()
     {
         if ($this->session->userdata('role') != 'owner') {
-            redirect('Dashboard');
+            redirect('Custom404');
         }
     }
 
@@ -44,8 +44,8 @@ class Company_management extends CI_Controller {
 
     public function index()
     {
-        $this->_has_login_session();
         $this->_is_owner();
+        $this->_has_login_session();
         $data['title'] = $this->session->userdata('company_name').' - Company Setting';
         $data['main_view'] = 'cms/company/company_view';
         $data['count_users'] = $this->admin->count_all_users();
@@ -57,6 +57,7 @@ class Company_management extends CI_Controller {
 
     public function change_company_logo()
     {
+        $this->_is_owner();
         $this->_has_login_session();
         $this->_upload_config();
         
@@ -83,6 +84,7 @@ class Company_management extends CI_Controller {
 
     public function update_company()
     {
+        $this->_is_owner();
         $this->_has_login_session();
         $this->_company_validation();
         if ($this->form_validation->run() == TRUE) {
