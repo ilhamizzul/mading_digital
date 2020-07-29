@@ -71,9 +71,6 @@
             show_info()
             datetime()
 
-            // DELETE this when we push into production
-            Pusher.logToConsole = true
-
             var pusher = new Pusher('7ba272c3a6631b4ffaf9', {
                 cluster: 'ap1'
             })
