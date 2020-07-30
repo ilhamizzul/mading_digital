@@ -114,12 +114,17 @@ class Event extends CI_Controller {
             } else {
                 $data['location'] = $this->input->post('location');
             }
-            
-            if ($this->admin->insert('tb_info', $data)) {
-                $this->session->set_flashdata('success', 'Add new '.$input['info_type'].' success!');
-                redirect('Event');
+
+            if ($data['due_date'] > date('Y-m-d H:i:s')) {
+                if ($this->admin->insert('tb_info', $data)) {
+                    $this->session->set_flashdata('success', 'Add new '.$input['info_type'].' success!');
+                    redirect('Event');
+                } else {
+                    $this->session->set_flashdata('failed', 'Add new '.$input['info_type'].' failed!');
+                    redirect('Event');
+                }
             } else {
-                $this->session->set_flashdata('failed', 'Add new '.$input['info_type'].' failed!');
+                $this->session->set_flashdata('failed', "Please insert due date to a future date!");
                 redirect('Event');
             }
             
@@ -182,11 +187,16 @@ class Event extends CI_Controller {
                     'info_type'     => $this->input->post('info_type')
                 );
 
-                if ($this->admin->update('tb_info', 'id_info', $id, $data)) {
-                    $this->session->set_flashdata('success', $get_data['info_type'].' successfully updated!');
-                    redirect('Event');
+                if ($data['due_date'] > date('Y-m-d H:i:s')) {
+                    if ($this->admin->update('tb_info', 'id_info', $id, $data)) {
+                        $this->session->set_flashdata('success', $get_data['info_type'].' successfully updated!');
+                        redirect('Event');
+                    } else {
+                        $this->session->set_flashdata('failed', 'Failed to update '.$get_data['info_type'].'!');
+                        redirect('Event');
+                    }
                 } else {
-                    $this->session->set_flashdata('failed', 'Failed to update '.$get_data['info_type'].'!');
+                    $this->session->set_flashdata('failed', "Please change due date to a future date!");
                     redirect('Event');
                 }
                 
