@@ -195,8 +195,10 @@
                     show_carousel()
                 } else if (data.message === 'event_success') {
                     show_event()
-                } else {
+                } else if (data.message === 'info_success'){
                     show_info()
+                } else {
+                    location.reload(true)
                 }
             })
             function show_event(){
