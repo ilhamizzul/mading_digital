@@ -89,7 +89,7 @@ class Event extends CI_Controller {
         $data['title']      = $this->session->userdata('company_name').' - Outdate Data Event';
         $data['main_view']  = 'cms/event/outdate_event_view';
         $data['data_event'] = $this->admin->get_all_expired_events();
-        $data['JSON']       = 'cms/event/event_JSON';
+        $data['JSON']       = 'cms/event/outdate_event_JSON';
         $this->load->view('cms/template/template_view', $data);
     }
 
@@ -100,28 +100,19 @@ class Event extends CI_Controller {
 
         $input = $this->input->post(NULL, TRUE);
         if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'id_info'       => $this->_generateId($input['info_type']),
+                'description'   => $this->input->post('description'),
+                'due_date'      => $this->_to_date($this->input->post('due_date')),
+                'id_repeater'   => $this->input->post('id_repeater'),
+                'info_type'     => $this->input->post('info_type'),
+                'active'        => 'false',
+                'id_company'    => $this->session->userdata('id_company') 
+            );
             if ($this->input->post('info_type') != 'event') {
-                $data = array(
-                    'id_info'       => $this->_generateId($input['info_type']),
-                    'description'   => $this->input->post('description'),
-                    'location'      => '-',
-                    'due_date'      => $this->_to_date($this->input->post('due_date')),
-                    'id_repeater'   => $this->input->post('id_repeater'),
-                    'info_type'     => $this->input->post('info_type'),
-                    'active'        => 'false',
-                    'id_company'    => $this->session->userdata('id_company')
-                );
+                $data['location'] = '-';
             } else {
-                $data = array(
-                    'id_info'       => $this->_generateId($input['info_type']),
-                    'description'   => $this->input->post('description'),
-                    'location'      => $this->input->post('location'),
-                    'due_date'      => $this->_to_date($this->input->post('due_date')),
-                    'id_repeater'   => $this->input->post('id_repeater'),
-                    'info_type'     => $this->input->post('info_type'),
-                    'active'        => 'false',
-                    'id_company'    => $this->session->userdata('id_company')
-                );
+                $data['location'] = $this->input->post('location');
             }
             
             if ($this->admin->insert('tb_info', $data)) {
@@ -203,6 +194,36 @@ class Event extends CI_Controller {
                 $this->session->set_flashdata('failed', validation_errors());
                 redirect('Event');
             }
+        }
+        
+    }
+
+    public function retrieve_event($id)
+    {
+        $this->_has_login_session();
+        $this->form_validation->set_rules('due_date', 'Due Date', 'required');
+        
+        
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'active' => false,
+                'due_date' => $this->_to_date($this->input->post('due_date')) 
+            );
+            if ($data['due_date'] > date('Y-m-d H:i:s')) {
+                if ($this->admin->update('tb_info', 'id_info', $id, $data)) {
+                    $this->session->set_flashdata('success', 'Data successfully retrieved!');
+                    redirect('Event');
+                } else {
+                    $this->session->set_flashdata('failed', 'Data failed to be retireved!');
+                    redirect('Event/outdate_event');
+                }
+            } else {
+                $this->session->set_flashdata('failed', "Please change due date to a future date!");
+                redirect('Event/outdate_event');
+            }
+        } else {
+            $this->session->set_flashdata('failed', validation_errors());
+            redirect('Event/outdate_event');
         }
         
     }
