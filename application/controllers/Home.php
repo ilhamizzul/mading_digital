@@ -25,6 +25,12 @@ class Home extends CI_Controller {
     {
         $this->_has_login_session();
         $data['title'] = $this->session->userdata('company_name').' - Mading Digital';
+        $data['content_group'] =  array(
+            'schedule' => $this->client->get_content_group('schedule'),
+            'carousel' => $this->client->get_content_group('carousel'),
+            'footer' => $this->client->get_content_group('footer'),
+            'navigation_bar' => $this->client->get_content_group('navigation_bar'),
+        );
         $this->load->view('client/index', $data);
     }
 
