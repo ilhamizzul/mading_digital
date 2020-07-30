@@ -95,6 +95,13 @@ class admin_model extends CI_Model {
                         ->count_all_results($tb);
     }
 
+    public function update_template($where, $data)
+    {
+        return $this->db->where($where)
+                        ->update('tb_content_grp', $data);
+        
+    }
+
 }
 
 /* End of file admin_model.php */
