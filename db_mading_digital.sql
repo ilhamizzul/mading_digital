@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2020 at 10:53 AM
+-- Generation Time: Aug 03, 2020 at 04:26 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -41,6 +41,15 @@ CREATE TABLE `tb_carousel` (
   `activedAt` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tb_carousel`
+--
+
+INSERT INTO `tb_carousel` (`id_carousel`, `data_carousel`, `title`, `description`, `data_type`, `active`, `id_company`, `id_repeater`, `createdAt`, `activedAt`) VALUES
+('CA-I-2007270001', '49388510_p0.jpg', 'Version Control with Git Final Project', '', 'image', 'true', 'COM1000001', 'RE002', '2020-07-27 16:03:26', '2020-07-30 15:47:13'),
+('CA-I-2007300001', 'Alone.jpg', 'chemistry', '', 'image', 'true', 'COM1000001', 'RE002', '2020-07-30 16:32:29', '2020-07-30 16:49:58'),
+('CA-V-2007280001', 'sample.mp4', 'Our Planet', 'watch the documentary series free on netflix channel', 'video', 'true', 'COM1000001', 'RE002', '2020-07-28 09:48:10', '2020-08-03 08:18:48');
+
 -- --------------------------------------------------------
 
 --
@@ -72,9 +81,20 @@ INSERT INTO `tb_company` (`id_company`, `company_name`, `company_logo`, `email`,
 
 CREATE TABLE `tb_content_grp` (
   `id` int(11) NOT NULL,
+  `id_company` varchar(10) NOT NULL,
   `description` varchar(50) NOT NULL,
   `active` enum('false','true') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_content_grp`
+--
+
+INSERT INTO `tb_content_grp` (`id`, `id_company`, `description`, `active`) VALUES
+(1, 'COM1000001', 'footer', 'true'),
+(2, 'COM1000001', 'carousel', 'false'),
+(3, 'COM1000001', 'schedule', 'false'),
+(4, 'COM1000001', 'navigation_bar', 'true');
 
 -- --------------------------------------------------------
 
@@ -94,6 +114,16 @@ CREATE TABLE `tb_info` (
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `activedAt` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_info`
+--
+
+INSERT INTO `tb_info` (`id_info`, `description`, `location`, `due_date`, `info_type`, `active`, `id_repeater`, `id_company`, `createdAt`, `activedAt`) VALUES
+('EV-200724000001', 'meeting about SeREG', 'meeting room', '2020-07-31 08:19:00', 'event', 'false', 'RE001', 'COM1000001', '2020-07-27 09:02:31', '2020-07-30 15:59:55'),
+('EV-200727000001', 'urgent meeting', 'meeting room', '2020-07-31 06:30:00', 'event', '', 'RE001', 'COM1000001', '2020-07-27 09:02:09', '2020-07-30 16:05:29'),
+('NE-200725000001', 'lorem ipsum dolor sit amet', '', '2020-12-31 11:06:00', 'news', 'false', 'RE003', 'COM1000001', '2020-07-27 09:46:24', '2020-07-30 16:01:12'),
+('SL-200729000001', 'HOK A HOK E', '-', '2020-12-30 11:59:00', 'slogan', 'false', 'RE002', 'COM1000001', '2020-07-29 09:45:57', '2020-07-30 16:03:38');
 
 -- --------------------------------------------------------
 
@@ -145,8 +175,8 @@ CREATE TABLE `tb_user` (
 
 INSERT INTO `tb_user` (`id_user`, `user_name`, `username`, `password`, `profile_picture`, `address`, `email`, `id_company`, `active`, `role`, `onLogin`, `createdAt`) VALUES
 ('US-200723000001', 'Chamadani Faisal Amri', 'chamadani', '$2y$10$ki840B5yrPP9p6ha8jfigeezH0hdpHTgMVoCSNL58oWc60idwwPte', '', '', '', 'COM1000001', 'true', 'admin', 0, '2020-07-23 02:38:07'),
-('US-200723000002', 'Ilham Izzul Hadyan', 'ilhamizzul', '$2y$10$wSnL2uw.ycuyh0Ufpx1I6.AoCBVA69EdbD.BfJyArpmuTUcGWM9L6', 'profile.jpg', 'malang', 'ilhamizzul@gmail.com', 'COM1000001', 'true', 'owner', 1, '2020-07-28 08:49:14'),
-('US-200728000001', 'admin', 'admin', '$2y$10$WqiuQOegd7phRdYClgVgHORguniPIgSZfNOcgHpzxK8MscHPCaL9O', '', '', '', 'COM1000001', 'true', 'admin', 0, '2020-07-28 08:52:43'),
+('US-200723000002', 'Ilham Izzul Hadyan', 'ilhamizzul', '$2y$10$wSnL2uw.ycuyh0Ufpx1I6.AoCBVA69EdbD.BfJyArpmuTUcGWM9L6', 'profile.jpg', 'malang', 'ilhamizzul@gmail.com', 'COM1000001', 'true', 'owner', 0, '2020-08-03 02:13:44'),
+('US-200728000001', 'admin', 'admin', '$2y$10$WqiuQOegd7phRdYClgVgHORguniPIgSZfNOcgHpzxK8MscHPCaL9O', '', '', '', 'COM1000001', 'true', 'admin', 0, '2020-07-30 01:37:28'),
 ('US-200728000002', 'owner', 'owner', '$2y$10$JZkw4jq1uyzL8U2z0gj5POL9WoZhEF/ybctt5VFytX8xMV3d8FHMa', '', '', '', 'COM1000001', 'true', 'owner', 0, '2020-07-28 08:53:11');
 
 --
@@ -171,7 +201,8 @@ ALTER TABLE `tb_company`
 -- Indexes for table `tb_content_grp`
 --
 ALTER TABLE `tb_content_grp`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_company` (`id_company`);
 
 --
 -- Indexes for table `tb_info`
@@ -204,7 +235,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_content_grp`
 --
 ALTER TABLE `tb_content_grp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -216,6 +247,12 @@ ALTER TABLE `tb_content_grp`
 ALTER TABLE `tb_carousel`
   ADD CONSTRAINT `tb_carousel_ibfk_1` FOREIGN KEY (`id_company`) REFERENCES `tb_company` (`id_company`) ON DELETE CASCADE,
   ADD CONSTRAINT `tb_carousel_ibfk_2` FOREIGN KEY (`id_repeater`) REFERENCES `tb_repeater` (`id_repeater`);
+
+--
+-- Constraints for table `tb_content_grp`
+--
+ALTER TABLE `tb_content_grp`
+  ADD CONSTRAINT `tb_content_grp_ibfk_1` FOREIGN KEY (`id_company`) REFERENCES `tb_company` (`id_company`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tb_info`

@@ -56,6 +56,11 @@ class client_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_content_group($content)
+    {
+        return $this->db->get_where('tb_content_grp', ['id_company' => $this->session->userdata('id_company'), 'description' => $content])->row_array();
+    }
+
 }
 
 /* End of file client_model.php */
