@@ -26,6 +26,11 @@
         .navbar {
             background-color: #03045e;
             min-width: 100vw;
+            <?php if($content_group['navigation_bar']['active'] == 'true'): ?>
+            margin-bottom: 3vh;
+            <?php else: ?>
+            margin-bottom: 10vh;
+            <?php endif; ?>
         }
 
         .datetime {
@@ -39,31 +44,31 @@
             height : 75vh;
         }
 
-        .schedule {
-            height : 75vh;
-            
+        .schedule-view, .carousel-view {
+            padding: 0 10px;
         }
 
-        #caousel {
-            max-height : 75vh;
-            max-width: 100%; 
+        .schedule {
+            height : 75vh;
+        }
+
+        .carousel-inner, .carousel-empty, .v-carousel, .carousel-image {
+            height : 75vh !important;
+            width: 100%; 
+        }
+
+        .carousel-item {
+            background: linear-gradient(#343a40, #212529);
         }
 
         .carousel-empty {
             background: linear-gradient(#343a40, #212529);
-            min-height : 75vh;
-            min-width: 100%;
+            width: 100%;
             justify-content: center;
             align-items: center;
             color: #adb5bd; 
             display: flex;
             font-weight: 700;
-        }
-
-        .v-carousel {
-            max-height : 700px;
-            min-height : 80vh;
-            max-width: 100%;
         }
 
         :root {

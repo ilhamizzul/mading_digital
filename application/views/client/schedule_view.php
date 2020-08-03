@@ -1,5 +1,6 @@
 <div class="<?= ($content_group['carousel']['active'] == 'true') ? 'col-md-4 col-lg-4' : 'col-md-12 col-lg-12' ; ?>">
-    <div class="card schedule" <?= ($content_group['footer']['active'] == 'false') ? 'style="min-height: 90vh"' : '' ; ?>>
+<!-- <div class="schedule-view"> -->
+    <div class="card schedule" <?= ($content_group['footer']['active'] == 'false') ? 'style="min-height: 80vh"' : '' ; ?>>
         <div class="card-body">
             <table class="table table-striped">
                 <thead class="thead-dark">
