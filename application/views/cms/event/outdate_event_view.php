@@ -7,14 +7,14 @@
 				</h4>
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-sm btn-primary btn-icon-split" onclick="history.back();">
+				<a href="<?= base_url() ?>Event" class="btn btn-sm btn-primary btn-icon-split">
 					<span class="icon">
 						<i class="fa fa-backward"></i>
 					</span>
 					<span class="text">
 						Back
 					</span>
-				</button>
+				</a>
 			</div>
 		</div>
 	</div>
