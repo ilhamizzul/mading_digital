@@ -72,10 +72,10 @@ class Auth extends CI_Controller {
                     $data_user = $this->auth->get_data_user($input['username'], $user_account['password']);
                     if ($this->_is_user_active($data_user['active'])) {
                         if ($this->_is_company_active($data_user['activeStatus'])) {
-                            if ($data_user['onLogin'] == true) {
-                                $this->session->set_flashdata('failed', 'User Account have been used now!');
-                                redirect('Auth');
-                            } else {
+                            // if ($data_user['onLogin'] == true) {
+                            //     $this->session->set_flashdata('failed', 'User Account have been used now!');
+                            //     redirect('Auth');
+                            // } else {
                                 $data_user = array(
                                     'logged_in'         => TRUE,
                                     'id_user'           => $data_user['id_user'],
@@ -90,11 +90,11 @@ class Auth extends CI_Controller {
 
                                 $this->session->set_userdata( $data_user );
 
-                                $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => true]);
+                                // $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => true]);
 
                                 $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
                                 redirect('Dashboard');
-                            }
+                            // }
                         } else {
                             $this->session->set_flashdata('failed', 'Company Account still not active, Please call superadmin for company activation!');
                             redirect('Auth');
