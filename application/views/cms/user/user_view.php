@@ -44,8 +44,6 @@
 								title="<?= $data['active'] == 'true' ? 'Turn Off User Privelege' : 'Turn On User Privelege' ?>" 
 								onclick="toggleUser('<?= $data['id_user'] ?>')"
 								data-toggle="modal" data-target="#dataToggleActivation"><i class="fa fa-fw fa-power-off"></i></button>
-							<!-- <button class="btn btn-circle btn-sm btn-warning" title="Edit User" onclick="" data-toggle="modal"
-								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button> -->
 						</td>
 					</tr>
 					<?php endforeach; ?>
@@ -64,83 +62,39 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<form action="<?= base_url()?>User_management/add_new_user" method="post" id="form_create_user">
 			<div class="modal-body">
-				<form action="<?= base_url()?>User_management/add_new_user" method="post" id="form_create_user">
                     <div class="form-group">
                         <label>Full Name</label>
-                        <input type="text" class="form-control" name="user_name">
+                        <input type="text" class="form-control" name="user_name" required maxlength="40" placeholder="Insert Full Name...">
                     </div>
                     <div class="form-row">    
                         <div class="form-group col">
                             <label>Username</label>
-                            <input type="text" class="form-control" name="username">
+                            <input type="text" class="form-control" name="username" required maxlength="25" placeholder="Insert Username...">
                         </div>
                         <div class="form-group col">
                             <label>Password</label>
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password" required maxlength="25" placeholder="Insert Password...">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>User Role</label>
-                        <select class="form-control" name="role">
+                        <select class="form-control" name="role" required>
                             <option value="">Chose...</option>
                             <option value="owner">Owner</option>
                             <option value="admin">Admin</option>
                         </select>
                     </div>
-                </form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" id="create_button" class="btn btn-primary">Submit</button>
+				<button type="submit"class="btn btn-primary">Submit</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
-
-<!-- MODAL EDIT -->
-<!-- <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Edit Data User</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form action="" method="post">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" class="form-control" id="user_name" name="user_name">
-                    </div>
-                    <div class="form-row">    
-                        <div class="form-group col">
-                            <label>Username</label>
-                            <input type="text" class="form-control" id="username" name="username">
-                        </div>
-                        <div class="form-group col">
-                            <label>Password</label>
-                            <input type="password" class="form-control" id="password" name="password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>User Role</label>
-                        <select id="role" class="form-control" name="role">
-                            <option value="">Chose...</option>
-                            <option value="owner">Owner</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-                </form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Submit</button>
-			</div>
-		</div>
-	</div>
-</div> -->
 
 <!-- MODAL TOGGLE ACTIVATION -->
 <div class="modal fade" id="dataToggleActivation" tabindex="-1" role="dialog" aria-hidden="true">

@@ -2,13 +2,6 @@
     $(document).ready(function() { 
 
         $('#dataTable').dataTable()
-
-        $('#create_button').click(function() {
-            $('#form_create').submit();
-        });
-        $('#edit_button').click(function() {
-            $('#form_edit').submit();
-        });
     })
 
     $(".type").change(function(){
@@ -22,11 +15,11 @@
                 html += '<div class="form-row event">' +
                             '<div class="form-group col">' +
                                 '<label>Location</label>' +
-                                '<input type="text" class="form-control" name="location">'+
+                                '<input type="text" class="form-control" name="location" placeholder="Insert Location with max length 50..." required maxlength="50">'+
                             '</div>'+
                             '<div class="form-group col">'+
                                 '<label>Repeated By</label>'+
-                                '<select class="form-control" name="id_repeater">'+
+                                '<select class="form-control" name="id_repeater" required>'+
                                     '<option value="">Chose...</option>'+
                                     <?php foreach ($data_repeater as $data) : ?>
                                         '<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>'+

@@ -73,7 +73,7 @@
 				</h5><br>
 				<form action="" method="post" id="form-retrieve">
 					<div class="form-group w-50 mx-auto d-block">
-						<input class="form-control dateTimePicker" id="due_date" name="due_date">
+						<input class="form-control dateTimePicker" id="due_date" name="due_date" required>
 					</div>
 				</form>
 				<h5 class="text-center text-warning">Please change due date first</h5>

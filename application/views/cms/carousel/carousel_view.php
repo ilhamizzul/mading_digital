@@ -83,21 +83,21 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<form action="<?= base_url()?>Carousel/add_new_carousel" method="post" id="form_create"
+				enctype="multipart/form-data">
 			<div class="modal-body">
-				<form action="<?= base_url()?>Carousel/add_new_carousel" method="post" id="form_create"
-					enctype="multipart/form-data">
 					<div class="form-group">
 						<label>Title</label>
-						<input type="text" class="form-control" name="title">
+						<input type="text" class="form-control" name="title" maxlength="50" placeholder="Insert Title...">
 					</div>
 					<div class="form-group">
 						<label>Description</label>
-						<textarea class="form-control" name="description" rows="3"></textarea>
+						<textarea class="form-control" name="description" rows="3" maxlength="100" placeholder="Insert Description..."></textarea>
 					</div>
 					<div class="form-row">
 						<div class="form-group col">
 							<label>Repeated By</label>
-							<select class="form-control" name="id_repeater">
+							<select class="form-control" name="id_repeater" required>
 								<option value="">Chose...</option>
 								<?php foreach ($data_repeater as $data) :?>
 								<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
@@ -106,7 +106,7 @@
 						</div>
 						<div class="form-group col">
 							<label>Data Type</label>
-							<select class="form-control" name="data_type">
+							<select class="form-control" name="data_type" required>
 								<option value="">Chose...</option>
 								<option value="image">Image</option>
 								<option value="video">Video</option>
@@ -115,14 +115,14 @@
 					</div>
 					<div class="form-group">
 						<label>Upload File</label>
-						<input type="file" class="form-control" name="data_carousel">
+						<input type="file" class="form-control" name="data_carousel" required>
 					</div>
-				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" id="create_button" class="btn btn-primary">Submit</button>
+				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -137,21 +137,21 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<form action="" class="col" method="post" id="form_edit" enctype="multipart/form-data">
 			<div class="modal-body">
                 <div class="row">
-                    <form action="" class="col" method="post" id="form_edit" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Title</label>
-                            <input type="text" class="form-control" id="title" name="title">
+                            <input type="text" class="form-control" id="title" name="title" maxlength="50" placeholder="Insert Title...">
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3" maxlength="100" placeholder="Insert Description..."></textarea>
                         </div>
                         <div class="form-row">
 							<div class="form-group col">
 								<label>Repeated By</label>
-								<select class="form-control" id="id_repeater" name="id_repeater">
+								<select class="form-control" id="id_repeater" name="id_repeater" required>
 									<option value="">Chose...</option>
 									<?php foreach ($data_repeater as $data) :?>
 									<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
@@ -160,7 +160,7 @@
 							</div>
                             <div class="form-group col">
                                 <label>Data Type</label>
-                                <select class="form-control" name="data_type">
+                                <select class="form-control" name="data_type" required>
                                     <option value="" id="data_type" selected></option>
                                 </select>
                             </div>
@@ -169,7 +169,6 @@
 							<label>Upload File</label>
 							<input type="file" class="form-control" name="data_carousel">
 						</div>
-                    </form>
                     <div class="col card">
                         <div class="card-img-top" id="data_preview">
 
@@ -182,8 +181,9 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" id="edit_button" class="btn btn-warning">Submit</button>
+				<button type="submit" class="btn btn-warning">Submit</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
