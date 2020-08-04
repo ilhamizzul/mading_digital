@@ -80,21 +80,21 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<form action="<?= base_url()?>Event/add_new_event" method="post" id="form_create"
+				enctype="multipart/form-data">
 			<div class="modal-body">
-				<form action="<?= base_url()?>Event/add_new_event" method="post" id="form_create"
-					enctype="multipart/form-data">
 					<div class="form-group">
 						<label>Description</label>
-						<input type="text" class="form-control" name="description">
+						<input type="text" class="form-control" name="description" placeholder="Insert Description with max length 50..."  required maxlength="50">
 					</div>
 					<div class="form-row">
 						<div class="form-group col">
                             <label>Due Date</label>
-                            <input class="form-control dateTimePicker" name="due_date">
+                            <input class="form-control dateTimePicker" name="due_date" required>
                         </div>
 						<div class="form-group col">
 							<label>Info Type</label>
-							<select class="form-control type" name="info_type">
+							<select class="form-control type" name="info_type" required>
 								<option value="">Chose...</option>
 								<option value="event">Event</option>
                                 <option value="slogan">Slogan</option>
@@ -102,12 +102,12 @@
 							</select>
 						</div>
 					</div>
-				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" id="create_button" class="btn btn-primary">Submit</button>
+				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -122,26 +122,26 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<form action="" method="post" id="form_edit" enctype="multipart/form-data">
 			<div class="modal-body">
-				<form action="" method="post" id="form_edit" enctype="multipart/form-data">
 					<div class="form-group">
 						<label>Description</label>
-						<input type="text" class="form-control" id="description" name="description">
+						<input type="text" class="form-control" id="description" name="description" placeholder="Insert Description with max length 50..."  required maxlength="50">
 					</div>
 					<div class="form-row">
                         <div class="form-group col">
                             <label>Location</label>
-                            <input type="text" class="form-control" id="location" name="location">
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Insert Location..."  required maxlength="50">
                         </div>
                         <div class="form-group col">
                             <label>Due Date</label>
-                            <input class="form-control dateTimePicker" id="due_date" name="due_date">
+                            <input class="form-control dateTimePicker" id="due_date" name="due_date" required>
                         </div>
                     </div>
 					<div class="form-row">
                         <div class="form-group col">
 							<label>Repeated By</label>
-							<select class="form-control" id="id_repeater" name="id_repeater">
+							<select class="form-control" id="id_repeater" name="id_repeater" required>
                                 <option value="">Chose...</option>
                                 <?php foreach ($data_repeater as $data) : ?>
 								    <option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
@@ -150,7 +150,7 @@
 						</div>
 						<div class="form-group col">
 							<label>Info Type</label>
-							<select class="form-control" id="info_type" name="info_type">
+							<select class="form-control" id="info_type" name="info_type" required>
 								<option value="">Chose...</option>
 								<option value="event">Event</option>
                                 <option value="slogan">Slogan</option>
@@ -158,12 +158,12 @@
 							</select>
 						</div>
 					</div>
-				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" id="edit_button" class="btn btn-warning">Submit</button>
+				<button type="submit" class="btn btn-warning">Submit</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
