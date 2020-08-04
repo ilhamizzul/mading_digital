@@ -17,6 +17,12 @@ class auth_model extends CI_Model {
                         ->row_array();
     }
 
+    public function get_color_pallete()
+    {
+        return $this->db->get_where('tb_client_coloring', ['active_color' => true, 'id_company' => $this->session->userdata('id_company')])
+                        ->row_array();
+    }
+
     public function toggleLoginStatus($id, $data)
     {
         return $this->db->where('id_user', $id)

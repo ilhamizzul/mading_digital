@@ -52,6 +52,19 @@ class Auth extends CI_Controller {
         return FALSE;    
     }
 
+    private function _color_pallete()
+    {
+        $color = $this->auth->get_color_pallete();
+        
+        $this->session->set_userdata('bg_color1', $color['bg_color1']);
+        $this->session->set_userdata('bg_color2', $color['bg_color2']);
+        $this->session->set_userdata('bg_color3', $color['bg_color3']);
+        $this->session->set_userdata('nav_color', $color['nav_color']);
+        $this->session->set_userdata('txt_color', $color['txt_color']);
+        $this->session->set_userdata('txt_news_color', $color['txt_news_color']);
+        
+        return;
+    }
     
     public function index()
     {
@@ -72,29 +85,23 @@ class Auth extends CI_Controller {
                     $data_user = $this->auth->get_data_user($input['username'], $user_account['password']);
                     if ($this->_is_user_active($data_user['active'])) {
                         if ($this->_is_company_active($data_user['activeStatus'])) {
-                            // if ($data_user['onLogin'] == true) {
-                            //     $this->session->set_flashdata('failed', 'User Account have been used now!');
-                            //     redirect('Auth');
-                            // } else {
-                                $data_user = array(
-                                    'logged_in'         => TRUE,
-                                    'id_user'           => $data_user['id_user'],
-                                    'nama_user'         => $data_user['user_name'],
-                                    'username'          => $data_user['username'],
-                                    'role'              => $data_user['role'],
-                                    'profile_picture'   => $data_user['profile_picture'],
-                                    'id_company'        => $data_user['id_company'],
-                                    'company_name'      => $data_user['company_name'],
-                                    'company_logo'      => $data_user['company_logo']
-                                );
+                            $data_user = array(
+                                'logged_in'         => TRUE,
+                                'id_user'           => $data_user['id_user'],
+                                'nama_user'         => $data_user['user_name'],
+                                'username'          => $data_user['username'],
+                                'role'              => $data_user['role'],
+                                'profile_picture'   => $data_user['profile_picture'],
+                                'id_company'        => $data_user['id_company'],
+                                'company_name'      => $data_user['company_name'],
+                                'company_logo'      => $data_user['company_logo']
+                            );
+                            $this->session->set_userdata( $data_user );
 
-                                $this->session->set_userdata( $data_user );
+                            $this->_color_pallete();
 
-                                // $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => true]);
-
-                                $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
-                                redirect('Dashboard');
-                            // }
+                            $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
+                            redirect('Dashboard');
                         } else {
                             $this->session->set_flashdata('failed', 'Company Account still not active, Please call superadmin for company activation!');
                             redirect('Auth');
