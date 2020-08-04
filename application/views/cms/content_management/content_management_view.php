@@ -6,6 +6,16 @@
 					Client View Management
 				</h4>
 			</div>
+			<div class="col-auto">
+				<a href="<?= base_url() ?>Client_view_management/color" class="btn btn-sm btn-primary btn-icon-split">
+					<span class="icon">
+						<i class="fa fa-brush"></i>
+					</span>
+					<span class="text">
+						Color Library
+					</span>
+				</a>
+			</div>
 		</div>
 	</div>
 	<div class="card-body">
