@@ -3,4 +3,5 @@
 
     $('#dataTable').dataTable()
     })
+
 </script>
