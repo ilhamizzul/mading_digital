@@ -35,8 +35,7 @@ class Home extends CI_Controller {
 
     public function get_all_active_carousel()
     {
-        echo json_encode($this->client->get_active_carousel('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true'], 10));
-        // echo json_encode($this->client->get_active_data('tb_carousel'));
+        echo json_encode($this->client->get_active_data('tb_carousel'));
     }
 
     public function get_all_active_information()

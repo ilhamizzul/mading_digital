@@ -4,14 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class client_model extends CI_Model {
 
-    public function get_active_carousel($table, $where = null, $limit)
-    {
-        return $this->db->limit($limit)->get_where($table, $where)->result_array();
-    }
-
     public function get_active_data($table, $where = ['' => ''])
     {
-        $query_one_day = $this->db->select('*')->distinct()->from('tb_info')
+        $query_one_day = $this->db->select('*')->distinct()->from($table)
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
@@ -20,14 +15,14 @@ class client_model extends CI_Model {
                                     ])->where($where)->get_compiled_select();
         
 
-        $query_every_day = $this->db->select('*')->distinct()->from('tb_info')
+        $query_every_day = $this->db->select('*')->distinct()->from($table)
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
                                         'id_repeater' => 'RE002'
                                     ])->where($where)->get_compiled_select();
         
-        $query_every_week = $this->db->select('*')->distinct()->from('tb_info')
+        $query_every_week = $this->db->select('*')->distinct()->from($table)
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
@@ -35,7 +30,7 @@ class client_model extends CI_Model {
                                         'id_repeater' => 'RE003'
                                     ])->where($where)->get_compiled_select();
 
-        $query_every_month = $this->db->select('*')->distinct()->from('tb_info')
+        $query_every_month = $this->db->select('*')->distinct()->from($table)
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
@@ -43,7 +38,7 @@ class client_model extends CI_Model {
                                         'id_repeater' => 'RE004'
                                     ])->where($where)->get_compiled_select();
                                     
-        $query_every_year = $this->db->select('*')->distinct()->from('tb_info')
+        $query_every_year = $this->db->select('*')->distinct()->from($table)
                                     ->where([
                                         'id_company' => $this->session->userdata('id_company'),
                                         'active' => 'true',
