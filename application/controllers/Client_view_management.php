@@ -127,7 +127,7 @@ class Client_view_management extends CI_Controller {
                 'nav_color' => $this->input->post('nav_color'),
                 'txt_color' => $this->input->post('txt_color'),
                 'txt_news_color' => $this->input->post('txt_news_color'),
-                'active' => false
+                'active_color' => false
             );
             if ($this->admin->insert('tb_client_coloring', $data)) {
                 $this->session->set_flashdata('success', 'Color Added Successfully!');
@@ -171,7 +171,7 @@ class Client_view_management extends CI_Controller {
     public function delete_color($id)
     {
         $get_data = $this->admin->get('tb_client_coloring', ['id_color' => $id]);
-        if ($det_data['active'] == false) {
+        if ($det_data['active_color'] == false) {
             if ($this->admin->delete('tb_client_coloring', 'id_color', $id)) {
                 $this->session->set_flashdata('success', 'Color '.$id.' deleted successfully!');
                 redirect('Client_view_management/color');
@@ -191,9 +191,9 @@ class Client_view_management extends CI_Controller {
     {
         $this->_has_login_session();
         $this->_is_owner();
-        $current_data_active = $this->admin->get('tb_client_coloring', ['id_company' => $this->session->userdata('id_company'), 'active' => true]);
-        if ($this->admin->update('tb_client_coloring', 'id_color', $id, ['active' => true])) {
-            if ($this->admin->update('tb_client_coloring', 'id_color', $current_data_active['id_color'], ['active' => false])) {
+        $current_data_active = $this->admin->get('tb_client_coloring', ['id_company' => $this->session->userdata('id_company'), 'active_color' => true]);
+        if ($this->admin->update('tb_client_coloring', 'id_color', $id, ['active_color' => true])) {
+            if ($this->admin->update('tb_client_coloring', 'id_color', $current_data_active['id_color'], ['active_color' => false])) {
                 $this->session->set_flashdata('success', 'Color used successfully!');
                 redirect('Client_view_management/color');    
             }
