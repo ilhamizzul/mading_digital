@@ -95,38 +95,39 @@
 			<form action="<?= base_url()?>Client_view_management/add_new_color" method="post" id="form_create"
 				enctype="multipart/form-data">
 				<div class="modal-body">
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" name="title" required maxlength="25" placeholder="Insert Title...">
-                    </div>
-                    <div class="form-group">
-                        <label>Background Color</label>
-                        <div class="form-row">
-                            <div class="col">
-                            <input type="color" class="form-control" name="bg_color1" required>
-                            </div>
-                            <div class="col">
-                            <input type="color" class="form-control" name="bg_color2" required>
-                            </div>
-                            <div class="col">
-                            <input type="color" class="form-control" name="bg_color3" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Footer & Navbar Color</label>
-                        <input type="color" class="form-control" name="navbar_color" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label>Default Text</label>
-                            <input type="color" class="form-control" name="txt_color" onchange="changeColor()" required maxlength="6" placeholder="Hex Code...">
-                        </div>
-                        <div class="form-group col">
-                            <label>News Text</label>
-                            <input type="color" class="form-control" name="txt_news_color" onchange="changeColor()" required maxlength="6" placeholder="Hex Code...">
-                        </div>
-                    </div>
+					<div class="form-group">
+						<label>Title</label>
+						<input type="text" class="form-control" name="title" required maxlength="25"
+							placeholder="Insert Title...">
+					</div>
+					<div class="form-group">
+						<label>Background Color</label>
+						<div class="form-row">
+							<div class="col">
+								<input type="color" class="form-control" name="bg_color1" required>
+							</div>
+							<div class="col">
+								<input type="color" class="form-control" name="bg_color2" required>
+							</div>
+							<div class="col">
+								<input type="color" class="form-control" name="bg_color3" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Footer & Navbar Color</label>
+						<input type="color" class="form-control" name="nav_color" required>
+					</div>
+					<div class="form-row">
+						<div class="form-group col">
+							<label>Default Text</label>
+							<input type="color" class="form-control" name="txt_color" required>
+						</div>
+						<div class="form-group col">
+							<label>News Text</label>
+							<input type="color" class="form-control" name="txt_news_color">
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -142,7 +143,7 @@
 	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Edit <span class="info_type"></span></h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Edit Color - <span class="title"></span></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -150,39 +151,38 @@
 			<form action="" method="post" id="form_edit" enctype="multipart/form-data">
 				<div class="modal-body">
 					<div class="form-group">
-						<label>Description</label>
-						<input type="text" class="form-control" id="description" name="description"
-							placeholder="Insert Description with max length 50..." required maxlength="50">
+						<label>Title</label>
+						<input type="text" class="form-control" id="title" name="title" required maxlength="25"
+							placeholder="Insert Title...">
+					</div>
+					<div class="form-group">
+						<label>Background Color</label>
+						<div class="form-row">
+							<div class="col">
+								<input type="color" class="form-control" id="bg_color1" name="bg_color1" required>
+							</div>
+							<div class="col">
+								<input type="color" class="form-control" id="bg_color2" name="bg_color2" required>
+							</div>
+							<div class="col">
+								<input type="color" class="form-control" id="bg_color3" name="bg_color3" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Footer & Navbar Color</label>
+						<input type="color" class="form-control" id="nav_color" name="nav_color" required>
 					</div>
 					<div class="form-row">
 						<div class="form-group col">
-							<label>Location</label>
-							<input type="text" class="form-control" id="location" name="location"
-								placeholder="Insert Location..." required maxlength="50">
+							<label>Default Text</label>
+							<input type="color" class="form-control" id="txt_color" name="txt_color" required
+								maxlength="6">
 						</div>
 						<div class="form-group col">
-							<label>Due Date</label>
-							<input class="form-control dateTimePicker" id="due_date" name="due_date" required>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col">
-							<label>Repeated By</label>
-							<select class="form-control" id="id_repeater" name="id_repeater" required>
-								<option value="">Chose...</option>
-								<?php foreach ($data_repeater as $data) : ?>
-								<option value="<?= $data['id_repeater'] ?>"><?= $data['description'] ?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
-						<div class="form-group col">
-							<label>Info Type</label>
-							<select class="form-control" id="info_type" name="info_type" required>
-								<option value="">Chose...</option>
-								<option value="event">Event</option>
-								<option value="slogan">Slogan</option>
-								<option value="news">News</option>
-							</select>
+							<label>News Text</label>
+							<input type="color" class="form-control" id="txt_news_color" name="txt_news_color"
+								required>
 						</div>
 					</div>
 				</div>

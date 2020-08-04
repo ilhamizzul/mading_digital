@@ -61,9 +61,9 @@ class Client_view_management extends CI_Controller {
         $this->form_validation->set_rules('bg_color1', 'Background Color 1', 'required');
         $this->form_validation->set_rules('bg_color2', 'Background Color 2', 'required');
         $this->form_validation->set_rules('bg_color3', 'Background Color 3', 'required');
-        $this->form_validation->set_rules('navbar_color', 'Background Color 1', 'required');
-        $this->form_validation->set_rules('txt_color', 'Background Color 1', 'required');
-        $this->form_validation->set_rules('txt_news_color', 'Background Color 1', 'required');
+        $this->form_validation->set_rules('nav_color', 'Navbar & Footer Color', 'required');
+        $this->form_validation->set_rules('txt_color', 'Default Text Color', 'required');
+        $this->form_validation->set_rules('txt_news_color', 'Text News Color', 'required');
     }
 
     public function index()
@@ -105,6 +105,11 @@ class Client_view_management extends CI_Controller {
         redirect('Client_view_management');
     }
 
+    public function get_color_by_id($id)
+    {
+        echo json_encode($this->admin->get('tb_client_coloring', ['id_color' => $id]));
+    }
+
     public function add_new_color()
     {
         $this->_has_login_session();
@@ -119,7 +124,7 @@ class Client_view_management extends CI_Controller {
                 'bg_color1' => $this->input->post('bg_color1'),
                 'bg_color2' => $this->input->post('bg_color2'),
                 'bg_color3' => $this->input->post('bg_color3'),
-                'nav_color' => $this->input->post('navbar_color'),
+                'nav_color' => $this->input->post('nav_color'),
                 'txt_color' => $this->input->post('txt_color'),
                 'txt_news_color' => $this->input->post('txt_news_color'),
                 'active' => false
@@ -129,6 +134,30 @@ class Client_view_management extends CI_Controller {
                 redirect('Client_view_management/color');
             } else {
                 $this->session->set_flashdata('failed', 'Color failed to add!');
+                redirect('Client_view_management/color');
+            }
+            
+        } else {
+            $this->session->set_flashdata('failed', validation_errors());
+            redirect('Client_view_management/color');
+        }
+        
+    }
+
+    public function edit_color($id)
+    {
+        $this->_has_login_session();
+        $this->_is_owner();
+        $this->_validation();
+
+        if ($this->form_validation->run() == TRUE) {
+            $data = $this->input->post(null, true);
+
+            if ($this->admin->update('tb_client_coloring', 'id_color', $id, $data) == TRUE) {
+                $this->session->set_flashdata('success', 'Color '.$id.' updated successfully!');
+                redirect('Client_view_management/color');
+            } else {
+                $this->session->set_flashdata('failed', 'Color failed to update!');
                 redirect('Client_view_management/color');
             }
             
