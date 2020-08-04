@@ -16,7 +16,7 @@
             box-sizing: border-box;
         }
         body {
-            background-image: linear-gradient(to bottom right, #023e8a, #0096c7, #48cae4);
+            background-image: linear-gradient(to bottom right, <?= $this->session->userdata('bg_color1')?>, <?= $this->session->userdata('bg_color2')?>, <?= $this->session->userdata('bg_color3')?>);
             background-size: cover;
             height: 100vh;
             display: flex;
@@ -24,7 +24,7 @@
             font-weight: 500;
         }
         .navbar {
-            background-color: #03045e;
+            background-color: <?= $this->session->userdata('nav_color')?>;
             min-width: 100vw;
             <?php if($content_group['navigation_bar']['active'] == 'true'): ?>
             margin-bottom: 3vh;
@@ -35,7 +35,7 @@
 
         .datetime {
             font-size:20px;
-            color: white;
+            color: <?= $this->session->userdata('txt_color')?>;
             font-weight: 700;
         }
 
@@ -77,7 +77,7 @@
             --marquee-elements-displayed: 1;
             --marquee-element-width: calc(var(--marquee-width)/var(--marquee-elements-displayed));
             --marquee-animation-duration: calc(var(--marquee-elements)*8s); 
-            --footer-color: #03045e;
+            --footer-color: <?= $this->session->userdata('nav_color')?>;
         }
 
         .marquee {
@@ -86,7 +86,7 @@
             width: var(--marquee-width);
             height: var(--marquee-height);  
             background-color: var(--footer-color);
-            color : white;
+            color : <?= $this->session->userdata('txt_color')?>;
             overflow : hidden;
         }
 
@@ -118,7 +118,7 @@
         }
 
         .news {
-            color: #48cae4;
+            color: <?= $this->session->userdata('txt_news_color')?>;
             font-weight: 800;
         }
 

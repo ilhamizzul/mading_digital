@@ -68,7 +68,7 @@ class Client_view_management extends CI_Controller {
 
     private function _color_pallete()
     {
-        $color = $this->admin->get('tb_client_coloring', ['id_company', $this->session->userdata('id_company'), 'active_color' => true]);
+        $color = $this->admin->get('tb_client_coloring', ['id_company' => $this->session->userdata('id_company'), 'active_color' => true]);
         
         $this->session->set_userdata('bg_color1', $color['bg_color1']);
         $this->session->set_userdata('bg_color2', $color['bg_color2']);

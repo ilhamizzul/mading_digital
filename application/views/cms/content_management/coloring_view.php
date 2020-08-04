@@ -59,19 +59,19 @@
 						</td>
 						<td>
 							<button
-								class="btn btn-circle btn-sm <?= $data['active'] == true ? 'btn-success' : 'btn-secondary' ?>"
-								title="<?= $data['active'] == false ? 'Use This Color' : '' ?>"
+								class="btn btn-circle btn-sm <?= $data['active_color'] == true ? 'btn-success' : 'btn-secondary' ?>"
+								title="<?= $data['active_color'] == false ? 'Use This Color' : '' ?>"
 								onclick="toggleColor('<?= $data['id_color'] ?>')" data-toggle="modal"
-								<?= ($data['active'] == true) ? 'disabled' : ''?> data-target="#dataToggleActivation"><i
+								<?= ($data['active_color'] == true) ? 'disabled' : ''?> data-target="#dataToggleActivation"><i
 									class="fa fa-fw fa-power-off"></i></button>
 							<button
-								class="btn btn-circle btn-sm <?= ($data['active'] == true) ? 'btn-secondary' : 'btn-warning'?>"
-								title="Edit color" <?= ($data['active'] == true) ? 'disabled' : ''?>
+								class="btn btn-circle btn-sm <?= ($data['active_color'] == true) ? 'btn-secondary' : 'btn-warning'?>"
+								title="Edit color" <?= ($data['active_color'] == true) ? 'disabled' : ''?>
 								onclick="editColor('<?= $data['id_color'] ?>')" data-toggle="modal"
 								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button>
 							<button
-								class="btn btn-circle btn-sm <?= ($data['active'] == true) ? 'btn-secondary' : 'btn-danger'?>"
-								title="Delete Color" <?= ($data['active'] == true) ? 'disabled' : ''?>
+								class="btn btn-circle btn-sm <?= ($data['active_color'] == true) ? 'btn-secondary' : 'btn-danger'?>"
+								title="Delete Color" <?= ($data['active_color'] == true) ? 'disabled' : ''?>
 								onclick="deleteColor('<?= $data['id_color'] ?>')" data-toggle="modal"
 								data-target="#delete"><i class="fa fa-fw fa-trash"></i></button>
 						</td>
