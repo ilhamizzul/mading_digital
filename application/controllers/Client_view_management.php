@@ -66,6 +66,20 @@ class Client_view_management extends CI_Controller {
         $this->form_validation->set_rules('txt_news_color', 'Text News Color', 'required');
     }
 
+    private function _color_pallete()
+    {
+        $color = $this->admin->get('tb_client_coloring', ['id_company', $this->session->userdata('id_company'), 'active_color' => true]);
+        
+        $this->session->set_userdata('bg_color1', $color['bg_color1']);
+        $this->session->set_userdata('bg_color2', $color['bg_color2']);
+        $this->session->set_userdata('bg_color3', $color['bg_color3']);
+        $this->session->set_userdata('nav_color', $color['nav_color']);
+        $this->session->set_userdata('txt_color', $color['txt_color']);
+        $this->session->set_userdata('txt_news_color', $color['txt_news_color']);
+        
+        return;
+    }
+
     public function index()
     {
         $this->_has_login_session();
@@ -194,6 +208,8 @@ class Client_view_management extends CI_Controller {
         $current_data_active = $this->admin->get('tb_client_coloring', ['id_company' => $this->session->userdata('id_company'), 'active_color' => true]);
         if ($this->admin->update('tb_client_coloring', 'id_color', $id, ['active_color' => true])) {
             if ($this->admin->update('tb_client_coloring', 'id_color', $current_data_active['id_color'], ['active_color' => false])) {
+                $this->_color_pallete();
+                $this->_pusher();
                 $this->session->set_flashdata('success', 'Color used successfully!');
                 redirect('Client_view_management/color');    
             }
