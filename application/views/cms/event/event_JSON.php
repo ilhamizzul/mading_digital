@@ -41,7 +41,7 @@
                 $(".event").remove()
                 $(".general-info").remove()
             }
-            $('#form_create').append(html)
+            $('#form_create > .modal-body').append(html)
         })
     }).change()
 
