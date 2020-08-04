@@ -56,6 +56,17 @@ class Client_view_management extends CI_Controller {
         $this->load->view('cms/template/template_view', $data);
     }
 
+    public function color()
+    {
+        $this->_has_login_session();
+        $this->_is_owner();
+        $data['title'] = $this->session->userdata('company_name').' - Client View Color Library';
+        $data['JSON'] = 'cms/content_management/coloring_JSON';
+        $data['data_color'] = $this->admin->get('tb_client_coloring', null, ['id_company' => $this->session->userdata('id_company')]);
+        $data['main_view'] = 'cms/content_management/coloring_view';
+        $this->load->view('cms/template/template_view', $data);
+    }
+
     public function update_template()
     {
         $this->_has_login_session();
