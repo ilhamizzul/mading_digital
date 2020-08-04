@@ -27,18 +27,11 @@
         })
     }
 
-    // function toggleEvent(id) {
-    //     $.getJSON('<?= base_url() ?>Event/get_event_by_id/' + id, (data) => { 
-    //         $('.id_info').html(data.id_info)
-    //         $('.info_type').html(data.info_type)    
-    //         $('#activate').attr('href', '<?= base_url() ?>Event/toggle_event/'+id)
-    //         if (data.active == 'true') {
-    //             $('.active_status').html('Unactivate')    
-    //         } else {
-    //             $('.active_status').html('Activate')
-    //         }
-            
-    //     })
-    // }
+    function toggleColor(id) {
+        $.getJSON('<?= base_url() ?>Client_view_management/get_color_by_id/' + id, (data) => { 
+            $('.id_color').html(data.id_color)
+            $('#activate').attr('href', '<?= base_url() ?>Client_view_management/toggle_color/'+id)
+        })
+    }
 
 </script>

@@ -187,6 +187,23 @@ class Client_view_management extends CI_Controller {
         
     }
 
+    public function toggle_color($id)
+    {
+        $this->_has_login_session();
+        $this->_is_owner();
+        $current_data_active = $this->admin->get('tb_client_coloring', ['id_company' => $this->session->userdata('id_company'), 'active' => true]);
+        if ($this->admin->update('tb_client_coloring', 'id_color', $id, ['active' => true])) {
+            if ($this->admin->update('tb_client_coloring', 'id_color', $current_data_active['id_color'], ['active' => false])) {
+                $this->session->set_flashdata('success', 'Color used successfully!');
+                redirect('Client_view_management/color');    
+            }
+        } else {
+            $this->session->set_flashdata('failed', 'Color failed to use!');
+            redirect('Client_view_management/color');
+        }
+        
+    }
+
 }
 
 /* End of file Client_view_management.php */
