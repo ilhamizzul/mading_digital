@@ -3,13 +3,6 @@
 
         $('#dataTable').dataTable()
 
-        $('#create_button').click(function() {
-            $('#form_create').submit();
-        });
-
-        $('#edit_button').click(function() {
-            $('#form_edit').submit();
-        })
     })
 
     function toggleCarousel(id) {
