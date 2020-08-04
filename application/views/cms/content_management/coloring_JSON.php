@@ -19,6 +19,14 @@
         })
     }
 
+    function deleteColor(id) {
+        $.getJSON('<?= base_url() ?>Client_view_management/get_color_by_id/' + id, (data) => { 
+            $('.title').html(data.title)
+            $('.id_color').text(data.id_color)
+            $('#delete_button').attr('href', '<?= base_url() ?>Client_view_management/delete_color/'+id)
+        })
+    }
+
     // function toggleEvent(id) {
     //     $.getJSON('<?= base_url() ?>Event/get_event_by_id/' + id, (data) => { 
     //         $('.id_info').html(data.id_info)

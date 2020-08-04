@@ -168,6 +168,25 @@ class Client_view_management extends CI_Controller {
         
     }
 
+    public function delete_color($id)
+    {
+        $get_data = $this->admin->get('tb_client_coloring', ['id_color' => $id]);
+        if ($det_data['active'] == false) {
+            if ($this->admin->delete('tb_client_coloring', 'id_color', $id)) {
+                $this->session->set_flashdata('success', 'Color '.$id.' deleted successfully!');
+                redirect('Client_view_management/color');
+            } else {
+                $this->session->set_flashdata('failed', 'Color failed to delete!');
+                redirect('Client_view_management/color');
+            }
+            
+        } else {
+            $this->session->set_flashdata('failed', 'You can not delete active data!');
+            redirect('Client_view_management/color');
+        }
+        
+    }
+
 }
 
 /* End of file Client_view_management.php */

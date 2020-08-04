@@ -71,7 +71,7 @@
 								data-target="#Edit"><i class="fa fa-fw fa-edit"></i></button>
 							<button
 								class="btn btn-circle btn-sm <?= ($data['active'] == true) ? 'btn-secondary' : 'btn-danger'?>"
-								title="Delete Event" <?= ($data['active'] == true) ? 'disabled' : ''?>
+								title="Delete Color" <?= ($data['active'] == true) ? 'disabled' : ''?>
 								onclick="deleteColor('<?= $data['id_color'] ?>')" data-toggle="modal"
 								data-target="#delete"><i class="fa fa-fw fa-trash"></i></button>
 						</td>
@@ -225,15 +225,15 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Delete <span class="info_type"></span></h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Delete Color -  <span class="title"></span></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
 				<h5 style="text-align:center">
-					Are you sure you want to delete this <span class="info_type"></span>? <br>
-					<b><span class="id_info"></span></b>
+					Are you sure you want to delete this color? <br>
+					<b><span class="id_color"></span></b>
 				</h5>
 				<h6 style="text-align:center">(Once data has been deleted can not be revert back)</h6>
 			</div>
