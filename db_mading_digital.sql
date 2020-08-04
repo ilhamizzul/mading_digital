@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 03, 2020 at 04:26 AM
+-- Generation Time: Aug 04, 2020 at 11:07 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -47,8 +47,36 @@ CREATE TABLE `tb_carousel` (
 
 INSERT INTO `tb_carousel` (`id_carousel`, `data_carousel`, `title`, `description`, `data_type`, `active`, `id_company`, `id_repeater`, `createdAt`, `activedAt`) VALUES
 ('CA-I-2007270001', '49388510_p0.jpg', 'Version Control with Git Final Project', '', 'image', 'true', 'COM1000001', 'RE002', '2020-07-27 16:03:26', '2020-07-30 15:47:13'),
-('CA-I-2007300001', 'Alone.jpg', 'chemistry', '', 'image', 'true', 'COM1000001', 'RE002', '2020-07-30 16:32:29', '2020-07-30 16:49:58'),
+('CA-I-2007300001', 'Alone.jpg', 'chemistry', '', 'image', 'true', 'COM1000001', 'RE003', '2020-07-30 16:32:29', '2020-08-04 10:23:28'),
 ('CA-V-2007280001', 'sample.mp4', 'Our Planet', 'watch the documentary series free on netflix channel', 'video', 'true', 'COM1000001', 'RE002', '2020-07-28 09:48:10', '2020-08-03 08:18:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_client_coloring`
+--
+
+CREATE TABLE `tb_client_coloring` (
+  `id_color` varchar(15) NOT NULL,
+  `id_company` varchar(10) NOT NULL,
+  `title` varchar(25) NOT NULL,
+  `bg_color1` varchar(7) NOT NULL,
+  `bg_color2` varchar(7) NOT NULL,
+  `bg_color3` varchar(7) NOT NULL,
+  `nav_color` varchar(7) NOT NULL,
+  `txt_color` varchar(7) NOT NULL,
+  `txt_news_color` varchar(7) NOT NULL,
+  `active_color` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_client_coloring`
+--
+
+INSERT INTO `tb_client_coloring` (`id_color`, `id_company`, `title`, `bg_color1`, `bg_color2`, `bg_color3`, `nav_color`, `txt_color`, `txt_news_color`, `active_color`) VALUES
+('COL-20080400001', 'COM1000001', 'vnfdks', '#db2929', '#ba0303', '#642b2b', '#ba1212', '#f46767', '#240000', 0),
+('COL-20080400002', 'COM1000001', 'ufbes', '#1aff47', '#1916e9', '#e63333', '#db2424', '#15a8b2', '#f5f5f5', 1),
+('COL200804000001', 'COM1000001', 'Default', '#023e8a', '#0096c7', '#48cae4', '#03045e', 'white', '#48cae4', 0);
 
 -- --------------------------------------------------------
 
@@ -92,8 +120,8 @@ CREATE TABLE `tb_content_grp` (
 
 INSERT INTO `tb_content_grp` (`id`, `id_company`, `description`, `active`) VALUES
 (1, 'COM1000001', 'footer', 'true'),
-(2, 'COM1000001', 'carousel', 'false'),
-(3, 'COM1000001', 'schedule', 'false'),
+(2, 'COM1000001', 'carousel', 'true'),
+(3, 'COM1000001', 'schedule', 'true'),
 (4, 'COM1000001', 'navigation_bar', 'true');
 
 -- --------------------------------------------------------
@@ -122,8 +150,10 @@ CREATE TABLE `tb_info` (
 INSERT INTO `tb_info` (`id_info`, `description`, `location`, `due_date`, `info_type`, `active`, `id_repeater`, `id_company`, `createdAt`, `activedAt`) VALUES
 ('EV-200724000001', 'meeting about SeREG', 'meeting room', '2020-07-31 08:19:00', 'event', 'false', 'RE001', 'COM1000001', '2020-07-27 09:02:31', '2020-07-30 15:59:55'),
 ('EV-200727000001', 'urgent meeting', 'meeting room', '2020-07-31 06:30:00', 'event', '', 'RE001', 'COM1000001', '2020-07-27 09:02:09', '2020-07-30 16:05:29'),
-('NE-200725000001', 'lorem ipsum dolor sit amet', '', '2020-12-31 11:06:00', 'news', 'false', 'RE003', 'COM1000001', '2020-07-27 09:46:24', '2020-07-30 16:01:12'),
-('SL-200729000001', 'HOK A HOK E', '-', '2020-12-30 11:59:00', 'slogan', 'false', 'RE002', 'COM1000001', '2020-07-29 09:45:57', '2020-07-30 16:03:38');
+('NE-200725000001', 'lorem ipsum dolor sit amet hiyahiyahiya', '', '2020-12-31 11:06:00', 'news', 'false', 'RE003', 'COM1000001', '2020-07-27 09:46:24', '2020-08-04 10:39:34'),
+('NE-200804000001', 'udnsindv', '-', '2020-08-27 03:46:00', 'news', 'true', 'RE002', 'COM1000001', '2020-08-04 15:46:57', '2020-08-04 15:47:04'),
+('SL-200729000001', 'HOK A HOK E', '-', '2020-12-30 11:59:00', 'slogan', 'true', 'RE002', 'COM1000001', '2020-07-29 09:45:57', '2020-08-04 08:57:20'),
+('SL-200804000001', 'cuci tangan gan', '-', '2020-08-31 08:57:00', 'slogan', 'true', 'RE003', 'COM1000001', '2020-08-04 08:58:06', '2020-08-04 08:58:10');
 
 -- --------------------------------------------------------
 
@@ -192,6 +222,13 @@ ALTER TABLE `tb_carousel`
   ADD KEY `id_repeater` (`id_repeater`);
 
 --
+-- Indexes for table `tb_client_coloring`
+--
+ALTER TABLE `tb_client_coloring`
+  ADD PRIMARY KEY (`id_color`),
+  ADD KEY `id_company` (`id_company`);
+
+--
 -- Indexes for table `tb_company`
 --
 ALTER TABLE `tb_company`
@@ -247,6 +284,12 @@ ALTER TABLE `tb_content_grp`
 ALTER TABLE `tb_carousel`
   ADD CONSTRAINT `tb_carousel_ibfk_1` FOREIGN KEY (`id_company`) REFERENCES `tb_company` (`id_company`) ON DELETE CASCADE,
   ADD CONSTRAINT `tb_carousel_ibfk_2` FOREIGN KEY (`id_repeater`) REFERENCES `tb_repeater` (`id_repeater`);
+
+--
+-- Constraints for table `tb_client_coloring`
+--
+ALTER TABLE `tb_client_coloring`
+  ADD CONSTRAINT `tb_client_coloring_ibfk_1` FOREIGN KEY (`id_company`) REFERENCES `tb_company` (`id_company`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tb_content_grp`
