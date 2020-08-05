@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class client_model extends CI_Model {
 
-    public function get_active_data($table, $where = ['' => ''])
+    public function get_active_data($table, $where)
     {
         $query_one_day = $this->db->select('*')->distinct()->from($table)
                                     ->where([
