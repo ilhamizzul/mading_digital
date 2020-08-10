@@ -12054,9 +12054,17 @@ a:focus {
 }
 
 .bg-register-image {
-	background: url(https://source.unsplash.com/Mv9hjnEUHR4/600x800);
+	background: url(http://localhost/mading_digital/assets/CMS/img/register.svg);
 	background-position: center;
-	background-size: cover
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.bg-register-success-image {
+	background: url(http://localhost/mading_digital/assets/CMS/img/register_success.svg);
+	background-position: center;
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 
 .bg-password-image {
