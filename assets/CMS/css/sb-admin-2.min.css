@@ -12060,6 +12060,13 @@ a:focus {
 	background-repeat: no-repeat;
 }
 
+.bg-login-admin-image {
+	background: url(http://localhost/mading_digital/assets/CMS/img/admin_login.svg);
+	background-position: center;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
 .bg-register-success-image {
 	background: url(http://localhost/mading_digital/assets/CMS/img/register_success.svg);
 	background-position: center;

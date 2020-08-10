@@ -158,6 +158,45 @@ class Auth extends CI_Controller {
         
     }
 
+    public function super_login()
+    {
+        $this->_has_login();
+        
+        $data['title'] = 'Superadmin Login';
+        $this->load->view('super_cms/auth/login_view', $data);
+    }
+
+    public function login_send()
+    {
+        $this->_login_validation();
+        $this->_has_login();
+
+        if ($this->form_validation->run() == TRUE) {
+            $input = $this->input->post(NULL, TRUE);
+            $data_admin = $this->auth->get_data_admin($input['username']);
+            if (password_verify($input['password'], $data_admin['password'])) {
+                $data = array(
+                    'logged_in'         => TRUE,
+                    'fullname'          => $data_admin['user_name'],
+                    'username'          => $data_admin['username'],
+                    'profile_picture'   => $data_admin['profile_picture'],
+                    'role'              => 'superadmin'
+                );
+                $this->session->set_userdata( $data );
+
+                $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('fullname'));
+                redirect('Dashboard');
+            } else {
+                $this->session->set_flashdata('failed', 'Incorrect password account!');
+                redirect('Auth');    
+            }
+        } else {
+            $this->session->set_flashdata('failed', validation_errors());
+            redirect('Auth/super_login');
+        }
+        
+    }
+
     public function register()
     {
         $this->_has_login();
@@ -221,7 +260,6 @@ class Auth extends CI_Controller {
 
     public function logout()
     {
-        $this->auth->toggleLoginStatus($this->session->userdata('id_user'), ['onLogin' => false]);
         $this->session->sess_destroy();
         redirect('Auth','refresh');
     }
