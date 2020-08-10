@@ -56,6 +56,14 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('owner_email', 'Owner Email', 'required|max_length[35]|is_unique[tb_user.email]');
     }
 
+    private function _verify_validity($validity)
+    {
+        if ($validity >= date('Y-m-d') ) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     private function _generateId()
     {
         $code = 'US-'.date('ymd');
@@ -117,23 +125,29 @@ class Auth extends CI_Controller {
                     $data_user = $this->auth->get_data_user($input['username'], $user_account['password']);
                     if ($this->_is_user_active($data_user['active'])) {
                         if ($this->_is_company_active($data_user['activeStatus'])) {
-                            $data_user = array(
-                                'logged_in'         => TRUE,
-                                'id_user'           => $data_user['id_user'],
-                                'nama_user'         => $data_user['user_name'],
-                                'username'          => $data_user['username'],
-                                'role'              => $data_user['role'],
-                                'profile_picture'   => $data_user['profile_picture'],
-                                'id_company'        => $data_user['id_company'],
-                                'company_name'      => $data_user['company_name'],
-                                'company_logo'      => $data_user['company_logo']
-                            );
-                            $this->session->set_userdata( $data_user );
-
-                            $this->_color_pallete();
-
-                            $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
-                            redirect('Dashboard');
+                            if ($this->_verify_validity($data_user['validity'])) {
+                                $data_user = array(
+                                    'logged_in'         => TRUE,
+                                    'id_user'           => $data_user['id_user'],
+                                    'nama_user'         => $data_user['user_name'],
+                                    'username'          => $data_user['username'],
+                                    'role'              => $data_user['role'],
+                                    'profile_picture'   => $data_user['profile_picture'],
+                                    'id_company'        => $data_user['id_company'],
+                                    'company_name'      => $data_user['company_name'],
+                                    'company_logo'      => $data_user['company_logo']
+                                );
+                                $this->session->set_userdata( $data_user );
+    
+                                $this->_color_pallete();
+    
+                                $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
+                                redirect('Dashboard');
+                            } else {
+                                $this->session->set_flashdata('failed', 'Company validity has ended!');
+                                redirect('Auth');
+                            }
+                            
                         } else {
                             $this->session->set_flashdata('failed', 'Company Account still not active, Please call superadmin for company activation!');
                             redirect('Auth');
