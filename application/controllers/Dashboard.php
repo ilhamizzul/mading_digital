@@ -37,6 +37,7 @@ class Dashboard extends CI_Controller {
                                     'active_news' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'news']), 
                                     'active_slogan' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'slogan']) 
                                 );
+            $data['data_company'] = $this->admin->get('tb_company', ['id_company' => $this->session->userdata('id_company')]);
             $this->load->view('cms/template/template_view', $data);
         }
     }
