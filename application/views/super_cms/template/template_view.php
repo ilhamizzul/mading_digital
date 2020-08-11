@@ -54,9 +54,9 @@
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></a>
                 </li>
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Carousel') {echo 'active';}; ?>">
-                    <a class="nav-link" href="<?= base_url('Carousel') ?>">
-                        <i class="fas fa-fw fa-file-image"></i>
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Company') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url('Company') ?>">
+                        <i class="fas fa-fw fa-building"></i>
                         <span>Data Company</span></a>
                 </li>
 
