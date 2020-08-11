@@ -46,6 +46,19 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
     }
 
+    private function _is_first_time_login($id_company, $first_login)
+    {
+        $dt2 = new DateTime("+1 month");
+        $date = $dt2->format("Y-m-d");
+        if ($first_login) {
+            $this->admin->update('tb_company', 'id_company', $id_company, ['firstLogin' => false, 'validity' => $date]);
+            return $date;
+        } else {
+            $validity = $this->admin->get('tb_company', ['id_company' => $id_company]);
+            return $validity['validity'];
+        }
+    }
+
     private function _register_validation()
     {
         $this->form_validation->set_rules('company_name', 'Company Name', 'required|max_length[50]|is_unique[tb_company.company_name]');
@@ -124,8 +137,12 @@ class Auth extends CI_Controller {
 
                     $data_user = $this->auth->get_data_user($input['username'], $user_account['password']);
                     if ($this->_is_user_active($data_user['active'])) {
+
                         if ($this->_is_company_active($data_user['activeStatus'])) {
-                            if ($this->_verify_validity($data_user['validity'])) {
+
+                            $validity = $this->_is_first_time_login($data_user['id_company'], $data_user['firstLogin']);
+
+                            if ($this->_verify_validity($validity)) {
                                 $data_user = array(
                                     'logged_in'         => TRUE,
                                     'id_user'           => $data_user['id_user'],
