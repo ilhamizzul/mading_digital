@@ -36,8 +36,8 @@ class Company extends CI_Controller {
 			'protocol' => 'smtp', 
 			'smtp_host' => 'ssl://smtp.googlemail.com', 
 			'smtp_port' => 465, 
-			'smtp_user' => 'ilhamizzul@gmail.com', 
-            'smtp_pass' => 'ilhamizzul123',
+			'smtp_user' => '', 
+            'smtp_pass' => '',
             'charset'   => 'iso-8859-1'
 		);
         $this->load->library('email', $config);
