@@ -72,7 +72,8 @@ class User_management extends CI_Controller {
                 'password'      => password_hash($this->input->post('password'), PASSWORD_DEFAULT), 
                 'role'          => $this->input->post('role'), 
                 'active'        => 'false',
-                'id_company'    => $this->session->userdata('id_company')
+                'id_company'    => $this->session->userdata('id_company'),
+                'createdAt'     => date('Y-m-d H:i:s')
             );
 
             if ($this->admin->insert('tb_user', $data) == TRUE) {

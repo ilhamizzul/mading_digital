@@ -19,6 +19,12 @@ class Auth extends CI_Controller {
             redirect('dashboard');
         }
     }
+    
+    private function _login_validation()
+    {
+        $this->form_validation->set_rules('username', 'Username', 'required|trim');
+        $this->form_validation->set_rules('password', 'Password', 'required|trim');
+    }
 
     public function _is_company_active($company_active_status)
     {
@@ -67,12 +73,6 @@ class Auth extends CI_Controller {
             'active_color'      => true
         );
         $this->admin->insert('tb_client_coloring', $colorset);
-    }
-
-    private function _login_validation()
-    {
-        $this->form_validation->set_rules('username', 'Username', 'required|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|trim');
     }
 
     private function _generate_content_group($id)
@@ -331,7 +331,8 @@ class Auth extends CI_Controller {
                     'email'         => $data['owner_email'],
                     'active'        => 'false',
                     'role'          => 'owner',
-                    'id_company'    => $id_company
+                    'id_company'    => $id_company,
+                    'createdAt'     => date('Y-m-d H:i:s')
                 );
                 if ($this->admin->insert('tb_user', $data_owner) == TRUE) {
                     redirect('Auth/register_success');

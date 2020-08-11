@@ -107,7 +107,8 @@ class Event extends CI_Controller {
                 'id_repeater'   => $this->input->post('id_repeater'),
                 'info_type'     => $this->input->post('info_type'),
                 'active'        => 'false',
-                'id_company'    => $this->session->userdata('id_company') 
+                'id_company'    => $this->session->userdata('id_company'),
+                'createdAt'     => date('Y-m-d H:i:s')
             );
             if ($this->input->post('info_type') != 'event') {
                 $data['location'] = '-';
@@ -146,7 +147,7 @@ class Event extends CI_Controller {
         if ($get_data['active'] == 'true') {
             $data = array('active' => 'false' );
         } else {
-            $data = array('active' => 'true' );
+            $data = array('active' => 'true', 'activedAt' => date('Y-m-d H:i:s') );
         }
         // if data is pass due date (EXPIRED) and data active status is false
         if (($get_data['due_date'] < date('Y-m-d H:i:s')) && ($get_data['active'] == 'false')) {

@@ -111,7 +111,8 @@ class Carousel extends CI_Controller {
                     'data_carousel'     => $this->upload->data()['file_name'],
                     'active'            => 'false',
                     'id_company'        => $this->session->userdata('id_company'),
-                    'id_repeater'       => $this->input->post('id_repeater')
+                    'id_repeater'       => $this->input->post('id_repeater'),
+                    'createdAt'         => date('Y-m-d H:i:s')
                 );
                 
                 if ($this->admin->insert('tb_carousel', $data) == TRUE) {
@@ -225,7 +226,7 @@ class Carousel extends CI_Controller {
         if ($active_status == 'true') {
             $data = array('active' => 'false' );
         } else {
-            $data = array('active' => 'true' );
+            $data = array('active' => 'true', 'activedAt' => date('Y-m-d H:i:s') );
         }
 
         if($this->admin->update('tb_carousel', 'id_carousel', $id, $data) == TRUE ){
