@@ -39,7 +39,7 @@
                         <td><?= $data['user_email'] ?></td>
                         <td><?= $data['create_time'] ?></td>
                         <td>
-                            <button class="btn btn-circle btn-sm btn-success" title="Grant Access"><i class="fa fa-fw fa-power-off"></i></button>
+                            <button class="btn btn-circle btn-sm btn-success" data-toggle="modal" data-target="#modalGrantAccess" onclick="grantAccess('<?= $data['id_company'] ?>')" title="Grant Access"><i class="fa fa-fw fa-power-off"></i></button>
                         </td>
 					</tr>
                     <?php endforeach; ?>
@@ -50,7 +50,7 @@
 </div>
 
 <!-- MODAL GRANT ACCESS -->
-<div class="modal fade" id="dataToggleActivation" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modalGrantAccess" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">

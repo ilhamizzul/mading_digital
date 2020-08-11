@@ -32,7 +32,7 @@ class Superadmin_model extends CI_Model {
 
     public function get_data_company($where)
     {
-        return $this->db->select('tb_user.email as user_email, tb_company.email as company_email, validity, company_logo, company_name, user_name, tb_company.createdAt as create_time')
+        return $this->db->select('tb_company.id_company as id_company, tb_user.email as user_email, tb_company.email as company_email, validity, company_logo, company_name, user_name, tb_company.createdAt as create_time')
                         ->from('tb_company')
                         ->join('tb_user', 'tb_user.id_company = tb_company.id_company')
                         ->where('tb_user.role', 'owner')
