@@ -75,14 +75,44 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
     }
 
+    private function _generate_content_group($id)
+    {
+        $data = array(
+            array(
+                'id_company'    => $id, 
+                'description'   => 'footer',
+                'active'        => 'true'
+            ),
+            array(
+                'id_company'    => $id, 
+                'description'   => 'carousel',
+                'active'        => 'true'
+            ),
+            array(
+                'id_company'    => $id, 
+                'description'   => 'schedule',
+                'active'        => 'true'
+            ),
+            array(
+                'id_company'    => $id, 
+                'description'   => 'navigation_bar',
+                'active'        => 'true'
+            )
+        );
+        $this->admin->insert('tb_content_grp', $data, true);
+        return;
+    }
+
     private function _is_first_time_login($data_user)
     {
         if ($data_user['firstLogin']) {
             $dt2 = new DateTime("+1 month");
             $date = $dt2->format("Y-m-d");
-            $this->_set_default_color($data_user['id_company']);
-            $this->_make_directory($data_user);
             $this->admin->update('tb_company', 'id_company', $data_user['id_company'], ['firstLogin' => false, 'validity' => $date]);
+            $this->_set_default_color($data_user['id_company']);
+            $this->_generate_content_group($data_user['id_company']);
+            $this->_make_directory($data_user);
+            return $date;
         } else {
             $validity = $this->admin->get('tb_company', ['id_company' => $data_user['id_company']]);
             return $validity['validity'];
