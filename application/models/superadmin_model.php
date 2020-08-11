@@ -30,7 +30,7 @@ class Superadmin_model extends CI_Model {
         
     }
 
-    public function get_data_company($where)
+    public function get_data_company($where = null)
     {
         return $this->db->select('tb_company.id_company as id_company, tb_user.email as user_email, tb_company.email as company_email, validity, company_logo, company_name, user_name, tb_company.createdAt as create_time')
                         ->from('tb_company')
@@ -40,6 +40,17 @@ class Superadmin_model extends CI_Model {
                         ->group_by('tb_company.id_company')
                         ->get()
                         ->result_array();
+    }
+
+    public function verify_company($id)
+    {
+        return $this->db->select('tb_company.id_company as id_company, activeStatus, active, id_user')
+                        ->from('tb_company')
+                        ->join('tb_user', 'tb_user.id_company = tb_company.id_company')
+                        ->where('tb_user.role', 'owner')
+                        ->where('tb_company.id_company', $id)
+                        ->get()
+                        ->row_array();
     }
 
 }

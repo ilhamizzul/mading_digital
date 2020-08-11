@@ -91,8 +91,9 @@ class Company extends CI_Controller {
                         a {
                             padding: 15px;
                             border-radius: 5px;
-                            background-color: #023e8a;
+                            border: 2.5px solid #023e8a;
                             color: white;
+                            font-weight: 600;
                             text-decoration: none;
                         }
                     </style>
@@ -105,7 +106,7 @@ class Company extends CI_Controller {
                         </div>
                         <div class="body">
                             <h3 class="text-center">Thank you for submiting the registration form! <br> for the next step, please open verification page on the button below</h3>
-                            <center><a href="'.base_url().'">Verify Account</a></center>
+                            <center><a href="'.base_url().'Verify/index/'.$data['id_company'].'">Verify Account</a></center>
                         </div>
                         <div class="row footer">
                             <h4 class="">Copyright &copy; Sistem Mading Digital 2020</h4>
