@@ -249,7 +249,8 @@ class Auth extends CI_Controller {
                 'company_name'  => $data['company_name'], 
                 'email'         => $data['company_email'], 
                 'activeStatus'  => false,
-                'createdAt'     => date('Y-m-d H:i:s')
+                'createdAt'     => date('Y-m-d H:i:s'),
+                'firstLogin'    => true
             );
 
             if ($this->admin->insert('tb_company', $data_company) == TRUE) {
