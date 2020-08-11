@@ -30,7 +30,7 @@ class Auth extends CI_Controller {
         
     }
 
-    public function _is_user_active($user_active_status)
+    private function _is_user_active($user_active_status)
     {
         if ($user_active_status == 'true') {
             return TRUE;
@@ -40,21 +40,51 @@ class Auth extends CI_Controller {
         
     }
 
+    private function _make_directory($data_user)
+    {
+        mkdir('./uploads/'.$data_user['company_name']);
+        mkdir('./uploads/'.$data_user['company_name'].'/company');
+        mkdir('./uploads/'.$data_user['company_name'].'/carousel');
+        mkdir('./uploads/'.$data_user['company_name'].'/carousel/image');
+        mkdir('./uploads/'.$data_user['company_name'].'/carousel/video');
+        mkdir('./uploads/'.$data_user['company_name'].'/user');
+        mkdir('./uploads/'.$data_user['company_name'].'/user/'.$data_user['username']);
+        return;
+    }
+
+    private function _set_default_color($id_company)
+    {
+        $colorset = array(
+            'id_color'          => $this->_generateIdColor(),
+            'id_company'        => $id_company, 
+            'title'             => 'Default',
+            'bg_color1'         => '#023e8a',
+            'bg_color2'         => '#0096c7',
+            'bg_color3'         => '#48cae4',
+            'nav_color'         => '#03045e',
+            'txt_color'         => 'white',
+            'txt_news_color'    => '#48cae4',
+            'active_color'      => true
+        );
+        $this->admin->insert('tb_client_coloring', $colorset);
+    }
+
     private function _login_validation()
     {
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
     }
 
-    private function _is_first_time_login($id_company, $first_login)
+    private function _is_first_time_login($data_user)
     {
-        $dt2 = new DateTime("+1 month");
-        $date = $dt2->format("Y-m-d");
-        if ($first_login) {
-            $this->admin->update('tb_company', 'id_company', $id_company, ['firstLogin' => false, 'validity' => $date]);
-            return $date;
+        if ($data_user['firstLogin']) {
+            $dt2 = new DateTime("+1 month");
+            $date = $dt2->format("Y-m-d");
+            $this->_set_default_color($data_user['id_company']);
+            $this->_make_directory($data_user);
+            $this->admin->update('tb_company', 'id_company', $data_user['id_company'], ['firstLogin' => false, 'validity' => $date]);
         } else {
-            $validity = $this->admin->get('tb_company', ['id_company' => $id_company]);
+            $validity = $this->admin->get('tb_company', ['id_company' => $data_user['id_company']]);
             return $validity['validity'];
         }
     }
@@ -71,7 +101,7 @@ class Auth extends CI_Controller {
 
     private function _verify_validity($validity)
     {
-        if ($validity >= date('Y-m-d') ) {
+        if ($validity >= date('Y-m-d')) {
             return TRUE;
         }
         return FALSE;
@@ -84,6 +114,16 @@ class Auth extends CI_Controller {
         $add_code = substr($last_code, -6);
         $add_code++;
         $number = str_pad($add_code, 6, '0', STR_PAD_LEFT);
+        return $code . $number;
+    }
+
+    private function _generateIdColor()
+    {
+        $code = 'COL-'.date('ymd');
+        $last_code = $this->admin->getMax('tb_client_coloring', 'id_color', $code);
+        $add_code = substr($last_code, -5);
+        $add_code++;
+        $number = str_pad($add_code, 5, '0', STR_PAD_LEFT);
         return $code . $number;
     }
 
@@ -140,8 +180,7 @@ class Auth extends CI_Controller {
 
                         if ($this->_is_company_active($data_user['activeStatus'])) {
 
-                            $validity = $this->_is_first_time_login($data_user['id_company'], $data_user['firstLogin']);
-
+                            $validity = $this->_is_first_time_login($data_user);
                             if ($this->_verify_validity($validity)) {
                                 $data_user = array(
                                     'logged_in'         => TRUE,
