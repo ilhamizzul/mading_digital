@@ -28,6 +28,15 @@ class Company_management extends CI_Controller {
         }
     }
 
+    private function _verify_validity()
+    {
+        if ($this->session->userdata('validity') >= date('Y-m-d')) {
+            return;
+        } else {
+            redirect('Page403');
+        }
+    }
+
     public function _is_owner()
     {
         if ($this->session->userdata('role') != 'owner') {
@@ -44,8 +53,9 @@ class Company_management extends CI_Controller {
 
     public function index()
     {
-        $this->_is_owner();
         $this->_has_login_session();
+        $this->_verify_validity();
+        $this->_is_owner();
         $data['title'] = $this->session->userdata('company_name').' - Company Setting';
         $data['main_view'] = 'cms/company/company_view';
         $data['count_users'] = $this->admin->count_all_users();
@@ -57,8 +67,9 @@ class Company_management extends CI_Controller {
 
     public function change_company_logo()
     {
-        $this->_is_owner();
         $this->_has_login_session();
+        $this->_verify_validity();
+        $this->_is_owner();
         $this->_upload_config();
         
         if ($this->upload->do_upload('company_logo')) {
@@ -84,8 +95,9 @@ class Company_management extends CI_Controller {
 
     public function update_company()
     {
-        $this->_is_owner();
         $this->_has_login_session();
+        $this->_verify_validity();
+        $this->_is_owner();
         $this->_company_validation();
         if ($this->form_validation->run() == TRUE) {
             $data = $this->input->post(null, TRUE);

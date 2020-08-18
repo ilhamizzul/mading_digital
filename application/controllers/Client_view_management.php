@@ -28,6 +28,15 @@ class Client_view_management extends CI_Controller {
         }
     }
 
+    private function _verify_validity()
+    {
+        if ($this->session->userdata('validity') >= date('Y-m-d')) {
+            return;
+        } else {
+            redirect('Page403');
+        }
+    }
+
     private function _generateId()
     {
         $code = 'COL-'.date('ymd');
@@ -83,6 +92,7 @@ class Client_view_management extends CI_Controller {
     public function index()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_is_owner();
         $data['title'] = $this->session->userdata('company_name').' - Client View Management';
         $data['JSON'] = 'cms/content_management/content_management_JSON';
@@ -94,6 +104,7 @@ class Client_view_management extends CI_Controller {
     public function color()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_is_owner();
         $data['title'] = $this->session->userdata('company_name').' - Client View Color Library';
         $data['JSON'] = 'cms/content_management/coloring_JSON';
@@ -105,6 +116,7 @@ class Client_view_management extends CI_Controller {
     public function update_template()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_is_owner();
         $data_input = $this->input->post(null, TRUE);
         
@@ -127,6 +139,7 @@ class Client_view_management extends CI_Controller {
     public function add_new_color()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_is_owner();
         $this->_validation();
 
@@ -161,6 +174,7 @@ class Client_view_management extends CI_Controller {
     public function edit_color($id)
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_is_owner();
         $this->_validation();
 
@@ -184,6 +198,8 @@ class Client_view_management extends CI_Controller {
 
     public function delete_color($id)
     {
+        $this->_has_login_session();
+        $this->_verify_validity();
         $get_data = $this->admin->get('tb_client_coloring', ['id_color' => $id]);
         if ($det_data['active_color'] == false) {
             if ($this->admin->delete('tb_client_coloring', 'id_color', $id)) {
@@ -204,6 +220,7 @@ class Client_view_management extends CI_Controller {
     public function toggle_color($id)
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_is_owner();
         $current_data_active = $this->admin->get('tb_client_coloring', ['id_company' => $this->session->userdata('id_company'), 'active_color' => true]);
         if ($this->admin->update('tb_client_coloring', 'id_color', $id, ['active_color' => true])) {

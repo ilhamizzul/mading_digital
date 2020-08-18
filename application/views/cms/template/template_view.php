@@ -55,7 +55,7 @@
                         <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" <?= $this->session->userdata('validity') > date('Y-m-d') ? 'href="'.base_url("Home").'" target="_blank"' : '' ;?>>
+                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Home").'" target="_blank"' : '' ;?>>
                         <i class="fas fa-fw fa-home"></i>
                         <span>Client View</span></a>
                 </li>
@@ -66,13 +66,13 @@
                 </div>
 
                 <li class="nav-item <?php if($this->uri->segment(1) == 'Carousel') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') > date('Y-m-d') ? 'href="'.base_url("Carousel").'"' : '' ;?>>
+                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Carousel").'"' : '' ;?>>
                         <i class="fas fa-fw fa-file-image"></i>
                         <span>Data Carousel</span></a>
                 </li>
 
                 <li class="nav-item <?php if($this->uri->segment(1) == 'Event') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') > date('Y-m-d') ? 'href="'.base_url("Event").'"' : '' ;?>>
+                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Event").'"' : '' ;?>>
                         <i class="fas fa-fw fa-info-circle"></i>
                         <span>Data Event</span></a>
                 </li>
@@ -83,19 +83,19 @@
                     Control Settings
                 </div>
                 <li class="nav-item <?php if($this->uri->segment(1) == 'User_management') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') > date('Y-m-d') ? 'href="'.base_url("User_management").'"' : '' ;?>>
+                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("User_management").'"' : '' ;?>>
                         <i class="fas fa-fw fa-users"></i>
                         <span>Employee Account Management</span></a>
                 </li>
 
                 <li class="nav-item <?php if($this->uri->segment(1) == 'Company_management') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= strtotime($this->session->userdata('validity')) > strtotime(date('Y-m-d')) ? 'href="'.base_url("Company_management").'"' : '' ;?>>
+                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Company_management").'"' : '' ;?>>
                         <i class="fas fa-fw fa-building"></i>
                         <span>Company Management</span></a>
                 </li>
 
                 <li class="nav-item <?php if($this->uri->segment(1) == 'Client_view_management') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') > date('Y-m-d') ? 'href="'.base_url("Client_view_management").'"' : '' ;?>>
+                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Client_view_management").'"' : '' ;?>>
                         <i class="fas fa-fw fa-desktop"></i>
                         <span>Client View Management</span></a>
                 </li>

@@ -28,6 +28,15 @@ class User_management extends CI_Controller {
         }
     }
 
+    private function _verify_validity()
+    {
+        if ($this->session->userdata('validity') >= date('Y-m-d')) {
+            return;
+        } else {
+            redirect('Page403');
+        }
+    }
+
     private function _validation()
     {
         $this->form_validation->set_rules('user_name', 'User Name', 'required|min_length[5]|max_length[40]|is_unique[tb_user.user_name]');
@@ -48,8 +57,9 @@ class User_management extends CI_Controller {
 
     public function index()
     {
-        $this->_is_owner();
         $this->_has_login_session();
+        $this->_verify_validity();
+        $this->_is_owner();
         $data['title'] = $this->session->userdata('company_name').'- User Management';
         $data['main_view'] = 'cms/user/user_view';
         $data['data_users'] = $this->admin->get_all_users();
@@ -59,8 +69,9 @@ class User_management extends CI_Controller {
 
     public function add_new_user()
     {
-        $this->_is_owner();
         $this->_has_login_session();
+        $this->_verify_validity();
+        $this->_is_owner();
         $this->_validation();
 
         if ($this->form_validation->run() == TRUE) {
@@ -99,6 +110,8 @@ class User_management extends CI_Controller {
 
     public function toggle_user($id, $active_status)
     {
+        $this->_has_login_session();
+        $this->_verify_validity();
         $this->_is_owner();
         if ($active_status == 'true') {
             if ($id == $this->session->userdata('id_user')) {
