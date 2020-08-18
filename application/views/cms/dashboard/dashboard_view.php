@@ -8,11 +8,19 @@
 	$validity = strtotime($data_company['validity']);
 	$date = strtotime(date('Y-m-d'));
 	$expired_in = date('j', $validity-$date);
-	if($expired_in <= 7):
+	if($expired_in <= 7 && $expired_in > 0):
 ?>
 	<div class="alert alert-danger alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<i class="fa  fa-exclamation-triangle"></i> Validity time access almost ended! remaining time: <b><?= $expired_in ?> days</b>
+		<i class="fa fa-exclamation-triangle"></i> Validity time access almost ended! remaining time: <b><?= $expired_in ?> days</b>
+	</div>
+<?php 
+	endif; 
+	if($expired_in == 0):
+?>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<i class="fa  fa-exclamation-triangle"></i> Validity time ended! All access has been locked. </b>
 	</div>
 <?php endif; ?>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">

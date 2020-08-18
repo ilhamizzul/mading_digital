@@ -129,13 +129,13 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('owner_email', 'Owner Email', 'required|max_length[35]|is_unique[tb_user.email]');
     }
 
-    private function _verify_validity($validity)
-    {
-        if ($validity >= date('Y-m-d')) {
-            return TRUE;
-        }
-        return FALSE;
-    }
+    // private function _verify_validity($validity)
+    // {
+    //     if ($validity >= date('Y-m-d')) {
+    //         return TRUE;
+    //     }
+    //     return FALSE;
+    // }
 
     private function _generateId()
     {
@@ -211,7 +211,7 @@ class Auth extends CI_Controller {
                         if ($this->_is_company_active($data_user['activeStatus'])) {
 
                             $validity = $this->_is_first_time_login($data_user);
-                            if ($this->_verify_validity($validity)) {
+                            // if ($this->_verify_validity($validity)) {
                                 $data_user = array(
                                     'logged_in'         => TRUE,
                                     'id_user'           => $data_user['id_user'],
@@ -229,10 +229,7 @@ class Auth extends CI_Controller {
     
                                 $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
                                 redirect('Dashboard');
-                            } else {
-                                $this->session->set_flashdata('failed', 'Company validity has ended!');
-                                redirect('Auth');
-                            }
+                            // }git commit
                             
                         } else {
                             $this->session->set_flashdata('failed', 'Company Account still not active, Please call superadmin for company activation!');
