@@ -101,6 +101,17 @@
                         <span>Client View Management</span></a>
                 </li>
                 <?php endif; ?>
+                <hr class="sidebar-divider">
+
+                <div class="sidebar-heading">
+                    Pricing
+                </div>
+                
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Pricing') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url() ?>Pricing">
+                        <i class="fas fa-fw fa-wallet"></i>
+                        <span>Price</span></a>
+                </li>
 
                 <hr class="sidebar-divider d-none d-md-block">
 

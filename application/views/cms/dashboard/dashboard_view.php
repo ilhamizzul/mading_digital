@@ -5,9 +5,10 @@
 	</div>
 <?php endif; ?>
 <?php 
-	$validity = strtotime($data_company['validity']);
-	$date = strtotime(date('Y-m-d'));
-	$expired_in = date('j', $validity-$date);
+	$validity = date_create($data_company['validity']);
+	$date = date_create(date('Y-m-d'));
+	$expired_in = date_diff($date, $validity);
+	$expired_in = $expired_in->format("%R%a");
 	if($expired_in <= 7 && $expired_in > 0):
 ?>
 	<div class="alert alert-danger alert-dismissible" role="alert">
@@ -16,7 +17,7 @@
 	</div>
 <?php 
 	endif; 
-	if($expired_in == 0):
+	if($expired_in < 0):
 ?>
 	<div class="alert alert-danger alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
