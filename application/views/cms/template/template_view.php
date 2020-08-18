@@ -106,8 +106,8 @@
                     Pricing
                 </div>
                 
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Pricing') {echo 'active';}; ?>">
-                    <a class="nav-link" href="<?= base_url() ?>Pricing">
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Price') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url("Price") ?>">
                         <i class="fas fa-fw fa-wallet"></i>
                         <span>Price</span></a>
                 </li>
