@@ -106,10 +106,16 @@
                     Pricing
                 </div>
                 
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Price') {echo 'active';}; ?>">
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Price' && $this->uri->segment(2) == '') {echo 'active';}; ?>">
                     <a class="nav-link" href="<?= base_url("Price") ?>">
                         <i class="fas fa-fw fa-wallet"></i>
                         <span>Price</span></a>
+                </li>
+
+                <li class="nav-item <?php if($this->uri->segment(2) == 'redeem') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url("Price/redeem") ?>">
+                        <i class="fas fa-fw fa-ticket-alt"></i>
+                        <span>Use Token</span></a>
                 </li>
 
                 <hr class="sidebar-divider d-none d-md-block">
