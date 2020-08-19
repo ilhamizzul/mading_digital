@@ -159,6 +159,44 @@ class Price extends CI_Controller {
         $this->_send_mail($data);
     }
 
+    public function redeem_token()
+    {
+        $this->_has_login_session();
+        $data_token = $this->admin->get('tb_token', ['token' => $this->input->post('token')]);
+        if ($data_token != null) {
+            if ($data_token['active'] == false) {
+                switch ($data_token['token_type']) {
+                    case '1month':
+                        $new_validity = date('Y-m-d', strtotime("+1 month", strtotime($this->session->userdata('validity'))));
+                        break;
+                    case '3months':
+                        $new_validity = date('Y-m-d', strtotime("+3 months", strtotime($this->session->userdata('validity'))));
+                        break;
+                    case '1year':
+                        $new_validity = date('Y-m-d', strtotime("+12 months", strtotime($this->session->userdata('validity'))));
+                        break;
+                }
+                $this->admin->update('tb_token', 'token', $data_token['token'], ['active' => true]);
+                if ($this->session->userdata('onTrial') == true) {
+                    $this->admin->update('tb_company', 'id_company', $this->session->userdata('id_company'), ['onTrial' => false, 'validity' => $new_validity]);
+                } else {
+                    $this->admin->update('tb_company', 'id_company', $this->session->userdata('id_company'), ['validity' => $new_validity]);
+                }
+                $this->session->set_userdata('validity', $new_validity);
+                $this->session->set_userdata('onTrial', false);
+                $this->session->set_flashdata('success', 'Token successfully redeemed!');
+                redirect('Price/redeem');
+            } else {
+                $this->session->set_flashdata('failed', 'Token has been used!');
+                redirect('Price/redeem');
+            }
+        } else {
+            $this->session->set_flashdata('failed', 'Invalid Package Token!');
+            redirect('Price/redeem');
+        }
+        
+    }
+
 }
 
 /* End of file Price.php */
