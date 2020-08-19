@@ -12,7 +12,7 @@ class auth_model extends CI_Model {
 
     public function get_data_user($username, $password)
     {
-        return $this->db->select('tb_company.id_company as id_company, id_user, user_name, username, password, company_name, company_logo, role, active, activeStatus, firstLogin, profile_picture')
+        return $this->db->select('tb_company.id_company as id_company, id_user, user_name, username, password, company_name, company_logo, role, active, activeStatus, firstLogin, profile_picture, onTrial')
                         ->join('tb_company', 'tb_company.id_company = tb_user.id_company')
                         ->get_where('tb_user', ['username' => $username, 'password' => $password])
                         ->row_array();

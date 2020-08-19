@@ -215,7 +215,8 @@ class Auth extends CI_Controller {
                                 'id_company'        => $data_user['id_company'],
                                 'company_name'      => $data_user['company_name'],
                                 'company_logo'      => $data_user['company_logo'],
-                                'validity'          => $validity
+                                'validity'          => $validity,
+                                'onTrial'           => $data_user['onTrial']
                             );
                             $this->session->set_userdata( $data_user );
 
