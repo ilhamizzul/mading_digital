@@ -20,6 +20,15 @@ class Event extends CI_Controller {
         }
     }
 
+    private function _verify_validity()
+    {
+        if ($this->session->userdata('validity') >= date('Y-m-d')) {
+            return;
+        } else {
+            redirect('Page403');
+        }
+    }
+
     private function _pusher($info_type)
     {
         require_once(APPPATH.'views/vendor/autoload.php');
@@ -75,6 +84,7 @@ class Event extends CI_Controller {
     public function index()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $data['title']      = $this->session->userdata('company_name').' - Data Event';
         $data['data_event'] = $this->admin->get_all_events();
         $data['data_repeater'] = $this->admin->get('tb_repeater');
@@ -86,6 +96,7 @@ class Event extends CI_Controller {
     public function outdate_event()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $data['title']      = $this->session->userdata('company_name').' - Outdate Data Event';
         $data['main_view']  = 'cms/event/outdate_event_view';
         $data['data_event'] = $this->admin->get_all_expired_events();
@@ -96,6 +107,7 @@ class Event extends CI_Controller {
     public function add_new_event()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_validation();
 
         $input = $this->input->post(NULL, TRUE);
@@ -107,7 +119,8 @@ class Event extends CI_Controller {
                 'id_repeater'   => $this->input->post('id_repeater'),
                 'info_type'     => $this->input->post('info_type'),
                 'active'        => 'false',
-                'id_company'    => $this->session->userdata('id_company') 
+                'id_company'    => $this->session->userdata('id_company'),
+                'createdAt'     => date('Y-m-d H:i:s')
             );
             if ($this->input->post('info_type') != 'event') {
                 $data['location'] = '-';
@@ -142,11 +155,13 @@ class Event extends CI_Controller {
 
     public function toggle_event($id)
     {
+        $this->_has_login_session();
+        $this->_verify_validity();
         $get_data = $this->admin->get('tb_info', ['id_info' => $id]);
         if ($get_data['active'] == 'true') {
             $data = array('active' => 'false' );
         } else {
-            $data = array('active' => 'true' );
+            $data = array('active' => 'true', 'activedAt' => date('Y-m-d H:i:s') );
         }
         // if data is pass due date (EXPIRED) and data active status is false
         if (($get_data['due_date'] < date('Y-m-d H:i:s')) && ($get_data['active'] == 'false')) {
@@ -168,6 +183,7 @@ class Event extends CI_Controller {
     public function edit_event($id)
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_validation();
 
         $get_data = $this->admin->get('tb_info', ['id_info' => $id]);
@@ -211,6 +227,7 @@ class Event extends CI_Controller {
     public function retrieve_event($id)
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->form_validation->set_rules('due_date', 'Due Date', 'required');
         
         
@@ -241,6 +258,7 @@ class Event extends CI_Controller {
     public function delete_event($id)
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $data = $this->admin->get('tb_info', ['id_info' => $id]);
 
         if ($data['active'] == 'true') {

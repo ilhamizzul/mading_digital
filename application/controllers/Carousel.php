@@ -46,6 +46,15 @@ class Carousel extends CI_Controller {
         $this->form_validation->set_rules('id_repeater', 'Repeater', 'required');
     }
 
+    private function _verify_validity()
+    {
+        if ($this->session->userdata('validity') >= date('Y-m-d')) {
+            return;
+        } else {
+            redirect('Page403');
+        }
+    }
+
     private function _path($data_type)
     {
         if ($data_type == 'image') {
@@ -79,6 +88,7 @@ class Carousel extends CI_Controller {
     public function index()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $data['title']          = $this->session->userdata('company_name'). ' - Data Carousel';
         $data['data_carousel']  = $this->admin->get_all_carousels();
         $data['main_view']      = 'cms/carousel/carousel_view';
@@ -90,6 +100,7 @@ class Carousel extends CI_Controller {
     public function add_new_carousel()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_validation();
 
         if ($this->form_validation->run() == TRUE) {
@@ -111,7 +122,8 @@ class Carousel extends CI_Controller {
                     'data_carousel'     => $this->upload->data()['file_name'],
                     'active'            => 'false',
                     'id_company'        => $this->session->userdata('id_company'),
-                    'id_repeater'       => $this->input->post('id_repeater')
+                    'id_repeater'       => $this->input->post('id_repeater'),
+                    'createdAt'         => date('Y-m-d H:i:s')
                 );
                 
                 if ($this->admin->insert('tb_carousel', $data) == TRUE) {
@@ -137,6 +149,7 @@ class Carousel extends CI_Controller {
     public function delete_carousel($id)
     {
         $this->_has_login_session();
+        $this->_verify_validity();
 
         $data = $this->admin->get('tb_carousel', ['id_carousel' => $id]);
         if ($data['active'] == 'true') {
@@ -164,6 +177,7 @@ class Carousel extends CI_Controller {
     public function edit_carousel($id)
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_validation();
 
         $get_data = $this->admin->get('tb_Carousel', ['id_carousel' => $id]);
@@ -222,10 +236,12 @@ class Carousel extends CI_Controller {
 
     public function toggle_carousel($id, $active_status)
     {
+        $this->_has_login_session();
+        $this->_verify_validity();
         if ($active_status == 'true') {
             $data = array('active' => 'false' );
         } else {
-            $data = array('active' => 'true' );
+            $data = array('active' => 'true', 'activedAt' => date('Y-m-d H:i:s') );
         }
 
         if($this->admin->update('tb_carousel', 'id_carousel', $id, $data) == TRUE ){

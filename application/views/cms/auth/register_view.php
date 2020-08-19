@@ -26,17 +26,17 @@
 	<div class="container">
 		<!-- Outer Row -->
 		<div class="row justify-content-center mt-5 pt-lg-5">
-			<div class="col-xl-10 col-lg-12 col-md-9">
-				<div class="card o-hidden border-0 shadow-lg">
+			<div class="col-xl-12 col-lg-12 col-md-12">
+				<div class="card o-hidden border-0 shadow-lg my-5">
 					<div class="card-body p-lg-5 p-0">
 						<!-- Nested Row within Card Body -->
 						<div class="row">
-							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-							<div class="col-lg-6">
+							<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+							<div class="col-lg-7">
 								<div class="p-4">
 									<div class="text-center mb-4">
 										<h1 class="h4 text-gray-900">Sistem Mading Digital</h1>
-										<span class="text-muted">Login</span>
+										<span class="text-muted">Register</span>
 									</div>
 									<?php 
                                         $success = $this->session->flashdata('success');
@@ -60,22 +60,41 @@
                                             ';
                                         }
                                     ?>
-									<form class="user" method="post" action="<?= base_url() ?>Auth/">
+									<form class="user" method="post" action="<?= base_url() ?>Auth/register_send">
 										<div class="form-group">
-											<input type="text" class="form-control form-control-user" name="username"
-												aria-describedby="emailHelp" placeholder="Username...">
+											<input type="text" class="form-control form-control-user" name="company_name"
+                                                placeholder="Company Name..." required maxlength="50">
 										</div>
 										<div class="form-group">
-											<input type="password" class="form-control form-control-user"
-												name="password" placeholder="Password...">
+											<input type="email" class="form-control form-control-user"
+												name="company_email" placeholder="Company Email..." required maxlength="70">
+										</div>
+                                        <hr>
+                                        <div class="form-group">
+											<input type="text" class="form-control form-control-user"
+												name="user_name" placeholder="Full Name..." required maxlength="40">
+										</div>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <input type="text" class="form-control form-control-user"
+                                                    name="username" placeholder="Username..." required maxlength="25">
+                                            </div>
+                                            <div class="form-group col">
+                                                <input type="password" class="form-control form-control-user"
+                                                    name="password" placeholder="Password..." required maxlength="25">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+											<input type="email" class="form-control form-control-user"
+												name="owner_email" placeholder="Owner Email..." required maxlength="70">
 										</div>
 										<button type="submit" class="btn btn-primary btn-user btn-block">
-											Login
+											Register
 										</button>
 									</form>
 									<hr>
 									<div class="text-center">
-										<a class="small" href="<?= base_url() ?>Auth/register">Create an Account!</a>
+										<a class="small" href="<?= base_url() ?>Auth">Already have an account? Login!</a>
 									</div>
 								</div>
 							</div>

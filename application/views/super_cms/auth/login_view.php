@@ -31,12 +31,12 @@
 					<div class="card-body p-lg-5 p-0">
 						<!-- Nested Row within Card Body -->
 						<div class="row">
-							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+							<div class="col-lg-6 d-none d-lg-block bg-login-admin-image"></div>
 							<div class="col-lg-6">
-								<div class="p-4">
+								<div class="p-5">
 									<div class="text-center mb-4">
 										<h1 class="h4 text-gray-900">Sistem Mading Digital</h1>
-										<span class="text-muted">Login</span>
+										<span class="text-muted">Superadmin Login</span>
 									</div>
 									<?php 
                                         $success = $this->session->flashdata('success');
@@ -60,7 +60,7 @@
                                             ';
                                         }
                                     ?>
-									<form class="user" method="post" action="<?= base_url() ?>Auth/">
+									<form class="user" method="post" action="<?= base_url() ?>Auth/login_send">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user" name="username"
 												aria-describedby="emailHelp" placeholder="Username...">
@@ -73,10 +73,6 @@
 											Login
 										</button>
 									</form>
-									<hr>
-									<div class="text-center">
-										<a class="small" href="<?= base_url() ?>Auth/register">Create an Account!</a>
-									</div>
 								</div>
 							</div>
 						</div>

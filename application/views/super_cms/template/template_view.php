@@ -41,7 +41,7 @@
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
                     </div>
-                    <div class="sidebar-brand-text mx-3"><?= $this->session->userdata('company_name'); ?></div>
+                    <div class="sidebar-brand-text mx-3">SUPERADMIN</div>
                 </a>
 
                 <hr class="sidebar-divider my-0">
@@ -54,68 +54,15 @@
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Home").'" target="_blank"' : '' ;?>>
-                        <i class="fas fa-fw fa-home"></i>
-                        <span>Client View</span></a>
-                </li>
-                <hr class="sidebar-divider">
-
-                <div class="sidebar-heading">
-                    Information
-                </div>
-
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Carousel') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Carousel").'"' : '' ;?>>
-                        <i class="fas fa-fw fa-file-image"></i>
-                        <span>Data Carousel</span></a>
-                </li>
-
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Event') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Event").'"' : '' ;?>>
-                        <i class="fas fa-fw fa-info-circle"></i>
-                        <span>Data Event</span></a>
-                </li>
-                <?php if ($this->session->userdata('role') == 'owner'):?>
-                <hr class="sidebar-divider">
-
-                <div class="sidebar-heading">
-                    Control Settings
-                </div>
-                <li class="nav-item <?php if($this->uri->segment(1) == 'User_management') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("User_management").'"' : '' ;?>>
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>Employee Account Management</span></a>
-                </li>
-
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Company_management') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Company_management").'"' : '' ;?>>
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Company') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url('Company') ?>">
                         <i class="fas fa-fw fa-building"></i>
-                        <span>Company Management</span></a>
+                        <span>Data Company</span></a>
                 </li>
-
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Client_view_management') {echo 'active';}; ?>">
-                    <a class="nav-link" <?= $this->session->userdata('validity') >= date('Y-m-d') ? 'href="'.base_url("Client_view_management").'"' : '' ;?>>
-                        <i class="fas fa-fw fa-desktop"></i>
-                        <span>Client View Management</span></a>
-                </li>
-                <?php endif; ?>
-                <hr class="sidebar-divider">
-
-                <div class="sidebar-heading">
-                    Pricing
-                </div>
-                
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Price' && $this->uri->segment(2) == '') {echo 'active';}; ?>">
-                    <a class="nav-link" href="<?= base_url("Price") ?>">
-                        <i class="fas fa-fw fa-wallet"></i>
-                        <span>Price</span></a>
-                </li>
-
-                <li class="nav-item <?php if($this->uri->segment(2) == 'redeem') {echo 'active';}; ?>">
-                    <a class="nav-link" href="<?= base_url("Price/redeem") ?>">
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Token') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url('Token') ?>">
                         <i class="fas fa-fw fa-ticket-alt"></i>
-                        <span>Use Token</span></a>
+                        <span>Data Token</span></a>
                 </li>
 
                 <hr class="sidebar-divider d-none d-md-block">
@@ -150,7 +97,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('nama_user'); ?></span>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('fullname'); ?></span>
                                     <?php if($this->session->userdata('profile_picture') == null): ?>
                                         <img class="img-profile rounded-circle" src="<?= base_url() ?>assets/CMS/img/default_user.webp">
                                     <?php else: ?>

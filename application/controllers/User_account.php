@@ -43,10 +43,20 @@ class User_account extends CI_Controller {
             redirect('Auth');
         }
     }
+
+    private function _verify_validity()
+    {
+        if ($this->session->userdata('validity') >= date('Y-m-d')) {
+            return;
+        } else {
+            redirect('Page403');
+        }
+    }
     
     public function index()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $data['title'] = $this->session->userdata('company_name').'- Account Setting';
         $data['main_view'] = 'cms/account/account_view';
         $data['data_account'] = $this->admin->get('tb_user', ['id_user' => $this->session->userdata('id_user')]);
@@ -57,6 +67,7 @@ class User_account extends CI_Controller {
     public function change_password()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_password_validation();
 
         if ($this->form_validation->run() == TRUE) {
@@ -90,6 +101,7 @@ class User_account extends CI_Controller {
     public function change_profile_picture()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_upload_config();
         
         if ($this->upload->do_upload('profile_picture')) {
@@ -116,6 +128,7 @@ class User_account extends CI_Controller {
     public function update_profile()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $this->_profile_validation();
         $get_data = $this->admin->get('tb_user', ['id_user' => $this->session->userdata('id_user')]);
         if ($this->form_validation->run() == TRUE) {

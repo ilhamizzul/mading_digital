@@ -21,9 +21,19 @@ class Home extends CI_Controller {
         }
     }
 
+    private function _verify_validity()
+    {
+        if ($this->session->userdata('validity') >= date('Y-m-d')) {
+            return;
+        } else {
+            redirect('Page403');
+        }
+    }
+
     public function index()
     {
         $this->_has_login_session();
+        $this->_verify_validity();
         $data['title'] = $this->session->userdata('company_name').' - Mading Digital';
         $data['content_group'] =  array(
             'schedule' => $this->client->get_content_group('schedule'),

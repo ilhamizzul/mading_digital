@@ -22,16 +22,24 @@ class Dashboard extends CI_Controller {
 
     public function index()
     {
-        $data['title'] = $this->session->userdata('company_name')." - Dashboard";
-        $data['main_view'] = 'cms/dashboard/dashboard_view';
-        $data['JSON'] = 'cms/dashboard/dashboard_JSON';
-        $data['data_count'] = array(
-                                'active_carousel' => $this->admin->count_active_data('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true']),
-                                'active_event' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event']), 
-                                'active_news' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'news']), 
-                                'active_slogan' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'slogan']) 
-                            );
-        $this->load->view('cms/template/template_view', $data);
+        if ($this->session->userdata('role') == 'superadmin') {
+            $data['title'] = "Superadmin - Dashboard";
+            $data['main_view'] = 'super_cms/dashboard/dashboard_view';
+            $data['JSON'] = 'super_cms/dashboard/dashboard_JSON';
+            $this->load->view('super_cms/template/template_view', $data);
+        } else {
+            $data['title'] = $this->session->userdata('company_name')." - Dashboard";
+            $data['main_view'] = 'cms/dashboard/dashboard_view';
+            $data['JSON'] = 'cms/dashboard/dashboard_JSON';
+            $data['data_count'] = array(
+                                    'active_carousel' => $this->admin->count_active_data('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true']),
+                                    'active_event' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event']), 
+                                    'active_news' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'news']), 
+                                    'active_slogan' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'slogan']) 
+                                );
+            $data['data_company'] = $this->admin->get('tb_company', ['id_company' => $this->session->userdata('id_company')]);
+            $this->load->view('cms/template/template_view', $data);
+        }
     }
 
 }
