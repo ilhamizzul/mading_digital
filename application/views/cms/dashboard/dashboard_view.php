@@ -1,7 +1,7 @@
 <?php if ($data_company['onTrial']):?>
 	<div class="alert alert-warning alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<i class="fa  fa-exclamation-triangle"></i> This application still on trial! to be a member, <a href="">click this link!</a>
+		<i class="fa  fa-exclamation-triangle"></i> This application still on trial! to be a member, <a href="<?= base_url('Price') ?>">click this link!</a>
 	</div>
 <?php endif; ?>
 <?php 
