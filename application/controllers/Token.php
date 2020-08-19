@@ -31,7 +31,7 @@ class Token extends CI_Controller {
         return $randomString;
     }
 
-    public function _is_superadmin()
+    private function _is_superadmin()
     {
         if ($this->session->userdata('role') == 'superadmin') {
             return TRUE;
@@ -39,12 +39,18 @@ class Token extends CI_Controller {
         redirect('Custom_404');
     }
 
+    private function _token_validation()
+    {
+        $this->form_validation->set_rules('count', 'Count', 'required');
+        $this->form_validation->set_rules('token_type', 'token_type', 'required');
+    }
+
     public function index()
     {
         $this->_has_login_session();
         $this->_is_superadmin();
         $data['title']          = 'Superadmin - Data Token';
-        $data['data_token']     = $this->superadmin->get_data_token();
+        $data['data_token']     = $this->superadmin->get('tb_token', null, ['active' => false, 'send_status' => false]);
         $data['main_view']      = 'super_cms/token/token_view';
         $data['JSON']           = 'super_cms/token/token_JSON';
         $this->load->view('super_cms/template/template_view', $data);
@@ -54,24 +60,32 @@ class Token extends CI_Controller {
     {
         $this->_has_login_session();
         $this->_is_superadmin();
-        $data_token = [];
-        for ($i=0; $i < $this->input->post('count'); $i++) { 
-            $data_array = array(
-                'token'         => $this->generateRandomString(),
-                'token_type'    => $this->input->post('token_type'),
-                'active'        => false,
-                'createdAt'     => date('Y-m-d H:i:s')
-            );
-            array_push($data_token, $data_array);
-            $data_array = null;
-        }
-        if ($this->superadmin->insert('tb_token', $data_token, true)) {
-            $this->session->set_flashdata('success', "Token successfully added!");
-            redirect('Token');
+        $this->_token_validation();
+        
+        if ($this->form_validation->run() == TRUE) {
+            $data_token = [];
+            for ($i=0; $i < $this->input->post('count'); $i++) { 
+                $data_array = array(
+                    'token'         => $this->generateRandomString(),
+                    'token_type'    => $this->input->post('token_type'),
+                    'active'        => false,
+                    'createdAt'     => date('Y-m-d H:i:s')
+                );
+                array_push($data_token, $data_array);
+                $data_array = null;
+            }
+            if ($this->superadmin->insert('tb_token', $data_token, true)) {
+                $this->session->set_flashdata('success', "Token successfully added!");
+                redirect('Token');
+            } else {
+                $this->session->set_flashdata('failed', "Insert Token Error!");
+                redirect('Token');
+            }
         } else {
-            $this->session->set_flashdata('failed', "Insert Token Error!");
-            redirect('Token');
+            $this->session->set_flashdata('failed', validation_errors());
+                redirect('Token');
         }
+        
     }
 
 }

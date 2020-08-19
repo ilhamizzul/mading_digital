@@ -53,14 +53,6 @@ class Superadmin_model extends CI_Model {
                         ->row_array();
     }
 
-    public function get_data_token()
-    {
-        return $this->db->where('active', false)
-                        ->get('tb_token')
-                        ->result_array();
-        
-    }
-
 }
 
 /* End of file Superadmin_model.php */

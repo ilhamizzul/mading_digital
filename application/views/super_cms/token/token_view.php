@@ -60,7 +60,10 @@
 			<div class="modal-body">
 					<div class="form-group">
 						<label>Count Generate Token</label>
-						<input type="number" class="form-control" name="count" placeholder="Insert how many token you want to make (max 50)..."  required min="0" maxlength="50">
+						<input type="number" class="form-control" name="count"  required min="0" maxlength="50">
+						<small class="form-text text-muted">
+						Insert how many token you want to make (max 50)...
+						</small>
 					</div>
 					<div class="form-group">
 						<label>Token Type</label>
