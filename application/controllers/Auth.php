@@ -122,20 +122,13 @@ class Auth extends CI_Controller {
     private function _register_validation()
     {
         $this->form_validation->set_rules('company_name', 'Company Name', 'required|max_length[50]|is_unique[tb_company.company_name]');
-        $this->form_validation->set_rules('company_email', 'Company Email', 'required|max_length[35]|is_unique[tb_company.email]');
+        $this->form_validation->set_rules('company_email', 'Company Email', 'required|max_length[70]|is_unique[tb_company.email]');
         $this->form_validation->set_rules('user_name', 'Full Name', 'required|max_length[40]|is_unique[tb_user.user_name]');
         $this->form_validation->set_rules('username', 'Username', 'required|max_length[25]|is_unique[tb_user.username]');
         $this->form_validation->set_rules('password', 'Password', 'required|max_length[25]');
-        $this->form_validation->set_rules('owner_email', 'Owner Email', 'required|max_length[35]|is_unique[tb_user.email]');
+        $this->form_validation->set_rules('owner_email', 'Owner Email', 'required|max_length[70]|is_unique[tb_user.email]');
     }
 
-    // private function _verify_validity($validity)
-    // {
-    //     if ($validity >= date('Y-m-d')) {
-    //         return TRUE;
-    //     }
-    //     return FALSE;
-    // }
 
     private function _generateId()
     {
@@ -157,14 +150,15 @@ class Auth extends CI_Controller {
         return $code . $number;
     }
 
-    private function _generateIdCompany()
+    private function _generateIdCompany($length = 40)
     {
-        $code = 'COM-'.date('ymd');
-        $last_code = $this->admin->getMax('tb_company', 'id_company', $code);
-        $add_code = substr($last_code, -5);
-        $add_code++;
-        $number = str_pad($add_code, 5, '0', STR_PAD_LEFT);
-        return $code . $number;
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
     
     private function _user_exist($user_account)
@@ -211,27 +205,24 @@ class Auth extends CI_Controller {
                         if ($this->_is_company_active($data_user['activeStatus'])) {
 
                             $validity = $this->_is_first_time_login($data_user);
-                            // if ($this->_verify_validity($validity)) {
-                                $data_user = array(
-                                    'logged_in'         => TRUE,
-                                    'id_user'           => $data_user['id_user'],
-                                    'nama_user'         => $data_user['user_name'],
-                                    'username'          => $data_user['username'],
-                                    'role'              => $data_user['role'],
-                                    'profile_picture'   => $data_user['profile_picture'],
-                                    'id_company'        => $data_user['id_company'],
-                                    'company_name'      => $data_user['company_name'],
-                                    'company_logo'      => $data_user['company_logo'],
-                                    'validity'          => $validity
-                                );
-                                $this->session->set_userdata( $data_user );
-    
-                                $this->_color_pallete();
-    
-                                $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
-                                redirect('Dashboard');
-                            // }git commit
-                            
+                            $data_user = array(
+                                'logged_in'         => TRUE,
+                                'id_user'           => $data_user['id_user'],
+                                'nama_user'         => $data_user['user_name'],
+                                'username'          => $data_user['username'],
+                                'role'              => $data_user['role'],
+                                'profile_picture'   => $data_user['profile_picture'],
+                                'id_company'        => $data_user['id_company'],
+                                'company_name'      => $data_user['company_name'],
+                                'company_logo'      => $data_user['company_logo'],
+                                'validity'          => $validity
+                            );
+                            $this->session->set_userdata( $data_user );
+
+                            $this->_color_pallete();
+
+                            $this->session->set_flashdata('success', 'Welcome, '.$this->session->userdata('nama_user'));
+                            redirect('Dashboard');
                         } else {
                             $this->session->set_flashdata('failed', 'Company Account still not active, Please call superadmin for company activation!');
                             redirect('Auth');
@@ -321,6 +312,7 @@ class Auth extends CI_Controller {
             );
 
             if ($this->admin->insert('tb_company', $data_company) == TRUE) {
+                $company = $this->admin->get('tb_company', ['company_name' => $data['company_name']]);
                 $data_owner = array(
                     'id_user'       => $this->_generateId(),
                     'user_name'     => $data['user_name'], 
@@ -329,7 +321,7 @@ class Auth extends CI_Controller {
                     'email'         => $data['owner_email'],
                     'active'        => 'false',
                     'role'          => 'owner',
-                    'id_company'    => $id_company,
+                    'id_company'    => $company['id_company'],
                     'createdAt'     => date('Y-m-d H:i:s')
                 );
                 if ($this->admin->insert('tb_user', $data_owner) == TRUE) {

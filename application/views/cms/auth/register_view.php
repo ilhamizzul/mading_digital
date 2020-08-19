@@ -63,30 +63,30 @@
 									<form class="user" method="post" action="<?= base_url() ?>Auth/register_send">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user" name="company_name"
-                                                placeholder="Company Name..." required>
+                                                placeholder="Company Name..." required maxlength="50">
 										</div>
 										<div class="form-group">
 											<input type="email" class="form-control form-control-user"
-												name="company_email" placeholder="Company Email..." required>
+												name="company_email" placeholder="Company Email..." required maxlength="70">
 										</div>
                                         <hr>
                                         <div class="form-group">
 											<input type="text" class="form-control form-control-user"
-												name="user_name" placeholder="Full Name..." required>
+												name="user_name" placeholder="Full Name..." required maxlength="40">
 										</div>
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <input type="text" class="form-control form-control-user"
-                                                    name="username" placeholder="Username..." required>
+                                                    name="username" placeholder="Username..." required maxlength="25">
                                             </div>
                                             <div class="form-group col">
                                                 <input type="password" class="form-control form-control-user"
-                                                    name="password" placeholder="Password..." required>
+                                                    name="password" placeholder="Password..." required maxlength="25">
                                             </div>
                                         </div>
                                         <div class="form-group">
 											<input type="email" class="form-control form-control-user"
-												name="owner_email" placeholder="Owner Email..." required>
+												name="owner_email" placeholder="Owner Email..." required maxlength="70">
 										</div>
 										<button type="submit" class="btn btn-primary btn-user btn-block">
 											Register
