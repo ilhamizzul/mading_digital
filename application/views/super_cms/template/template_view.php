@@ -59,6 +59,11 @@
                         <i class="fas fa-fw fa-building"></i>
                         <span>Data Company</span></a>
                 </li>
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Token') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url('Token') ?>">
+                        <i class="fas fa-fw fa-ticket-alt"></i>
+                        <span>Data Token</span></a>
+                </li>
 
                 <hr class="sidebar-divider d-none d-md-block">
 
