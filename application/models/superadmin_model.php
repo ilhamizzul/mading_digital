@@ -48,6 +48,17 @@ class Superadmin_model extends CI_Model {
                         ->result_array();
     }
 
+    public function get_token_transaction($where)
+    {
+        return $this->db->select('id_transaction, company_name, no_telp, tb_transaction_token.email as email, tb_token.token as token, token_type, tb_transaction_token.createdAt as requestAt')
+                        ->from('tb_company')
+                        ->join('tb_transaction_token', 'tb_transaction_token.id_company = tb_company.id_company')
+                        ->join('tb_token', 'tb_token.token = tb_transaction_token.token')
+                        ->where($where)
+                        ->get()
+                        ->result_array();
+    }
+
     public function verify_company($id)
     {
         return $this->db->select('tb_company.id_company as id_company, activeStatus, active, id_user')

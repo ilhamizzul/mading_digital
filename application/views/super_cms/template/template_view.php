@@ -59,7 +59,12 @@
                         <i class="fas fa-fw fa-building"></i>
                         <span>Data Company</span></a>
                 </li>
-                <li class="nav-item <?php if($this->uri->segment(1) == 'Token') {echo 'active';}; ?>">
+                <li class="nav-item <?php if($this->uri->segment(2) == 'transaction') {echo 'active';}; ?>">
+                    <a class="nav-link" href="<?= base_url('Token/transaction') ?>">
+                        <i class="fas fa-fw fa-exchange-alt"></i>
+                        <span>Data Token Transaction</span></a>
+                </li>
+                <li class="nav-item <?php if($this->uri->segment(1) == 'Token' && $this->uri->segment(2) == '') {echo 'active';}; ?>">
                     <a class="nav-link" href="<?= base_url('Token') ?>">
                         <i class="fas fa-fw fa-ticket-alt"></i>
                         <span>Data Token</span></a>
@@ -107,13 +112,6 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <?php if($this->session->userdata('role') != 'superadmin') : ?>
-                                    <a class="dropdown-item" href="<?= base_url() ?>User_account">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <?php endif; ?>
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Logout
