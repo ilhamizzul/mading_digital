@@ -21,7 +21,26 @@ class Company extends CI_Controller {
         }
     }
 
-    public function _is_superadmin()
+    // private function deleteDir($dirPath)
+    // {
+    //     if (! is_dir($dirPath)) {
+    //         throw new InvalidArgumentException("$dirPath must be a directory");
+    //     }
+    //     if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+    //         $dirPath .= '/';
+    //     }
+    //     $files = glob($dirPath . '*', GLOB_MARK);
+    //     foreach ($files as $file) {
+    //         if (is_dir($file)) {
+    //             self::deleteDir($file);
+    //         } else {
+    //             unlink($file);
+    //         }
+    //     }
+    //     rmdir($dirPath);
+    // }
+
+    private function _is_superadmin()
     {
         if ($this->session->userdata('role') == 'superadmin') {
             return TRUE;
@@ -150,11 +169,60 @@ class Company extends CI_Controller {
         $this->load->view('super_cms/template/template_view', $data);
     }
 
+    public function validity_end()
+    {
+        $this->_has_login_session();
+        $this->_is_superadmin();
+        $data['title']          = 'Superadmin - Company Ended Valicity';
+        $data['data_company']   = $this->superadmin->get_data_company(['activeStatus' => true, 'validity <=' => date('Y-m-d')]);
+        $data['main_view']      = 'super_cms/data_company/company_validity_end_view';
+        $data['JSON']           = 'super_cms/data_company/company_JSON';
+        $this->load->view('super_cms/template/template_view', $data);
+    }
+
     public function get_company_by_id($id)
     {
         $this->_has_login_session();
         $this->_is_superadmin();
         echo json_encode($this->superadmin->get('tb_company', ['id_company' => $id]));
+    }
+
+    public function delete_company()
+    {
+        $this->_has_login_session();
+        $this->_is_superadmin();
+        $expired_company = $this->superadmin->get('tb_company', null, ['validity <' => date('Y-m-d')]);
+
+        $expired_company_exceed_3_month = [];
+        $dateNow = date('Y-m-d');
+        $tsNow = strtotime($dateNow);
+        $yearNow = date('Y', $tsNow);
+        $monthNow = date('m', $tsNow);
+        
+        foreach ($expired_company as $data) {
+            $validity = $data['validity'];
+            $tsValidity = strtotime($validity);
+            $yearValidity = date('Y', $tsValidity);
+            $monthValidity = date('m', $tsValidity);
+            
+            $diff = (($yearNow - $yearValidity) * 12) + ($monthNow - $monthValidity);
+            if ($diff > 3) {
+                array_push($expired_company_exceed_3_month, $data['id_company']);
+                $path= './uploads/'.$data['company_name'];
+                $this->load->helper("file");
+                delete_files($path, true);
+                rmdir($path);
+            }
+        }
+
+        if ($this->superadmin->delete_company($expired_company_exceed_3_month)) {
+            $this->session->set_flashdata('success', 'Delete company succeed!');
+            redirect('Company/validity_end');
+        } else {
+            $this->session->set_flashdata('failed', 'Delete company failed!');
+            redirect('Company/validity_end');
+        }
+        
     }
 
     public function grant_access($id)

@@ -30,6 +30,12 @@ class Superadmin_model extends CI_Model {
         
     }
 
+    public function delete_company($array_id)
+    {
+        $this->db->where_in('id_company', $array_id);
+        return $this->db->delete('tb_company');
+    }
+
     public function get_data_company($where = null)
     {
         return $this->db->select('tb_company.id_company as id_company, tb_user.email as user_email, tb_company.email as company_email, validity, company_logo, company_name, user_name, tb_company.createdAt as create_time')
