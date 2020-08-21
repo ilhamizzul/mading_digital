@@ -9,6 +9,7 @@ class User_management extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('admin_model', 'admin');
+        $this->load->model('superadmin_model', 'superadmin');
         date_default_timezone_set("Asia/Jakarta");
     }
 
@@ -46,6 +47,25 @@ class User_management extends CI_Controller {
         $this->form_validation->set_rules('role', 'User Role', 'required');
     }
 
+    public function _super_validation()
+    {
+        $this->form_validation->set_rules('user_name', 'User Name', 'required|min_length[5]|max_length[40]|is_unique[tb_admin.user_name]');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[50]|is_unique[tb_admin.username]');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]|max_length[25]');
+        $this->form_validation->set_rules('email', 'Email', 'required|min_length[5]|max_length[70]|is_unique[tb_admin.email]');
+    }
+
+    private function _generateSuperId($length)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     private function _generateId()
     {
         $code = 'US-'.date('ymd');
@@ -54,6 +74,14 @@ class User_management extends CI_Controller {
         $add_code++;
         $number = str_pad($add_code, 6, '0', STR_PAD_LEFT);
         return $code . $number;
+    }
+
+    private function _is_superadmin()
+    {
+        if ($this->session->userdata('role') == 'superadmin') {
+            return TRUE;
+        }
+        redirect('Custom_404');
     }
 
     public function index()
@@ -66,6 +94,47 @@ class User_management extends CI_Controller {
         $data['data_users'] = $this->admin->get_all_users();
         $data['JSON'] = 'cms/user/user_JSON';
         $this->load->view('cms/template/template_view', $data);
+    }
+
+    public function superadmin()
+    {
+        $this->_has_login_session();
+        $this->_is_superadmin();
+        $data['title'] = 'Superadmin - Admin Management';
+        $data['main_view'] = 'super_cms/user/user_view';
+        $data['data_super_users'] = $this->superadmin->get('tb_admin');
+        $data['JSON'] = 'super_cms/user/user_JSON';
+        $this->load->view('super_cms/template/template_view', $data);
+    }
+
+    public function add_new_admin()
+    {
+        $this->_has_login_session();
+        $this->_is_superadmin();
+        $this->_super_validation();
+        
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'id_admin'       => $this->_generateSuperId(30),
+                'user_name'     => $this->input->post('user_name'), 
+                'username'      => $this->input->post('username'), 
+                'password'      => password_hash($this->input->post('password'), PASSWORD_DEFAULT),  
+                'email'         => $this->input->post('email'),
+                'createdAt'     => date('Y-m-d H:i:s')
+            );
+
+            if ($this->admin->insert('tb_admin', $data) == TRUE) {
+                $this->session->set_flashdata('success', 'New admin has been added!');
+                redirect('User_management/superadmin');
+            } else {
+                $this->session->set_flashdata('failed', 'New admin failed to add! Try again');
+                redirect('User_management/superadmin');
+            }
+        } else {
+            $this->session->set_flashdata('failed', validation_errors());
+            redirect('User_management/superadmin');
+        }
+        
     }
 
     public function add_new_user()
