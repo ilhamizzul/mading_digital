@@ -9,7 +9,24 @@ class Price extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('admin_model', 'admin');
-        
+        date_default_timezone_set("Asia/Jakarta");
+    }
+
+    private function _generateId($length)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    private function _purchase_validation()
+    {
+        $this->form_validation->set_rules('no_telp', 'Phone Number', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
     }
     
 
@@ -151,12 +168,28 @@ class Price extends CI_Controller {
 
     public function purchase_token($token_type)
     {
-        $data = array(
-            'data_company'  => $this->admin->get('tb_company', ['id_company' => $this->session->userdata('id_company')]),
-            'data_token'    => $this->admin->get('tb_token', ['token_type' => $token_type, 'active' => false, 'send_status' => false])
-        );
-
-        $this->_send_mail($data);
+        $this->_has_login_session();
+        $this->_purchase_validation();
+        if ($this->form_validation->run() == TRUE) {
+            $data_transaction = array(
+                'id_transaction'    => $this->_generateId(30),
+                'no_telp'           => $this->input->post('no_telp'),
+                'email'             => $this->input->post('email'),
+                'id_company'        => $this->session->userdata('id_company'),
+                'token'             => $this->admin->get('tb_token', ['token_type' => $token_type, 'active' => false, 'send_status' => false])['token'],
+                'createdAt'         => date('Y-m-d H:i:s')
+            );
+            if ($this->admin->insert('tb_transaction_token', $data_transaction)) {
+                $this->session->set_flashdata('success', 'Request purchase token succeed! Please wait for vendor approval!');
+                redirect('Price');
+            } else {
+                $this->session->set_flashdata('failed', 'Purchase token failed!');
+                redirect('Price');
+            }
+        } else {
+            $this->session->set_flashdata('failed', validation_errors());
+            redirect('Price');
+        }
     }
 
     public function redeem_token()
