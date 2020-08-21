@@ -10,7 +10,7 @@ class Auth extends CI_Controller {
         parent::__construct();
         $this->load->model('auth_model', 'auth');
         $this->load->model('admin_model', 'admin');
-        
+        date_default_timezone_set("Asia/Jakarta");
     }
 
     private function _has_login()
@@ -267,6 +267,7 @@ class Auth extends CI_Controller {
             if (password_verify($input['password'], $data_admin['password'])) {
                 $data = array(
                     'logged_in'         => TRUE,
+                    'id_user'           => $data_admin['id_user'],
                     'fullname'          => $data_admin['user_name'],
                     'username'          => $data_admin['username'],
                     'profile_picture'   => $data_admin['profile_picture'],

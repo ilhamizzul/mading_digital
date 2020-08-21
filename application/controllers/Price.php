@@ -9,7 +9,24 @@ class Price extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('admin_model', 'admin');
-        
+        date_default_timezone_set("Asia/Jakarta");
+    }
+
+    private function _generateId($length)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    private function _purchase_validation()
+    {
+        $this->form_validation->set_rules('no_telp', 'Phone Number', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
     }
     
 
@@ -23,113 +40,6 @@ class Price extends CI_Controller {
         }
     }
 
-    private function _send_mail($data)
-    {
-        $config = array(
-			'mailtype' => 'html',
-			'protocol' => 'smtp', 
-			'smtp_host' => 'ssl://smtp.googlemail.com', 
-			'smtp_port' => 465, 
-			'smtp_user' => '', 
-            'smtp_pass' => '',
-            'charset'   => 'iso-8859-1'
-		);
-        $this->load->library('email', $config);
-        $this->email->set_newline("\r\n");
-        $this->email->from('', 'Ilham Izzul Hadyan');
-        $this->email->to($data['data_company']['email']);
-        
-        $this->email->subject('Thank you for purchasing!');
-        $this->email->message('
-            <!DOCTYPE html>
-                <html lang="en">
-
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Mail</title>
-                    <style>
-                        @import url("https://fonts.googleapis.com/css?family=Montserrat");
-                        * {
-                            font-family: "Montserrat";
-                        }
-                        .container {
-                            width: 800px;
-                            
-                        }
-                        .header {
-                            background-image: linear-gradient(to bottom right, #023e8a, #0077b6);
-                            width: 100%;
-                            padding: 10px;
-                        }
-                        .header > h2 {
-                            font-weight: 700;
-                            color:white;
-                        }
-                        .footer{
-                            background-color: #023e8a;
-                            padding: 10px;
-                            width: 100%;
-                        }
-                        .footer > h4 {
-                            font-weight: 600;
-                            color:white;
-                        }
-                        .body {
-                            height: 300px;
-                        }
-                        .body > h3 {
-                            text-align: center;
-                            padding: 75px 0px 25px 0px;
-                        }
-                        .body > h2 {
-                            text-align: center;
-                            margin: 50px 0px 25px 0px;
-                            padding: 10px 5px;
-                            border-radius: 8px;
-                            background-color: #023e8a;
-                            color: white;
-                        }
-                        a {
-                            padding: 15px;
-                            border-radius: 5px;
-                            border: 2.5px solid #023e8a;
-                            color: white;
-                            font-weight: 600;
-                            text-decoration: none;
-                        }
-                    </style>
-                </head>
-
-                <body>
-                    <div class="container">
-                        <div class="row header">
-                            <h2 class="">Thank you for Purchasing!</h2>
-                        </div>
-                        <div class="body">
-                            <h3 class="text-center">Thank you for purchasing another package! <br> for the next step, please open input package token on your dashboard and copy token below to get another activation</h3>
-                            <h2>'.$data['data_token']['token'].'</h2>
-                        </div>
-                        <div class="row footer">
-                            <h4 class="">Copyright &copy; Sistem Mading Digital 2020</h4>
-                        </div>
-                    </div>
-                </body>
-
-            </html>
-        ');
-        
-        if($this->email->send()) {
-            $this->admin->update('tb_token', 'token', $data['data_token']['token'], ['send_status' => true]);
-            $this->session->set_flashdata('success', 'Package purchased successfully! your package token will available on your company email');
-            redirect('Price');
-        } else {
-            $this->session->set_flashdata('failed', $this->email->print_debugger());
-            redirect('Price');
-        }
-        
-        
-    }
 
     public function index()
     {
@@ -151,12 +61,30 @@ class Price extends CI_Controller {
 
     public function purchase_token($token_type)
     {
-        $data = array(
-            'data_company'  => $this->admin->get('tb_company', ['id_company' => $this->session->userdata('id_company')]),
-            'data_token'    => $this->admin->get('tb_token', ['token_type' => $token_type, 'active' => false, 'send_status' => false])
-        );
-
-        $this->_send_mail($data);
+        $this->_has_login_session();
+        $this->_purchase_validation();
+        if ($this->form_validation->run() == TRUE) {
+            $token = $this->admin->get('tb_token', ['token_type' => $token_type, 'active' => false, 'send_status' => false, 'order_status' => false])['token'];
+            $data_transaction = array(
+                'id_transaction'    => $this->_generateId(30),
+                'no_telp'           => $this->input->post('no_telp'),
+                'email'             => $this->input->post('email'),
+                'id_company'        => $this->session->userdata('id_company'),
+                'token'             => $token,
+                'createdAt'         => date('Y-m-d H:i:s')
+            );
+            if ($this->admin->insert('tb_transaction_token', $data_transaction)) {
+                $this->admin->update('tb_token', 'token', $token, ['order_status' => true]);
+                $this->session->set_flashdata('success', 'Request purchase token succeed! Please wait for vendor approval!');
+                redirect('Price');
+            } else {
+                $this->session->set_flashdata('failed', 'Purchase token failed!');
+                redirect('Price');
+            }
+        } else {
+            $this->session->set_flashdata('failed', validation_errors());
+            redirect('Price');
+        }
     }
 
     public function redeem_token()

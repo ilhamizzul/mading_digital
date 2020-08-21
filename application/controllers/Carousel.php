@@ -8,7 +8,7 @@ class Carousel extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('admin_model', 'admin');
-        
+        date_default_timezone_set("Asia/Jakarta");
     }
 
     private function _has_login_session()

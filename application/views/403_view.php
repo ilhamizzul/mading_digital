@@ -32,7 +32,7 @@
 						<h1 class="text-center mt-1 font-weight-bold text-primary">Hold Up!</h1>
                         <h2 class="text-center text-primary">That page is forbidden!</h2>
                         <h5 class="text-center mt-3 w-75 mx-auto d-block text-default">You'll probably need to purchase your account if you're gonna get those kinds of privelege</h5>
-						<a href="<?= base_url("Dashboard") ?>" class="btn btn-lg btn-default text-primary font-weight-bold mx-auto d-block" ><span class="fa fa-arrow-left"></span> Get Back</a>
+						<a href="<?= base_url("Price") ?>" class="btn btn-lg btn-default text-primary font-weight-bold mx-auto d-block" ><span class="fa fa-arrow-left"></span> Purchase Token</a>
 					</div>
 				</div>
 			</div>

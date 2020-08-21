@@ -7,7 +7,7 @@
 				</h4>
 			</div>
 			<div class="col-auto">
-                <a href="" class="btn btn-sm btn-warning btn-icon-split">
+                <a href="<?= base_url() ?>company/validity_end" class="btn btn-sm btn-warning btn-icon-split">
 					<span class="icon">
 						<i class="fa fa-exclamation-triangle"></i>
 					</span>
@@ -45,7 +45,7 @@
                         <td><?= $no++; ?></td>
                         <td>
                             <?php if ($data['company_logo'] == null): ?>
-                                <div class="p-3 mb-2 bg-dark text-white text-center w-50 mx-auto d-block">No Logo</div>
+                                <div class="p-1 bg-dark text-white w-50">NL</div>
                             <?php else: ?>
                                 <img src="<?= base_url() ?>uploads/<?= $data['company_name'] ?>/company/<?= $data['company_logo'] ?>" class="w-50">
                             <?php endif; ?>
