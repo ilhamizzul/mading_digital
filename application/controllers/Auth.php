@@ -267,6 +267,7 @@ class Auth extends CI_Controller {
             if (password_verify($input['password'], $data_admin['password'])) {
                 $data = array(
                     'logged_in'         => TRUE,
+                    'id_user'           => $data_admin['id_user'],
                     'fullname'          => $data_admin['user_name'],
                     'username'          => $data_admin['username'],
                     'profile_picture'   => $data_admin['profile_picture'],
