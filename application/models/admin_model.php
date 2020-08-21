@@ -3,6 +3,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class admin_model extends CI_Model {
+    
+    public function __construct()
+    {
+        parent::__construct();
+        date_default_timezone_set("Asia/Jakarta");
+    }
+    
 
     public function get($table, $data = null, $where = null)
     {
@@ -44,7 +51,7 @@ class admin_model extends CI_Model {
                 ->where('id_company', $this->session->userdata('id_company'))
                 ->where('due_date >', date('Y-m-d H:i:s'))
                 ->get()
-                ->result_array();   
+                ->result_array();
     }
 
     public function get_all_expired_events()

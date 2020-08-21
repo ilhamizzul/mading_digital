@@ -9,6 +9,7 @@ class Home extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('client_model', 'client');
+        date_default_timezone_set("Asia/Jakarta");
     }
 
     private function _has_login_session()

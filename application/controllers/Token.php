@@ -9,6 +9,7 @@ class Token extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('superadmin_model', 'superadmin');
+        date_default_timezone_set("Asia/Jakarta");
     }
     
     private function _has_login_session()

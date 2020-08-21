@@ -10,6 +10,7 @@ class User_account extends CI_Controller {
         parent::__construct();
         $this->load->model('admin_model', 'admin');
         $this->load->model('auth_model', 'auth');
+        date_default_timezone_set("Asia/Jakarta");
     }
 
     private function _password_validation()
