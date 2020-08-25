@@ -8,6 +8,8 @@ class Dashboard extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('admin_model', 'admin');
+        $this->load->model('superadmin_model', 'superadmin');
+        
     }
 
     private function _has_login_session()
@@ -20,12 +22,36 @@ class Dashboard extends CI_Controller {
         }
     }
 
+    private function _count_income($monthly_count = false)
+    {
+        $month1;
+        $month3;
+        $year;
+        if ($monthly_count == true) {
+            $month1 = $this->superadmin->count_income(['token_type' => '1month', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
+            $month3 = $this->superadmin->count_income(['token_type' => '3months', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
+            $year = $this->superadmin->count_income(['token_type' => '1year', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
+        } else {
+            $month1 = $this->superadmin->count_income(['token_type' => '1month']);
+            $month3 = $this->superadmin->count_income(['token_type' => '3months']);
+            $year = $this->superadmin->count_income(['token_type' => '1year']);
+        }
+        $sum = ($year * 1350000) + ($month3 * 450000) + ($month1 * 150000);
+        return number_format($sum, 2, ',', '.');
+    }
+
     public function index()
     {
         if ($this->session->userdata('role') == 'superadmin') {
             $data['title'] = "Superadmin - Dashboard";
             $data['main_view'] = 'super_cms/dashboard/dashboard_view';
             $data['JSON'] = 'super_cms/dashboard/dashboard_JSON';
+            $data['data_count'] = array(
+                'pending_transaction'       => $this->admin->count_active_data('tb_token', ['active' => false, 'send_status' => false, 'order_status' => true]),
+                'company_pending_approval'  => $this->admin->count_active_data('tb_company', ['activeStatus' => false, 'firstLogin' => true, 'onTrial' => true]),
+                'monthly_income'            => $this->_count_income(true),
+                'total_income'              => $this->_count_income()
+            );
             $this->load->view('super_cms/template/template_view', $data);
         } else {
             $data['title'] = $this->session->userdata('company_name')." - Dashboard";

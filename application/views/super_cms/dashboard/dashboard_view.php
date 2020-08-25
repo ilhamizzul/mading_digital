@@ -8,28 +8,14 @@
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
 					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Active Carousel
+						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Company Waiting for
+							Approval
 						</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">
+							<?= $data_count['company_pending_approval'] ?></div>
 					</div>
 					<div class="col-auto">
-						<i class="fas fa-image fa-2x text-gray-300"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-xl-3 col-md-6 mb-4">
-		<div class="card border-left-success shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Active Event</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-					</div>
-					<div class="col-auto">
-						<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+						<i class="fas fa-building fa-2x text-gray-300"></i>
 					</div>
 				</div>
 			</div>
@@ -41,11 +27,31 @@
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
 					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Active Slogan</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+						<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Pending Transaction
+						</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800"><?= $data_count['pending_transaction'] ?>
+						</div>
 					</div>
 					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
+						<i class="fas fa-exchange-alt fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-3 col-md-6 mb-4">
+		<div class="card border-left-success shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Income summary (This
+							Month : <?= date("M") ?>)</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">Rp. <?= $data_count['monthly_income'] ?>,-
+						</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
 					</div>
 				</div>
 			</div>
@@ -57,11 +63,12 @@
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
 					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Active News</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+						<div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Income</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">Rp. <?= $data_count['total_income'] ?>,-
+						</div>
 					</div>
 					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
+						<i class="fas fa-money-bill fa-2x text-gray-300"></i>
 					</div>
 				</div>
 			</div>
