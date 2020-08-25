@@ -35,7 +35,8 @@
                         <td><?= $data['token_type']?></td>
                         <td><?= $data['requestAt'] ?></td>
                         <td>
-                        <button class="btn btn-circle btn-sm btn-success" data-toggle="modal" data-target="#modalAcceptRequest" onclick="acceptRequest('<?= $data['id_transaction'] ?>', '<?= $data['company_name'] ?>', '<?= $data['email'] ?>')" title="Accept Request"><i class="fas fa-fw fa-check"></i></button>
+                        <button class="btn btn-circle btn-sm btn-success" data-toggle="modal" data-target="#modalAcceptRequest" onclick="acceptRequest('<?= $data['id_transaction'] ?>', '<?= $data['company_name'] ?>')" title="Accept Request"><i class="fas fa-fw fa-check"></i></button>
+						<button class="btn btn-circle btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectRequest" onclick="rejectRequest('<?= $data['token'] ?>', '<?= $data['company_name'] ?>')" title="Reject Request"><i class="fas fa-fw fa-ban"></i></button>
                         </td>
 					</tr>
                     <?php endforeach; ?>
@@ -84,6 +85,30 @@
                     <?php endforeach; ?>
 				</tbody>
 			</table>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalRejectRequest" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Reject token purchase request?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h5 class="text-center">
+					<i class="mb-4 fa fa-exclamation-triangle fa-5x"></i><br>
+					Do you really want to reject token request from "<span class="company_name"></span>" company?
+				</h5>
+                <small class="form-text text-center text-muted">Please consider if the company does not wish to make payments!</small>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<a href="" id="rejected" class="btn btn-danger">Reject Request</a>
+			</div>
 		</div>
 	</div>
 </div>

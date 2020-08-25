@@ -182,8 +182,22 @@ class Token extends CI_Controller {
         $this->_has_login_session();
         $this->_is_superadmin();
         $data_transaction = $this->superadmin->get('tb_transaction_token', ['id_transaction' => $id_transaction]);
-        // print_r($data_transaction);
         $this->_send_mail($data_transaction);
+    }
+
+    public function reject_request_token($token)
+    {
+        $this->_has_login_session();
+        $this->_is_superadmin();
+        if ($this->superadmin->delete('tb_transaction_token', 'token', $token)) {
+            $this->superadmin->update('tb_token', 'token', $token, ['order_status' => false]);
+            $this->session->set_flashdata('success', "Reject Token Transaction Success!");
+            redirect('Token/transaction');
+        } else {
+            $this->session->set_flashdata('failed', "Reject Token Transaction Error!");
+            redirect('Token/transaction');
+        }
+        
     }
 
     public function get_token($token)
