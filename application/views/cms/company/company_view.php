@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col">
 				<h4 class="h5 align-middle m-0 font-weight-bold text-primary">
-					Data Account User
+					Data Company
 				</h4>
 			</div>
 		</div>
@@ -56,6 +56,7 @@
                             </div>
                         </div>
                     </div>
+                    <small class="text-primary font-weight-bold">Company Validity Ended On : <?= $this->session->userdata('validity')?></small>
                     <hr>
                     <h4 class="h5 font-weight-bold text-primary">Logo</h4>
                     <?php if($data_company['company_logo'] == null): ?>
