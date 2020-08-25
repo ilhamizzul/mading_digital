@@ -74,8 +74,8 @@ class Dashboard extends CI_Controller {
             $data['main_view'] = 'super_cms/dashboard/dashboard_view';
             $data['JSON'] = 'super_cms/dashboard/dashboard_JSON';
             $data['data_count'] = array(
-                'pending_transaction'       => $this->admin->count_active_data('tb_token', ['active' => false, 'send_status' => false, 'order_status' => true]),
-                'company_pending_approval'  => $this->admin->count_active_data('tb_company', ['activeStatus' => false, 'firstLogin' => true, 'onTrial' => true]),
+                'pending_transaction'       => $this->admin->count_data('tb_token', ['active' => false, 'send_status' => false, 'order_status' => true]),
+                'company_pending_approval'  => $this->admin->count_data('tb_company', ['activeStatus' => false, 'firstLogin' => true, 'onTrial' => true]),
                 'monthly_income'            => $this->_count_income(true),
                 'total_income'              => $this->_count_income()
             );
@@ -89,10 +89,10 @@ class Dashboard extends CI_Controller {
             $data['main_view'] = 'cms/dashboard/dashboard_view';
             $data['JSON'] = 'cms/dashboard/dashboard_JSON';
             $data['data_count'] = array(
-                                    'active_carousel' => $this->admin->count_active_data('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true']),
-                                    'active_event' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event']), 
-                                    'active_news' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'news']), 
-                                    'active_slogan' => $this->admin->count_active_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'slogan']) 
+                                    'active_carousel' => $this->admin->count_data('tb_carousel', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true']),
+                                    'active_event' => $this->admin->count_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'event']), 
+                                    'active_news' => $this->admin->count_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'news']), 
+                                    'active_slogan' => $this->admin->count_data('tb_info', ['id_company' => $this->session->userdata('id_company'), 'active' => 'true', 'info_type' => 'slogan']) 
                                 );
             $data['data_company'] = $this->admin->get('tb_company', ['id_company' => $this->session->userdata('id_company')]);
             $this->load->view('cms/template/template_view', $data);
