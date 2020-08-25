@@ -27,17 +27,44 @@ class Dashboard extends CI_Controller {
         $month1;
         $month3;
         $year;
-        if ($monthly_count == true) {
-            $month1 = $this->superadmin->count_income(['token_type' => '1month', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
-            $month3 = $this->superadmin->count_income(['token_type' => '3months', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
-            $year = $this->superadmin->count_income(['token_type' => '1year', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
+        if ($monthly_count) {
+            $month1 = $this->superadmin->count_token(['token_type' => '1month', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
+            $month3 = $this->superadmin->count_token(['token_type' => '3months', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
+            $year = $this->superadmin->count_token(['token_type' => '1year', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]);
         } else {
-            $month1 = $this->superadmin->count_income(['token_type' => '1month']);
-            $month3 = $this->superadmin->count_income(['token_type' => '3months']);
-            $year = $this->superadmin->count_income(['token_type' => '1year']);
+            $month1 = $this->superadmin->count_token(['token_type' => '1month']);
+            $month3 = $this->superadmin->count_token(['token_type' => '3months']);
+            $year = $this->superadmin->count_token(['token_type' => '1year']);
         }
         $sum = ($year * 1350000) + ($month3 * 450000) + ($month1 * 150000);
         return number_format($sum, 2, ',', '.');
+    }
+
+    private function chart_income()
+    {
+        $month1;
+        $month3;
+        $year;
+        $sum;
+        $array = [];
+        for ($i=1; $i <= 12 ; $i++) { 
+            $month1 = $this->superadmin->count_token(['token_type' => '1month', "MONTH(tb_transaction_token.createdAt)" => $i, "YEAR(tb_transaction_token.createdAt)" => date('Y')]);
+            $month3 = $this->superadmin->count_token(['token_type' => '3months', "MONTH(tb_transaction_token.createdAt)" => $i, "YEAR(tb_transaction_token.createdAt)" => date('Y')]);
+            $year = $this->superadmin->count_token(['token_type' => '1year', "MONTH(tb_transaction_token.createdAt)" => $i, "YEAR(tb_transaction_token.createdAt)" => date('Y')]);
+            $sum = ($year * 1350000) + ($month3 * 450000) + ($month1 * 150000);
+            array_push($array, $sum);
+        }
+        return array_values($array);
+    }
+
+    private function fill_chart_pie()
+    {
+        $data = array(
+            $this->superadmin->count_token(['token_type' => '1month', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]),
+            $this->superadmin->count_token(['token_type' => '3months', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')]),
+            $this->superadmin->count_token(['token_type' => '1year', "DATE_FORMAT(tb_transaction_token.createdAt,'%Y-%m')" => date('Y-m')])
+        );
+        return $data;
     }
 
     public function index()
@@ -52,6 +79,10 @@ class Dashboard extends CI_Controller {
                 'monthly_income'            => $this->_count_income(true),
                 'total_income'              => $this->_count_income()
             );
+            $data_pie = array_values($this->fill_chart_pie());
+            $data['chart_pie'] = json_encode($data_pie);
+            $data_chart = array_values($this->chart_income());
+            $data['chart_line'] = json_encode($data_chart);
             $this->load->view('super_cms/template/template_view', $data);
         } else {
             $data['title'] = $this->session->userdata('company_name')." - Dashboard";
