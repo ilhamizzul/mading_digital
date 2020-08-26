@@ -70,6 +70,16 @@ class Superadmin_model extends CI_Model {
                         ->row_array();
     }
 
+    public function count_token($where = null)
+    {
+        return $this->db->select('tb_token.token as token, tb_transaction_token.createdAt as createdAt, send_status, token_type')
+                        ->from('tb_transaction_token')
+                        ->join('tb_token', 'tb_token.token = tb_transaction_token.token')
+                        ->where($where)
+                        ->where('send_status', true)
+                        ->count_all_results();
+    }
+
 }
 
 /* End of file Superadmin_model.php */

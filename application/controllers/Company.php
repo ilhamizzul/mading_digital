@@ -9,6 +9,8 @@ class Company extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('superadmin_model', 'superadmin');
+        $this->load->model('admin_model', 'admin');
+        
     }
 
     private function _has_login_session()
@@ -136,6 +138,11 @@ class Company extends CI_Controller {
         $data['data_company']   = $this->superadmin->get_data_company(['validity >=' => date('Y-m-d'), 'activeStatus' => true]);
         $data['main_view']      = 'super_cms/data_company/company_view';
         $data['JSON']           = 'super_cms/data_company/company_JSON';
+        $data['company_count'] = array(
+            'active_company'            => $this->admin->count_data('tb_company', ['activeStatus' => true, 'validity >=' => date('Y-m-d')]), 
+            'company_waiting_approval'  => $this->admin->count_data('tb_company', ['activeStatus' => false, 'validity >=' => '0000-00-00']), 
+            'company_end_validity'       => $this->admin->count_data('tb_company', ['activeStatus' => true, 'validity <=' => date('Y-m-d')])
+        );
         $this->load->view('super_cms/template/template_view', $data);
     }
 

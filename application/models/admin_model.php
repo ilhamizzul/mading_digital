@@ -96,7 +96,7 @@ class admin_model extends CI_Model {
                         ->count_all_results('tb_user');
     }
 
-    public function count_active_data($tb, $where)
+    public function count_data($tb, $where)
     {
         return $this->db->where($where)
                         ->count_all_results($tb);

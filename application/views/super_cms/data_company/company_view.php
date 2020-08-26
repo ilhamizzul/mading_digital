@@ -1,3 +1,53 @@
+<div class="row">
+	<div class="col-xl-4 col-md-4 mb-4">
+		<div class="card border-left-danger shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Company with Expired Validity
+						</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800"><?= $company_count['company_end_validity'] ?></div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-building fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4 col-md-4 mb-4">
+		<div class="card border-left-success shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Company
+						</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800"><?= $company_count['active_company'] ?></div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-building fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4 col-md-4 mb-4">
+		<div class="card border-left-primary shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Company with waiting for approval
+						</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800"><?= $company_count['company_waiting_approval'] ?></div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-building fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="card shadow-sm mb-4 border-bottom-primary">
 	<div class="card-header bg-white py-3">
 		<div class="row">
